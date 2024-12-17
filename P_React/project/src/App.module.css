@@ -1,0 +1,80 @@
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+#loginpop{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App {
+  border-style: solid;
+  border-width: 2px;
+  text-align: center;
+  width: 500px;
+  height: 700px;
+}
+
+.AppHeader {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 100px;
+}
+
+#postUnderdog {
+  font-size: 3rem;
+  color: #4CAF50;
+  font-family: 'Arial', sans-serif;
+}
+
+
+#loginUi{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 200px;
+}
+
+.button{
+  background-color: #61dafb;
+}
+
+#id,#pw{
+  position: relative;
+  width: 200px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+#loginButton{
+  position: relative;
+  width: 200px;
+  top: 100px;
+  border-radius: 5px; 
+}
+
+#findIdPwButton{
+  position: relative;
+  top: 210px;
+  right: 97px;
+  border-radius: 5px;
+}
+
+#regiButton{
+  position: relative;
+  top: 210px;
+  left: 100px;
+  width: 70px;
+  border-radius: 5px;
+}
