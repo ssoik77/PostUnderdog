@@ -2,3 +2,88 @@
     color: #ffee00;
     font-family: 'Arial', sans-serif;
   }  
+/* 준강 추가내용 */
+#button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#successMessage {
+  color: green;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+#errorMessage {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+}
+  
+  
+/* 재훈 추가내용 */
+  #registerContainer {
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-top: 100px;
+    gap: 20px; /* 입력 칸 사이 간격 */
+}
+
+#nameGroup {
+  display: flex;
+  flex-direction: column; /* 라벨 위, 입력 칸 아래 정렬 */
+  align-items: center; /* 가로 가운데 정렬 */
+}
+
+#birthGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#nameLabel,
+#birthLabel {
+  margin-bottom: 5px; /* 라벨과 입력 칸 간격 */
+  font-size: 1rem;
+  color: #333;
+}
+
+#nameInput,
+#birthInput {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  text-align: center; /* 입력 내용 가운데 정렬 */
+  box-sizing: border-box;
+}
+/* ----재훈 추가내용---- */
+#id {
+  width: 200px;
+  top: 100px;
+}
+
+#pw {
+  width: 200px;
+  top: 100px;
+}
+
+#confirmPw {
+  width: 200px;
+  top: 1200px;
+}
