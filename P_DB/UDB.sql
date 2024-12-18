@@ -1,6 +1,9 @@
 CREATE DATABASE post_underdog;
 USE post_underdog;
 
+drop table member_info;
+drop table employee_info;
+
 CREATE TABLE member_info(
 a_authority TINYINT(1) NOT NULL DEFAULT 0,
 p_authority TINYINT(1) NOT NULL DEFAULT 0,
