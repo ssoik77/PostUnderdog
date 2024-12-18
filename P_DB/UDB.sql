@@ -1,4 +1,3 @@
-show databases;
 
 CREATE DATABASE post_underdog;
 use post_underdog;
