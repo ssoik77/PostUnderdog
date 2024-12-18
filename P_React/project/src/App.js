@@ -25,7 +25,7 @@ const App = () => {
         <table>
           <tr><input id={styles.id} placeholder="아이디" size="10" pattern="^[a-zA-Z0-9]+$" required /></tr>
           <br/>
-          <tr><input id={styles.pw} placeholder="비밀번호" size="10" type="password" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$" required /></tr>
+          <tr><input id={styles.pw} placeholder="비밀번호" size="10" type="password" required /></tr>
           <tr><button id={styles.loginButton} className={styles.button} type="submit">로그인</button></tr>
         </table>
       </form>
