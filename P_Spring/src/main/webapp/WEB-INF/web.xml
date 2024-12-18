@@ -30,6 +30,5 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-	<context:component-scan base-package="com.project.service"/>
 
 </web-app>
