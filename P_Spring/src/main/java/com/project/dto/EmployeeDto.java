@@ -1,5 +1,7 @@
 package com.project.dto;
 
+import java.sql.Date;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,19 +9,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EmployeeDto {
 
-	boolean a_authority;
-	boolean p_authority;
-	boolean e_authority;
-	String m_id;
-	String m_pw;
-	
-	public EmployeeDto(boolean a_authority, boolean p_authority, boolean e_authority, String m_id, String m_pw) {
-		super();
-		this.a_authority = a_authority;
-		this.p_authority = p_authority;
-		this.e_authority = e_authority;
-		this.m_id = m_id;
-		this.m_pw = m_pw;
+	int e_num;
+	String e_name;
+	Date e_birth;
+	String e_carrier;
+	int e_tel_num;
+
+	public EmployeeDto(int e_num, String e_name, Date e_birth, String e_carrier, int e_tel_num) {
+		this.e_num = e_num;
+		this.e_name = e_name;
+		this.e_birth = e_birth;
+		this.e_carrier = e_carrier;
+		this.e_tel_num = e_tel_num;
 	}
+	
+	
 	
 }

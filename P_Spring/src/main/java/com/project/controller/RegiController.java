@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import com.project.service.RegiService;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
+@Service
 @RestController
 @RequestMapping("/register/*")
 @Log4j
@@ -23,6 +25,7 @@ public class RegiController {
 	@PostMapping("/set")
 	public void setRegister(@RequestBody RegisterDto register_dto) {
 		log.info("회원가입 컨트롤러 진입");
+		log.info("회원가입 데이터"+register_dto);
 		regi_service.setRegister(register_dto);
 	}
 	

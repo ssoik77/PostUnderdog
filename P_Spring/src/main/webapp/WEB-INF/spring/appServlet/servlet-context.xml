@@ -33,6 +33,8 @@
 		base-package="com.project.underdog" />
 	<context:component-scan
 		base-package="com.project.controller" />
+	<context:component-scan
+		base-package="com.project.service" />
 
 	<!-- CORS 설정 추가 -->
 	<mvc:cors><!-- mvc:cors와 같은 접두사를 사용하는 태그를 사용하려면 xmlns:mvc="http://www.springframework.org/schema/mvc" 
