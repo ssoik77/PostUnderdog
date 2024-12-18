@@ -1,34 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.RegiMapper">
-	<insert id="setRegisterEmployee" parameterType="com.project.dto.RegisterDto">
-		insert into Employee_info(
-		a_authority,
-		p_authority,
-		e_authority,
-		m_id,
-		m_pw
-		)values(
-		#{a_authority},
-		#{p_authority},
-		#{e_authority},
-		#{m_id},
-		#{m_pw}
-		)
+	
+	<!-- 	이름과 생년월일을 employee_info 테이블에 삽입 -->
+	<insert id="insertEmployee">
+		INSERT INTO employee_info (e_name, e_birth)
+		VALUES (#{e_name}, #{e_birth})
 	</insert>
-	<insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto">
-		insert into member_info(
-		e_name,
-		e_birth,
-		e_carrier,
-		e_tel_num
-		)values(
-		#{e_name},
-		#{e_birth},
-		#{e_carrier},
-		#{e_tel_num}
-		)
-	</insert>
+	
 </mapper>
