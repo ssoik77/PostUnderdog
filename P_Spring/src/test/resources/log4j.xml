@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.project.underdog">
+	<logger name="com.team.postunderdog">
 		<level value="info" />
 	</logger>
 	
@@ -37,18 +37,5 @@
 		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
-	
-		<!-- 내가 추가한거 -->
-	<logger name="jdbc.audit">
-		<level value="warn" />
-	</logger>
-	<logger name="jdbc.resultset">
-		<level value="warn" />
-	</logger>
-	<logger name="jdbc.connection">
-		<level value="warn" />
-	</logger>	
-	
-	
 	
 </log4j:configuration>

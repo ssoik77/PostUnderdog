@@ -1,32 +1,27 @@
 package com.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.dto.RegisterDto;
 import com.project.service.RegiService;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
-@Service
+@Log4j
 @RestController
 @RequestMapping("/register/*")
-@Log4j
 public class RegiController {
-	
-	@Setter(onMethod_=@Autowired )
-	RegiService regi_service;
 
-	@PostMapping("/set")
-	public void setRegister(@RequestBody RegisterDto register_dto) {
-		log.info("회원가입 컨트롤러 진입");
-		log.info("회원가입 데이터"+register_dto);
-		regi_service.setRegister(register_dto);
+	@Setter(onMethod_ = @Autowired)
+	private RegiService service;
+
+	@PostMapping("/tel")
+	public void tel(@RequestParam("m_tel") String m_tel) {
+		System.out.println("전화번호:" + m_tel);
+		service.tel(m_tel);
 	}
-	
 }
