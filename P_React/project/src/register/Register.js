@@ -28,10 +28,53 @@ const Register = () => {
         }
     };
 
-    // 비밀번호 확인 입력 핸들러
+        // 비밀번호 조건 확인 (최소 8자 이상, 문자, 숫자, 특수문자 포함)
+        const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+        if (!passwordPattern.test(newPassword)) {
+            setMessage('비밀번호는 8~16자, 문자, 숫자, 특수문자를 포함해야 합니다.');
+            setMessageType(styles.errorMessage);
+        } else {
+            setMessage('');
+            setMessageType('');
+        }
+    };
+
     const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-        setIsMatch(e.target.value === password); // 비밀번호 일치 여부 확인
+        const newConfirmPassword = e.target.value;
+        setConfirmPassword(newConfirmPassword);
+        setIsMatch(newConfirmPassword === password); // 비밀번호 일치 여부 확인
+
+        // 비밀번호 확인이 일치하지 않으면 오류 메시지 출력
+        if (newConfirmPassword !== password) {
+            setMessage('비밀번호가 일치하지 않습니다.');
+            setMessageType(styles.errorMessage);
+        } else {
+            setMessage('');
+            setMessageType('');
+        }
+    };
+
+    // 비동기 함수로 수정
+    const PW = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/underdog/register/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ password }), // 비밀번호만 전송
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message); // 성공 메시지
+            } else {
+                alert(result.message); // 실패 메시지
+            }
+        } catch (error) {
+            alert('서버와의 연결 오류');
+        }
     };
 
     //통신사 선택 저장 핸들러
@@ -52,12 +95,6 @@ const Register = () => {
     //데이터 전송 함수
     const sendRegisterData = async (e) => {
         e.preventDefault();
-
-        // 비밀번호 일치 여부 체크
-        if (password !== confirmPassword) {
-            alert("비밀번호가 일치하지 않습니다.");
-            return;
-        }
 
         const regiData = {
             e_name: username,
@@ -96,25 +133,15 @@ const Register = () => {
                 {message}
             </div>
 
-            <input
-                id={styles.pw}
-                placeholder="비밀번호"
-                size="10"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-            />
-            <input
-                id={styles.confirmPw}
-                placeholder="비밀번호 확인"
-                size="10"
-                type="password"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                required
-            />
-            {isMatch === false && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
+            {/* 성태 비밀번호, 비밀번호 확인 */}
+            <input id={styles.pw} placeholder="비밀번호" size="10" type="password" value={password} onChange={handlePasswordChange} required />
+            <br />
+            <input id={styles.confirmPw} placeholder="비밀번호 확인" size="10" type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
+            <br />
+            {/* 비밀번호 조건 및 확인 메시지 */}
+            {message && <div className={messageType}>{message}</div>}
+
+            {/* 성태 비밀번호, 비밀번호 확인 */}
 
             <select id={styles.carrierSelectBox} onChange={selectCarrier} value={mobileCarrier}>
                 <option value='SkT'>SKT</option>

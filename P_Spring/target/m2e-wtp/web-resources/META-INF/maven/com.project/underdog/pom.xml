@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.project</groupId>
@@ -8,11 +7,14 @@
 	<name>UDP</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
-	<properties>
+<properties>
 		<!-- <java-version>1.6</java-version> -->
-		<java-version>11</java-version>
+		<java-version>11</java-version><!-- 내가 버전수정(1/7) -->
+
 		<!-- <org.springframework-version>3.1.1.RELEASE</org.springframework-version> -->
-		<org.springframework-version>5.0.7.RELEASE</org.springframework-version>
+		<org.springframework-version>5.0.7.RELEASE</org.springframework-version><!-- 
+			내가 버전수정(2/7) -->
+
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
@@ -43,6 +45,17 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>
 
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.20.0</version>  <!-- 최신 버전 확인 후 적용 -->
+</dependency>
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.20.0</version>  <!-- 최신 버전 확인 후 적용 -->
+</dependency>
+
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -64,8 +77,10 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
+
 			<!-- <version>1.2.15</version> -->
-			<version>1.2.17</version>
+			<version>1.2.17</version><!-- 내가 버전수정(7/7) -->
+
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
@@ -97,10 +112,13 @@
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
+
 			<!-- <artifactId>servlet-api</artifactId> -->
-			<artifactId>javax.servlet-api</artifactId>
+			<artifactId>javax.servlet-api</artifactId><!-- 내가 버전수정(6-1/7) -->
+
 			<!-- <version>2.5</version> -->
-			<version>3.1.0</version>
+			<version>3.1.0</version><!-- 내가 버전수정(6-2/7) -->
+
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -119,10 +137,14 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+
 			<!-- <version>4.7</version> -->
-			<version>4.12</version>
+			<version>4.12</version><!-- 내가 버전수정(5/7) -->
+
 			<scope>test</scope>
 		</dependency>
+
+
 
 		<!-- ////////////////// 내가 추가 (시작) ////////////////////// -->
 		<!-- 내가 추가(1/8) -->
@@ -183,7 +205,7 @@
 			<version>1.18.0</version>
 			<scope>provided</scope>
 		</dependency>
-
+		
 		<!-- gson 라이브러리 -->
 		<!-- JSON 라이브러리 - GSON (구글꺼) -->
 		<dependency>
@@ -191,6 +213,13 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.6</version>
 		</dependency>
+		<!-- ////////////////// 내가 추가 (끝) ////////////////////// -->
+
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.33</version> <!-- 최신 버전으로 업데이트하세요 -->
+</dependency>
 
 	</dependencies>
 	<build>
@@ -214,9 +243,12 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-					<!-- <source>1.6</source> <target>1.6</target> -->
-					<source>11</source>
-					<target>11</target>
+
+					<!-- <source>1.6</source> -->
+					<!-- <target>1.6</target> -->
+					<source>11</source><!-- 내가 버전수정(3/7) -->
+					<target>11</target><!-- 내가 버전수정(4/7) -->
+
 					<compilerArgument>-Xlint:all</compilerArgument>
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>

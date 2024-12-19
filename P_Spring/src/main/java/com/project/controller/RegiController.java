@@ -1,32 +1,26 @@
 package com.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.dto.RegisterDto;
+import com.project.dto.MemberDto;
 import com.project.service.RegiService;
 
-import lombok.Setter;
-import lombok.extern.log4j.Log4j;
-
-@Service
+@CrossOrigin(origins = "http://localhost:3000") // 3000Æ÷Æ®¿¡¼­ÀÇ ¿äÃ» Çã¿ë
+@RequestMapping("/register")
 @RestController
-@RequestMapping("/register/*")
-@Log4j
-public class RegiController {
-	
-	@Setter(onMethod_=@Autowired )
-	RegiService regi_service;
 
-	@PostMapping("/set")
-	public void setRegister(@RequestBody RegisterDto register_dto) {
-		log.info("íšŒì›ê°€ì… ì»¨íŠ¸ë¡¤ëŸ¬ ì§„ì…");
-		log.info("íšŒì›ê°€ì… ë°ì´í„°"+register_dto);
-		regi_service.setRegister(register_dto);
-	}
-	
+public class RegiController {
+
+    @Autowired
+    private RegiService regiService;
+
+    @PostMapping("/signup")
+    public String register(@RequestBody MemberDto memberDto) {
+        return regiService.registerMember(memberDto);
+    }
 }
