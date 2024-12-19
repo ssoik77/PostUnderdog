@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.FindMapper">
+
+    <select id="pwFind" parameterType="com.project.dto.RegisterDto">
+        SELECT m_pw FROM member_info
+        WHERE m_id = #{m_id}
+        AND e_birth = #{e_birth}
+        AND e_tel_num = #{e_tel_num}
+    </select>
+
+</mapper>
