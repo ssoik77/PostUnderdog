@@ -11,6 +11,15 @@ const App = () => {
     );
   };
 
+  const openPopup2 = () => {
+    const popupFeatures = "width=800,height=700,top=100,left=550,resizable=no,scrollbars=no"; // 팝업창 크기와 옵션 설정
+    window.open(
+      "../Find", // 새창에서 띄울 URL 또는 경로
+      "찾기", // 창 이름
+      popupFeatures
+    );
+  };
+
   return (
     <div id={styles.loginpop}>
     <div className={styles.App}>
@@ -34,7 +43,7 @@ const App = () => {
       <button id={styles.regiButton} onClick={openPopup} className={styles.button}>회원가입</button>
       
       {/* ID/PW 찾기 버튼 */}
-      <button id={styles.findIdPwButton} className={styles.button}>ID/PW 찾기</button>
+      <button id={styles.findIdPwButton} onClick={openPopup2} className={styles.button}>ID/PW 찾기</button>
     </div>
     </div>
   );
