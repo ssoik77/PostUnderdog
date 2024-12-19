@@ -13,7 +13,9 @@ public class RegiService {
     private RegiMapper regiMapper;
 
     public String registerMember(MemberDto memberDto) {
-        regiMapper.insertMember(memberDto); // DB¿¡ È¸¿ø Á¤º¸ ÀúÀå (¾ÏÈ£È­ÇÏÁö ¾ÊÀ½)
-        return "È¸¿ø °¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.";
+        // ë””ë²„ê¹…ìš© ë¡œê·¸
+        System.out.println("Registering password: " + memberDto.getM_pw());
+        regiMapper.insertMember(memberDto);
+        return "íšŒì› ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.";
     }
 }

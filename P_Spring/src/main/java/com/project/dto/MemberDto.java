@@ -1,13 +1,15 @@
 package com.project.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDto {
-    private String m_pw; // ��й�ȣ
-
-    // Getters and Setters
-    public String getM_pw() {
-        return m_pw;
-    }
-
-    public void setM_pw(String m_pw) {
-        this.m_pw = m_pw;
-    }
+    @JsonProperty("password") // JSON에서 "password" 키와 매핑
+    private String m_pw;
 }
