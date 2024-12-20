@@ -1,15 +1,27 @@
 package com.project.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class MemberDto {
-    @JsonProperty("password") // JSON에서 "password" 키와 매핑
-    private String m_pw;
+
+
+	
+	Boolean a_authority;
+	Boolean p_authority;
+	Boolean e_authority;
+	String m_id;
+	String m_pw;
+	
+	public MemberDto(Boolean a_authority, Boolean p_authority, Boolean e_authority, String m_id, String m_pw) {
+		super();
+		this.a_authority = a_authority;
+		this.p_authority = p_authority;
+		this.e_authority = e_authority;
+		this.m_id = m_id;
+		this.m_pw = m_pw;
+	}
 }

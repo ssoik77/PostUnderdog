@@ -1,0 +1,75 @@
+.title {
+    color: #ffee00;
+    font-family: 'Arial', sans-serif;
+  }  
+
+  /* 재훈 추가내용 */
+  #registerContainer {
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-top: 100px;
+    gap: 20px; /* 입력 칸 사이 간격 */
+}
+
+#nameGroup {
+  display: flex;
+  flex-direction: column; /* 라벨 위, 입력 칸 아래 정렬 */
+  align-items: center; /* 가로 가운데 정렬 */
+}
+
+#birthGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#nameLabel,
+#birthLabel {
+  margin-bottom: 5px; /* 라벨과 입력 칸 간격 */
+  font-size: 1rem;
+  color: #333;
+}
+
+#nameInput,
+#birthInput {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  text-align: center; /* 입력 내용 가운데 정렬 */
+  box-sizing: border-box;
+}
+/* ----재훈 추가내용---- */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.popupButton {
+  background: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}

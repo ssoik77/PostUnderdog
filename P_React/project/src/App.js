@@ -1,12 +1,24 @@
 import styles from './App.module.css';
 import './register/Register.js';
+import './find/Find.js'
 
 const App = () => {
-  const openPopup = () => {
-    const popupFeatures = "width=800,height=700,top=100,left=550,resizable=no,scrollbars=no"; // 팝업창 크기와 옵션 설정
+  // 회원가입 팝업 열기
+  const openRegisterPopup = () => {
+    const popupFeatures = "width=800,height=700,top=100,left=550,resizable=no,scrollbars=no";
     window.open(
-      "../Register", // 새창에서 띄울 URL 또는 경로
+      "../Register", // 새창에서 띄울 URL
       "회원가입", // 창 이름
+      popupFeatures
+    );
+  };
+
+  // ID/PW 찾기 팝업 열기
+  const openFindPopup = ()  => {
+    const popupFeatures = "width=800,height=700,top=150,left=600,resizable=no,scrollbars=no";
+    window.open(
+      "../Find", // 새창에서 띄울 URL
+      "ID/PW 찾기", // 창 이름
       popupFeatures
     );
   };
@@ -23,19 +35,19 @@ const App = () => {
       {/* id:영문 대소문자+숫자 pw:영문 대소문자+숫자+특수문자(1개이상)+8~16자리 */}
       <form id={styles.loginUi}>
         <table>
-          <tr><input id={styles.id} placeholder="아이디" size="10" pattern="^[a-zA-Z0-9]+$" required /></tr>
-          <br/>
-          <tr><input id={styles.pw} placeholder="비밀번호" size="10" type="password" required /></tr>
-          <tr><button id={styles.loginButton} className={styles.button} type="submit">로그인</button></tr>
+          <tbody>
+          <tr><td><input id={styles.id} placeholder="아이디" size="10" pattern="^[a-zA-Z0-9]+$" required /></td></tr>
+          <tr><td><input id={styles.pw} placeholder="비밀번호" size="10" type="password" required /></td></tr>
+          <tr><td><button id={styles.loginButton} className={styles.button} type="submit">로그인</button></td></tr>
+          </tbody>
         </table>
       </form>
 
       {/* 회원가입 팝업 */}
-      <button id={styles.regiButton} onClick={openPopup} className={styles.button}>회원가입</button>
+      <button id={styles.regiButton} onClick={openRegisterPopup} className={styles.button}>회원가입</button>
       
-    
       {/* ID/PW 찾기 버튼 */}
-      <button id={styles.findIdPwButton} className={styles.button}>ID/PW 찾기</button>
+      <button id={styles.findIdPwButton} onClick={openFindPopup}className={styles.button}>ID/PW 찾기</button>
     </div>
     </div>
   );
