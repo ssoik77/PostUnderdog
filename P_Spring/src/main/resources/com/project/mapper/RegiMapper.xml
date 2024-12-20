@@ -3,9 +3,36 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.RegiMapper">
-
-<insert id="insertMember" parameterType="com.project.dto.MemberDto">
-    INSERT INTO member_info (m_pw)
-    VALUES (#{m_pw});
-</insert>
+	<insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto">
+		insert into member_info(
+		a_authority,
+		p_authority,
+		e_authority,
+		m_id,
+		m_pw
+		)values(
+		#{a_authority},
+		#{p_authority},
+		#{e_authority},
+		#{m_id},
+		#{m_pw}
+		)
+	</insert>
+	<insert id="setRegisterEmployee" parameterType="com.project.dto.RegisterDto">
+		insert into employee_info(
+		e_name,
+		e_birth,
+		e_carrier,
+		e_tel_num
+		)values(
+		#{e_name},
+		#{e_birth},
+		#{e_carrier},
+		#{e_tel_num}
+		)
+	</insert>
+	<select id="pullId" resultType="com.project.dto.RegisterDto">
+	select m_id from member_info
+	</select>
 </mapper>
+

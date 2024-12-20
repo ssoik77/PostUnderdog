@@ -3,7 +3,13 @@
     font-family: 'Arial', sans-serif;
   }  
 /* 준강 추가내용 */
-#button {
+
+#inputId {
+  width: 200px;
+  top: 100px;
+}
+
+#idCheckButton {
   padding: 10px;
   background-color: #007bff;
   color: white;
@@ -14,10 +20,6 @@
   margin-bottom: 10px;
 }
 
-#button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
 
 #successMessage {
   color: green;
@@ -32,8 +34,9 @@
   text-align: center;
   margin-top: 10px;
 }
-  
-  
+/* 준강 추가내용 */
+
+
 /* 재훈 추가내용 */
   #registerContainer {
     display: flex;
@@ -73,10 +76,8 @@
   box-sizing: border-box;
 }
 /* ----재훈 추가내용---- */
-#id {
-  width: 200px;
-  top: 100px;
-}
+
+
 
 #pw {
   width: 200px;

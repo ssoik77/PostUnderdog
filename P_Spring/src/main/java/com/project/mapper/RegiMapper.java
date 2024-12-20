@@ -1,7 +1,11 @@
 package com.project.mapper;
 
-import com.project.dto.MemberDto;
+import java.util.ArrayList;
+
+import com.project.dto.RegisterDto;
 
 public interface RegiMapper {
-    void insertMember(MemberDto memberDto);
+    public void setRegisterMember(RegisterDto register_dto);
+    public void setRegisterEmployee(RegisterDto register_dto);
+    public ArrayList<RegisterDto> pullId();
 }

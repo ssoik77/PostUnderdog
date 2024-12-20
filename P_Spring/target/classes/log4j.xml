@@ -10,6 +10,14 @@
 		</layout>
 	</appender>
 	
+    <logger name="com.project.controller">
+        <level value="info" />
+    </logger>
+
+    <logger name="com.project.service">
+        <level value="info" />
+    </logger>
+	
 	<!-- Application Loggers -->
 	<logger name="com.project.underdog">
 		<level value="info" />
@@ -31,6 +39,17 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+
+    <!-- 내가 추가한거 -->
+    <logger name="jdbc.audit">
+        <level value="warn" />
+    </logger>
+    <logger name="jdbc.resultset">
+        <level value="warn" />
+    </logger>
+    <logger name="jdbc.connection">
+        <level value="warn" />
+    </logger>
 
 	<!-- Root Logger -->
 	<root>
