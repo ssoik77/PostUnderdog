@@ -33,6 +33,7 @@ const App = () => {
       {/* 회원가입 팝업 */}
       <button id={styles.regiButton} onClick={openPopup} className={styles.button}>회원가입</button>
       
+    
       {/* ID/PW 찾기 버튼 */}
       <button id={styles.findIdPwButton} className={styles.button}>ID/PW 찾기</button>
     </div>
