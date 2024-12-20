@@ -4,5 +4,4 @@ import com.project.dto.EmployeeDto;
 
 public interface FindMapper {
     String findIdByDetails(EmployeeDto employeeDto);
-    String findPwByDetails(EmployeeDto employeeDto);
 }

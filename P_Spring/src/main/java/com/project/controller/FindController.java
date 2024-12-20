@@ -34,18 +34,4 @@ public class FindController {
         }
         return response;
     }
-
-    @PostMapping("/password")
-    public Map<String, String> findPassword(@RequestBody EmployeeDto employeeDto) {
-        Map<String, String> response = new HashMap<>();
-        try {
-            String password = findService.findPwByDetails(employeeDto);
-            response.put("status", "success");
-            response.put("password", password);
-        } catch (Exception e) {
-            response.put("status", "failure");
-            response.put("message", "입력한 정보로 비밀번호를 찾을 수 없습니다.");
-        }
-        return response;
-    }
 }

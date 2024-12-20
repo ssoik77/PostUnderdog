@@ -27,7 +27,7 @@ FOREIGN KEY (m_key) REFERENCES member_info(m_key)
 drop table employee_info;
 
 DESCRIBE employee_info;	
-
+-- 아래로 코드 테스트용 칼럼데이터 추가코드 (없어도 됨)
 INSERT INTO member_info (a_authority, p_authority, m_authority, m_id, m_pw)
 VALUES (0, 0, 0, 'user1234', 'password1235');
 
