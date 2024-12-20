@@ -20,7 +20,7 @@ e_num int auto_increment primary KEY,
 e_name CHAR(10) default null,
 e_birth DATE default null,
 e_carrier CHAR(10) default null,
-e_tel_num INT default null
+e_tel_num VARCHAR(20) default null
 );
 
 select * from member_info;
