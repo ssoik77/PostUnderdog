@@ -38,11 +38,7 @@ const Find = () => {
     useEffect(() => {
         const phoneNumber = tel1 + tel2 + tel3;
         setRegiData({
-<<<<<<< HEAD
             'm_id': username,
-=======
-            'e_name': username,
->>>>>>> 7c3a438c7d31201220158dcbfad847082ea8784e
             'e_birthdate': birthdate,
             'e_tel_num': phoneNumber,
         });
@@ -62,10 +58,6 @@ const Find = () => {
 
             // 인증 후 비밀번호를 보여주거나 다른 페이지로 이동할 수 있음
             alert("비밀번호 찾기 성공!");
-<<<<<<< HEAD
-=======
-            // 예: window.location.href = '/change-password'; // 비밀번호 변경 화면으로 이동
->>>>>>> 7c3a438c7d31201220158dcbfad847082ea8784e
         } catch (error) {
             console.error(error);
             alert("인증에 실패했습니다. 다시 시도해주세요.");

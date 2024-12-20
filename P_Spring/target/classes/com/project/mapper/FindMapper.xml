@@ -2,20 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.FindMapper">
 
-<<<<<<< HEAD
     <select id="pwFind" parameterType="com.project.dto.RegisterDto">
         SELECT m_pw FROM member_info
         WHERE m_id = #{m_id}
         AND e_birth = #{e_birth}
         AND e_tel_num = #{e_tel_num}
-=======
-    <!-- 사용자 정보로 비밀번호를 조회하는 SQL -->
-    <select id="getPasswordByInfo" resultType="String">
-        SELECT m_pw FROM member_info
-        WHERE m_id = #{e_name}
-        AND m_birth = #{e_birthdate}
-        AND m_tel_num = #{e_tel_num}
->>>>>>> 7c3a438c7d31201220158dcbfad847082ea8784e
     </select>
 
 </mapper>
