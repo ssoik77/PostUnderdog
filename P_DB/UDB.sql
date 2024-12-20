@@ -34,6 +34,8 @@ VALUES (0, 0, 0, 'user1234', 'password1235');
 INSERT INTO employee_info (e_name, e_birth, e_carrier, e_tel_num, m_key)
 VALUES ('엄홍길', '1990-01-01', 'SKT', '01012345678', LAST_INSERT_ID());
 
+SELECT * FROM member_info;
+
 SELECT m.m_id
 FROM member_info m
 JOIN employee_info e ON m.m_key = e.m_key

@@ -9,14 +9,14 @@ public class MemberDto {
     
     Boolean a_authority;
     Boolean p_authority;
-    Boolean e_authority;
+    Boolean m_authority;
     String m_id;
     String m_pw;
     
-    public MemberDto(Boolean a_authority, Boolean p_authority, Boolean e_authority, String m_id, String m_pw) {
+    public MemberDto(Boolean a_authority, Boolean p_authority, Boolean m_authority, String m_id, String m_pw) {
         this.a_authority = a_authority;
         this.p_authority = p_authority;
-        this.e_authority = e_authority;
+        this.m_authority = m_authority;
         this.m_id = m_id;
         this.m_pw = m_pw;
     }

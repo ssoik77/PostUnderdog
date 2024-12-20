@@ -3,17 +3,17 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.RegiMapper">
-	<insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto">
+	<insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto" useGeneratedKeys="true" keyProperty="m_key">
 		insert into member_info(
 		a_authority,
 		p_authority,
-		e_authority,
+		m_authority,
 		m_id,
 		m_pw
 		)values(
 		#{a_authority},
 		#{p_authority},
-		#{e_authority},
+		#{m_authority},
 		#{m_id},
 		#{m_pw}
 		)
@@ -23,12 +23,14 @@
 		e_name,
 		e_birth,
 		e_carrier,
-		e_tel_num
+		e_tel_num,
+		m_key
 		)values(
 		#{e_name},
 		#{e_birth},
 		#{e_carrier},
-		#{e_tel_num}
+		#{e_tel_num},
+		#{m_key}
 		)
 	</insert>
 	<select id="pullId" resultType="com.project.dto.RegisterDto">
