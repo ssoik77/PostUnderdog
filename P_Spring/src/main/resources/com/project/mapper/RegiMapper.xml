@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.RegiMapper">
 	<insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto">
 		insert into member_info(
@@ -31,4 +31,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{e_tel_num}
 		)
 	</insert>
+	<select id="pullId" resultType="com.project.dto.RegisterDto">
+	select m_id from member_info
+	</select>
 </mapper>
+
