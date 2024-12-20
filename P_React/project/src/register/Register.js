@@ -6,21 +6,23 @@ const Register = () => {
 
     const [idMessage, setIdMessage] = useState(""); // 아이디 입력 오류 메세지
     const [id, setId] = useState(""); // 아이디 입력값
-    const [name, setName] = useState(""); // 아이디 입력값
     const [idCheckResult, setIdCheckResult] = useState(false); //아이디 체크 했는지 여부
-    
+
     const [password, setPassword] = useState(""); // 상태 변수: 비밀번호 입력값
     const [confirmPassword, setConfirmPassword] = useState(""); // 상태 변수: 비밀번호 확인 입력값
     const [pwMessage, setPwMessage] = useState(""); // 비밀번호 확인 메세지
     const [pwMessageStyle, setPwMessageStyle] = useState(''); // 비밀번호 확인 메세지
     const [pwCheckResult, setPwCheckResult] = useState(false); //비밀번호 일치하는지
 
+    const [name, setName] = useState(""); // 이름 입력 상태
+    const [birthDate, setBirthDate] = useState(""); // 생년월일 입력 상태
+
     const [mobileCarrier, setMobileCarrier] = useState("SKT"); //통신사 선택 저장
-    
+
     const [tel1, setTel1] = useState("010"); // 전화번호 첫 번째 자리
     const [tel2, setTel2] = useState(""); // 전화번호 두 번째 자리
     const [tel3, setTel3] = useState(""); // 전화번호 세 번째 자리
-    const [resultMessage, setResultMessage] = useState("");
+    const [resultMessage, setResultMessage] = useState(""); // 회원가입 결과 메시지
 
     // ----------------준강 아이디, 아이디 중복 버튼 병합 ------------------
 
@@ -37,10 +39,10 @@ const Register = () => {
             // 서버로 GET 요청을 보내 아이디 중복 여부를 확인
             const response = await axios.post(
                 'http://localhost:8080/underdog/register/id/check',
-                sendId, 
-                { headers: { 'Content-Type': 'application/json; charset=UTF-8' }}
+                sendId,
+                { headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
             );
- 
+
             // 서버로부터 받은 응답 메시지 설정
             console.log(response.data);
             setIdMessage(response.data);  // 응답에서 'message' 속성만 상태에 설정
@@ -55,7 +57,7 @@ const Register = () => {
     // ----------------준강 아이디, 아이디 중복 버튼 병합 ------------------
 
     // ----------------성태 비번, 비번 체크 병합 --------------------------------------------
-    
+
     // 비밀번호 입력 핸들러
     const handlePasswordChange = (e) => {
         const newPassword = e.target.value;
@@ -71,13 +73,13 @@ const Register = () => {
             setPwMessageStyle('');
         }
     };
-    
+
     // 비밀번호 확인 입력 핸들러
     const handleConfirmPasswordChange = (e) => {
         const newConfirmPassword = e.target.value;
         setConfirmPassword(newConfirmPassword);
     };
-    
+
     // 비밀번호 확인 상태 업데이트
     useEffect(() => {
         if (confirmPassword && confirmPassword !== password) {
@@ -89,9 +91,9 @@ const Register = () => {
             setPwCheckResult(true);
         }
     }, [confirmPassword, password, pwCheckResult]);
-    
+
     // ----------------성태 비번, 비번 체크 병합 ------------------------------------------------------------
-    
+
     // 통신사 선택 저장 핸들러
     const selectCarrier = (e) => {
         setMobileCarrier(e.target.value);
@@ -105,12 +107,12 @@ const Register = () => {
     const handleTel3Change = (e) => setTel3(e.target.value);
 
     //회원정보 통합 useeffact
-    useEffect(() => {},
-     // 각 입력값에 맞춰 자동 업데이트됩니다.
+    useEffect(() => { },
+        // 각 입력값에 맞춰 자동 업데이트됩니다.
         [id, password, mobileCarrier,
-         tel1, tel2, tel3, name,
-         idMessage, idCheckResult, resultMessage]
-        );
+            tel1, tel2, tel3, name, birthDate,
+            idMessage, idCheckResult, resultMessage]
+    );
 
     //데이터 전송 함수
     // 회원가입 데이터 전송 함수
@@ -119,33 +121,34 @@ const Register = () => {
         e.preventDefault();
 
         if (idCheckResult) {
-        if (pwCheckResult) {
-         
-            const regiData = {
-                m_id: id,
-                e_name: name,
-                m_pw: password,
-                e_carrier: mobileCarrier,
-                e_tel_num: tel1 + tel2 + tel3,
-            };
+            if (pwCheckResult) {
 
-            try {
-                console.log(regiData);
-                const response = await axios.post('http://localhost:8080/underdog/register/set', regiData);
-                console.log(response.data);
-                alert("회원가입이 완료되었습니다.");
-                window.close();
-            } catch (error) {
-                alert("회원가입에 실패했습니다.");
+                const regiData = {
+                    m_id: id,
+                    m_pw: password,
+                    e_name: name,           // 이름 추가
+                    e_birth: birthDate,     // 생년월일 추가
+                    e_carrier: mobileCarrier,
+                    e_tel_num: tel1 + tel2 + tel3,
+                };
+
+                try {
+                    console.log(regiData);
+                    const response = await axios.post('http://localhost:8080/underdog/register/set', regiData);
+                    console.log(response.data);
+                    alert("회원가입이 완료되었습니다.");
+                    window.close();
+                } catch (error) {
+                    alert("회원가입에 실패했습니다.");
+                }
+            } else {
+                setResultMessage("비밀번호 확인이 일치하지 않습니다.");
             }
-        }else{
-            setResultMessage("비밀번호 확인이 일치하지 않습니다.");
-        }
-        
-    }else if(pwCheckResult){
-        setResultMessage("아이디 체크를 다시 해주세요.");
-    }else{
-        setResultMessage("아이디 체크를 다시 해주세요. 비밀번호 확인이 일치하지 않습니다.");
+
+        } else if (pwCheckResult) {
+            setResultMessage("아이디 체크를 다시 해주세요.");
+        } else {
+            setResultMessage("아이디 체크를 다시 해주세요. 비밀번호 확인이 일치하지 않습니다.");
         };
 
     };
@@ -154,7 +157,7 @@ const Register = () => {
         <form onSubmit={sendRegisterData}>
 
             {/* -----------------------준강 아이디, 아이디 중복 버튼 병합 -------------------*/}
-        
+
             {/* 아이디 입력 */}
             <input type="text" id={styles.inputId} placeholder="아이디를 입력하세요" value={id}
                 onChange={(e) => setId(e.target.value)} // 아이디 입력 값 업데이트 
@@ -171,35 +174,61 @@ const Register = () => {
             {/* -------------------------준강 아이디, 아이디 중복 버튼 병합 ------------------*/}
 
             {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
-        
+
             {/* 메시지 출력 */}
             <div id="message" className={pwMessageStyle}>
                 {pwMessage}
             </div>
 
             {/* 비밀번호 입력 필드 */}
-            <input 
-                id={styles.pw} 
-                placeholder="비밀번호" 
-                type="password" 
-                value={password} 
-                onChange={handlePasswordChange} 
-                required 
-                />
+            <input
+                id={styles.pw}
+                placeholder="비밀번호"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+            />
 
             <br />
             {/* 비밀번호 확인 입력 필드 */}
-            <input 
-                id={styles.confirmPw} 
-                placeholder="비밀번호 확인" 
-                type="password" 
-                value={confirmPassword} 
-                onChange={handleConfirmPasswordChange} 
-                required 
-                />
+            <input
+                id={styles.confirmPw}
+                placeholder="비밀번호 확인"
+                type="password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                required
+            />
             <br />
 
-                {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
+            {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
+            
+            {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
+            
+            {/* 이름 입력 */}
+            <input
+                type="text"
+                id={styles.name}
+                className={styles.name}
+                placeholder="이름을 입력하세요"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+            />
+
+            {/* 생년월일 입력 */}
+            <label htmlFor="birthDate">생년월일:</label>
+            <input
+                type="date"
+                id={styles.birthDate}
+                className={styles.birthDate}
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                required
+            />
+
+            {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
 
             {/* 통신사 선택 드롭다운 */}
             <select id={styles.carrierSelectBox} onChange={selectCarrier} value={mobileCarrier}>

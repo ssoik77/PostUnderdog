@@ -3,10 +3,8 @@ package com.project.dto;
 import java.sql.Date;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 public class EmployeeDto {
 
     int e_num;

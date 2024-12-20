@@ -1,6 +1,5 @@
 package com.project.dto;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +21,5 @@ public class MemberDto {
         this.m_pw = m_pw;
     }
   
+
 }
