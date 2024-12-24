@@ -20,4 +20,12 @@ public class FindService {
         return id;
     }
     
+    public String findPwByDetails(EmployeeDto employeeDto) throws Exception {
+        String pw = findMapper.findPwByDetails(employeeDto);
+        if (pw == null || pw.isEmpty()) {
+            throw new Exception("Password not found");
+        }
+        return pw;
+    }
+    
 }
