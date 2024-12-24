@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.EmployeeDto;
+import com.project.dto.FindPwDto;
 import com.project.mapper.FindMapper;
 
 @Service
@@ -18,6 +19,14 @@ public class FindService {
             throw new Exception("ID not found");
         }
         return id;
+    }
+    
+    public String findPwByDetails(FindPwDto findPwDto) throws Exception {
+        String pw = findMapper.findPwByDetails(findPwDto);
+        if (pw == null || pw.isEmpty()) {
+            throw new Exception("Password not found");
+        }
+        return pw;
     }
     
 }
