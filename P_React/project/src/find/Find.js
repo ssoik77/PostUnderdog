@@ -108,7 +108,7 @@ const findPwFormDisable = () => {
             {/* PW 찾기 폼 */}
             <form onSubmit={sendFindPwData}>
                 <label>아이디:</label>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                <input type="text" value={id} onChange={(e) => setId(e.target.value)} required />
 
                 <label>전화번호:</label>
                 <input type="text" value={tel} onChange={(e) => setTel(e.target.value)} required />

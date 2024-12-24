@@ -38,3 +38,4 @@ VALUES ('엄홍길', '1990-01-01', 'SKT', '01012345678', LAST_INSERT_ID());
 SELECT m_pw FROM member_info WHERE m_id = 'ehvl5361';
 select * from employee_info;
 select * from member_info;
+

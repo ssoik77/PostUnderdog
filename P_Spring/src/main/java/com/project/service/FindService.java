@@ -7,7 +7,10 @@ import com.project.dto.EmployeeDto;
 import com.project.dto.FindPwDto;
 import com.project.mapper.FindMapper;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class FindService {
 
     @Autowired
