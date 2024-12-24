@@ -1,0 +1,13 @@
+.header{
+    position: absolute;
+    left: 20px;
+    top: 7px;
+}
+
+
+#infoButton{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 80px;
+}

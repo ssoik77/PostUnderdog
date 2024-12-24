@@ -12,10 +12,10 @@ const Main = () => {
   return (
     <div>
       <header className={styles.header}>
-        <h1>메인 페이지</h1>
+        <h1>POST UNDERDOG</h1>
       </header>
       {/* 내 정보 팝업 버튼 */}
-      <button id={styles.regiButton} onClick={openPopup} className={styles.button}>
+      <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
         내 정보
       </button>
     </div>
