@@ -3,8 +3,11 @@ import './register/Register.js';
 import './find/Find.js';
 import './main/Main.js';
 import axios from 'axios'; // 서버 통신을 위해 axios 추가
+import { useState } from 'react';
 
 const App = () => {
+  const [isSaveLogin, setIsSaveLogin] = useState(false);
+
   // 회원가입 팝업 열기
   const openPopup = () => {
     const popupFeatures = "width=800,height=700,top=100,left=550,resizable=no,scrollbars=no"; // 팝업창 크기와 옵션 설정
@@ -34,8 +37,20 @@ const App = () => {
 
     try {
       const response = await axios.post("http://localhost:8080/underdog/login", { m_id: id, m_pw: pw });
-      if (response.data === "success") {
-        localStorage.setItem("m_id", id); // 로그인 성공 시 m_id를 localStorage에 저장
+      if (response.data.pw_check) {//로그인 성공 여부
+        const resultData = {
+          a_authority: (response.data.a_authority),
+          p_authority: (response.data.p_authority),
+          e_authority: (response.data.e_authority)
+        };
+        //로그인 저장 체크 여부
+        if(isSaveLogin){
+          localStorage.setItem("m_id", id); // m_id를 localStorage에 저장, 서버에 데이터저장됨
+          localStorage.setItem("authority", JSON.stringify(resultData)); // m_id를 localStorage에 저장, 서버에 데이터저장됨
+        }else{
+          sessionStorage.setItem("m_id", id); // m_id를 sessionStorage에 저장, 브라우저를 유지하는 동안만 데이터 유지 됨
+          sessionStorage.setItem("authority", JSON.stringify(resultData)); // m_id를 sessionStorage에 저장, 서버에 데이터저장됨
+        }
         alert("로그인 성공!");
         window.location.href = "/main"; // 이동할 페이지 경로
       } else {
@@ -74,6 +89,8 @@ const App = () => {
         
         {/* ID/PW 찾기 팝업 */}
         <button id={styles.findIdPwButton} onClick={openFindPopup} className={styles.button}>ID/PW 찾기</button>
+        {/*자동 로그인 체크박스*/}
+      <div id={styles.loginSaveCheck}><input type='checkbox' onChange= {({ target: {checked}})=> setIsSaveLogin(checked)} />로그인 정보 저장</div>
       </div>
     </div>
   );
