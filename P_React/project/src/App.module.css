@@ -78,3 +78,9 @@
   width: 70px;
   border-radius: 5px;
 }
+
+#loginSaveCheck{
+  position: relative;
+  top:290px;
+  right: 30px;
+}

@@ -35,7 +35,7 @@ const App = () => {
     try {
       const response = await axios.post("http://localhost:8080/underdog/login", { m_id: id, m_pw: pw });
       if (response.data === "success") {
-        localStorage.setItem("m_id", id); // 로그인 성공 시 m_id를 localStorage에 저장
+        sessionStorage.setItem("m_id", id); // 로그인 성공 시 m_id를 sessionStorage에 저장, 브라우저를 유지하는 동안만 데이터 유지 됨
         alert("로그인 성공!");
         window.location.href = "/main"; // 이동할 페이지 경로
       } else {
@@ -74,6 +74,8 @@ const App = () => {
         
         {/* ID/PW 찾기 팝업 */}
         <button id={styles.findIdPwButton} onClick={openFindPopup} className={styles.button}>ID/PW 찾기</button>
+        {/*자동 로그인 체크박스*/}
+      <div id={styles.loginSaveCheck}><input type='checkbox' value={'saveLogin'}/>로그인 정보 저장</div>
       </div>
     </div>
   );
