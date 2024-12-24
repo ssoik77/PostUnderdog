@@ -11,7 +11,7 @@ public class RegisterDto {
 
 	int a_authority = 1;
 	int p_authority = 1;
-	int m_authority = 1;
+	int e_authority = 1;
 	String m_id;
 	String m_pw;
 
@@ -23,10 +23,10 @@ public class RegisterDto {
 	
 	int m_key;
 
-	public RegisterDto(int a_authority, int p_authority, int m_authority, String m_id, String m_pw, int m_key) {
+	public RegisterDto(int a_authority, int p_authority, int e_authority, String m_id, String m_pw, int m_key) {
 		this.a_authority = a_authority;
 		this.p_authority = p_authority;
-		this.m_authority = m_authority;
+		this.e_authority = e_authority;
 		this.m_id = m_id;
 		this.m_pw = m_pw;
 	}
@@ -39,11 +39,11 @@ public class RegisterDto {
 		this.m_key = m_key;
 	}
 
-	public RegisterDto(int a_authority, int p_authority, int m_authority, String m_id, String m_pw, String e_name,
+	public RegisterDto(int a_authority, int p_authority, int e_authority, String m_id, String m_pw, String e_name,
 			Date e_birth, String e_carrier, String e_tel_num) {
 		this.a_authority = a_authority;
 		this.p_authority = p_authority;
-		this.m_authority = m_authority;
+		this.e_authority = e_authority;
 		this.m_id = m_id;
 		this.m_pw = m_pw;
 		this.e_name = e_name;

@@ -1,5 +1,7 @@
 package com.project.mapper;
 
+import com.project.dto.MemberDto;
+
 public interface LoginMapper {
-    String getPasswordById(String m_id);
+    MemberDto getPasswordById(String m_id);
 }
