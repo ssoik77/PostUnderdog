@@ -197,7 +197,6 @@ const Register = () => {
                 required
             />
             <br />
-            
             {/* 메시지 출력 */}
             <div id="message" className={pwMessageStyle}>
                 {pwMessage}

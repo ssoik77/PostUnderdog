@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>					
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
-<script defer="defer" src="/resources/static/js/main.3160cfaa.js"></script> <!-- 리액트.js 빌드한 파일꺼 연결 -->
-<link href="/resources/static/css/main.60d7a276.css" rel="stylesheet"> <!-- 리액트.js 빌드한 파일꺼 연결 -->
+<script defer="defer" src="/resources/static/js/main.7470f42a.js"></script> <!-- 리액트.js 빌드한 파일꺼 연결 -->
+<link href="/resources/static/css/main.37981f69.css" rel="stylesheet"> <!-- 리액트.js 빌드한 파일꺼 연결 -->
 
 <html>
 <head>
