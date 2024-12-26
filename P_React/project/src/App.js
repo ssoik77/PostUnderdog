@@ -3,9 +3,17 @@ import './register/Register.js';
 import './find/Find.js';
 import './main/Main.js';
 import axios from 'axios'; // 서버 통신을 위해 axios 추가
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const App = () => {
+  const autoLoginId = localStorage.getItem("m_id");
+  useEffect(()=>{
+    if(autoLoginId != null){
+      window.location.href="/main";
+    }
+  },[autoLoginId])
+
+
   const [isSaveLogin, setIsSaveLogin] = useState(false);
 
   // 회원가입 팝업 열기
@@ -49,7 +57,7 @@ const App = () => {
           localStorage.setItem("authority", JSON.stringify(resultData)); // m_id를 localStorage에 저장, 서버에 데이터저장됨
         }else{
           sessionStorage.setItem("m_id", id); // m_id를 sessionStorage에 저장, 브라우저를 유지하는 동안만 데이터 유지 됨
-          sessionStorage.setItem("authority", JSON.stringify(resultData)); // m_id를 sessionStorage에 저장, 서버에 데이터저장됨
+          sessionStorage.setItem("authority", JSON.stringify(resultData)); // m_id를 sessionStorage에 저장, 브라우저 유지 동안만.
         }
         alert("로그인 성공!");
         window.location.href = "/main"; // 이동할 페이지 경로

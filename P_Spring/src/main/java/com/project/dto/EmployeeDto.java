@@ -3,8 +3,10 @@ package com.project.dto;
 import java.sql.Date;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class EmployeeDto {
 
     int e_num;
@@ -12,7 +14,8 @@ public class EmployeeDto {
     Date e_birth;
     String e_carrier;
     int e_tel_num;
-
+    int m_key;
+    
     public EmployeeDto(int e_num, String e_name, Date e_birth, String e_carrier, int e_tel_num) {
         this.e_num = e_num;
         this.e_name = e_name;

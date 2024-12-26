@@ -14,9 +14,12 @@ import com.project.dto.EmployeeDto;
 import com.project.dto.MemberDto;
 import com.project.service.MypageService;
 
+import lombok.extern.log4j.Log4j;
+
 @RestController
 @RequestMapping("/mypage")
 @CrossOrigin(origins = "http://localhost:3000")
+@Log4j
 public class MypageController {
 
     @Autowired
@@ -25,11 +28,11 @@ public class MypageController {
     @GetMapping("/userinfo")
     public Map<String, Object> getUserInfo(@RequestParam String m_id) {
         Map<String, Object> response = new HashMap<>();
+        log.info("wlsdlq: " + m_id);
 
         try {
             MemberDto memberInfo = mypageService.getMemberInfo(m_id);
             EmployeeDto employeeInfo = mypageService.getEmployeeInfo(memberInfo.getM_key());
-
             response.put("status", "success");
             response.put("memberInfo", memberInfo);
             response.put("employeeInfo", employeeInfo);
