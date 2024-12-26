@@ -1,8 +1,10 @@
 package com.project.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class FindPwDto {
     private String m_id;       
     private String e_tel_num;  
