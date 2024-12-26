@@ -7,13 +7,13 @@
 		insert into member_info(
 		a_authority,
 		p_authority,
-		m_authority,
+		e_authority,
 		m_id,
 		m_pw
 		)values(
 		#{a_authority},
 		#{p_authority},
-		#{m_authority},
+		#{e_authority},
 		#{m_id},
 		#{m_pw}
 		)

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dto.EmployeeDto;
+import com.project.dto.FindPwDto;
 import com.project.service.FindService;
 
 @RestController
@@ -34,4 +35,19 @@ public class FindController {
         }
         return response;
     }
+    
+    @PostMapping("/pw")
+    public Map<String, String> findPw(@RequestBody FindPwDto findPwDto) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            String pw = findService.findPwByDetails(findPwDto);
+            response.put("status", "success");
+            response.put("pw", pw);
+        } catch (Exception e) {
+            response.put("status", "failure");
+            response.put("message", "입력한 정보로 PW를 찾을 수 없습니다.");
+        }
+        return response;
+    }
+    
 }

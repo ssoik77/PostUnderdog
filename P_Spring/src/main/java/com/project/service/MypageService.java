@@ -20,4 +20,11 @@ public class MypageService {
     public EmployeeDto getEmployeeInfo(int m_key) {
         return mypageMapper.getEmployeeInfo(m_key);
     }
+    public void updateMemberInfo(MemberDto member) {
+        mypageMapper.updateMemberInfo(member);
+    }
+
+    public void updateEmployeeInfo(EmployeeDto employee) {
+        mypageMapper.updateEmployeeInfo(employee);
+    }    
 }

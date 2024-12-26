@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.project.dto.RegisterDto;
 import com.project.mapper.RegiMapper;
 
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
 
 @Service
-@Log4j
 public class RegiService {
     
 

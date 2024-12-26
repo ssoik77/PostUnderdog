@@ -175,10 +175,6 @@ const Register = () => {
 
             {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
 
-            {/* 메시지 출력 */}
-            <div id="message" className={pwMessageStyle}>
-                {pwMessage}
-            </div>
 
             {/* 비밀번호 입력 필드 */}
             <input
@@ -201,6 +197,10 @@ const Register = () => {
                 required
             />
             <br />
+            {/* 메시지 출력 */}
+            <div id="message" className={pwMessageStyle}>
+                {pwMessage}
+            </div>
 
             {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
             
