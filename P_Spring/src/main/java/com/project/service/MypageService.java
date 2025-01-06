@@ -7,7 +7,10 @@ import com.project.dto.EmployeeDto;
 import com.project.dto.MemberDto;
 import com.project.mapper.MypageMapper;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class MypageService {
 
     @Autowired
@@ -20,4 +23,11 @@ public class MypageService {
     public EmployeeDto getEmployeeInfo(int m_key) {
         return mypageMapper.getEmployeeInfo(m_key);
     }
+    public void updateMemberInfo(MemberDto member) {
+        mypageMapper.updateMemberInfo(member);
+    }
+
+    public void updateEmployeeInfo(EmployeeDto employee) {
+        mypageMapper.updateEmployeeInfo(employee);
+    }    
 }
