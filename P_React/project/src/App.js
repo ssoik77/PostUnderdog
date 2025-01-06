@@ -18,7 +18,7 @@ const App = () => {
 
   // 회원가입 팝업 열기
   const openPopup = () => {
-    const popupFeatures = "width=800,height=700,top=100,left=550,resizable=no,scrollbars=no"; // 팝업창 크기와 옵션 설정
+    const popupFeatures = "width=800,height=750,top=100,left=550,resizable=no,scrollbars=no"; // 팝업창 크기와 옵션 설정
     window.open(
       "../Register", // 새창에서 띄울 URL 또는 경로
       "회원가입", // 창 이름

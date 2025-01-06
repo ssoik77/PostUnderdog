@@ -154,17 +154,16 @@ const Register = () => {
     };
 
     return (
-        <form onSubmit={sendRegisterData}>
+        <form id={styles.formContainer} onSubmit={sendRegisterData}>
 
             {/* -----------------------준강 아이디, 아이디 중복 버튼 병합 -------------------*/}
-
             {/* 아이디 입력 */}
             <input type="text" id={styles.inputId} placeholder="아이디를 입력하세요" value={id}
                 onChange={(e) => setId(e.target.value)} // 아이디 입력 값 업데이트 
                 required />
             {/* 아이디 중복 체크 버튼 */}
             <button type="button" id={styles.idCheckButton} onClick={checkId}>
-                아이디 중복 체크
+                중복 체크
             </button>
             {/* 아이디 중복 체크 후 메세지 출력 */}
             <div id={idMessage === "사용 가능한 아이디입니다." ? styles.successMessage : styles.errorMessage}>
@@ -210,24 +209,22 @@ const Register = () => {
             <input
                 type="text"
                 id={styles.name}
-                className={styles.name}
                 placeholder="이름을 입력하세요"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
             />
-
+            <br />
             {/* 생년월일 입력 */}
             <label htmlFor="birthDate">생년월일:</label>
             <input
                 type="date"
                 id={styles.birthDate}
-                className={styles.birthDate}
                 value={birthDate}
                 onChange={(e) => setBirthDate(e.target.value)}
                 required
             />
-
+            <br />
             {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
 
             {/* 통신사 선택 드롭다운 */}
@@ -240,12 +237,16 @@ const Register = () => {
 
             {/* 전화번호 입력 필드 */}
             <label htmlFor="tel">전화번호:</label>
-            <input type="tel" id={styles.tel_1} maxLength="3" value={tel1} onChange={handleTel1Change} required /> -
-            <input type="tel" id={styles.tel_2} maxLength="4" value={tel2} onChange={handleTel2Change} required /> -
+            <div id={styles.telContainer}>
+            <input type="tel" id={styles.tel_1} maxLength="3" value={tel1} onChange={handleTel1Change} required /> 
+            <span>-</span>
+            <input type="tel" id={styles.tel_2} maxLength="4" value={tel2} onChange={handleTel2Change} required /> 
+            <span>-</span>
             <input type="tel" id={styles.tel_3} maxLength="4" value={tel3} onChange={handleTel3Change} required />
+            </div>
 
             {/* 회원가입 버튼 */}
-            <button type="submit" className={styles.button} >완료</button>
+            <button type="submit" id={styles.button} >완료</button>
             {/* 아이디 체크 제대로 하지 않고 정보 제출시 메세지 출력 */}
             {resultMessage}
         </form>
