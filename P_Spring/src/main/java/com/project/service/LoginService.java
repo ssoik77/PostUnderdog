@@ -12,9 +12,9 @@ import com.project.mapper.LoginMapper;
 @Service
 public class LoginService {
 
-	@Autowired
     private LoginMapper loginMapper;
     
+    @Autowired
     public LoginService(LoginMapper loginMapper) {
 		this.loginMapper = loginMapper;
 	}
