@@ -17,12 +17,18 @@ const Main = () => {
     window.location.href = "/productmanage"; // 페이지 이동
   };
 
+  // 직원 관리 페이지로 이동
+const goToEmployeeManage = () => {
+  window.location.href = "/Employeemanage"; // 페이지 이동
+};
+
   useEffect(()=>{
     if(!locationLogin && !sessionLogin){
       window.location.href="../";
     }
   },[locationLogin, sessionLogin])
   
+
 
   return (
     <div>
@@ -32,6 +38,11 @@ const Main = () => {
       {/* 내 정보 팝업 버튼 */}
       <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
         내 정보
+      </button>
+
+      {/* 직원 관리 페이지 이동 버튼 */}
+      <button id={styles.EmployeeManageButton} onClick={goToEmployeeManage} className={styles.button}>
+        직원 관리 페이지
       </button>
 
       {/* 상품 관리 페이지 이동 버튼 */}
