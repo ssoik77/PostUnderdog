@@ -8,7 +8,7 @@ const Main = () => {
   const sessionLogin = sessionStorage.getItem("m_id");
   // 내 정보 팝업 열기 함수
   const openPopup = () => {
-    const popupFeatures = "width=800,height=600,top=100,left=100,resizable=no,scrollbars=yes";
+    const popupFeatures = "width=500,height=350,top=100,left=100,resizable=no,scrollbars=yes";
     window.open("../Mypage", "내 정보", popupFeatures);
   };
 

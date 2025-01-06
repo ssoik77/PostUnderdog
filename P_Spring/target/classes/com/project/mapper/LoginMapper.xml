@@ -5,7 +5,7 @@
 <mapper namespace="com.project.mapper.LoginMapper">
 
     <select id="getPasswordById" resultType="com.project.dto.MemberDto">
-        SELECT m_pw, a_authority, p_authority, e_authority
+        SELECT m_pw, a_authority, p_authority, e_authority, m_key
         FROM member_info
         WHERE m_id = #{m_id};
     </select>

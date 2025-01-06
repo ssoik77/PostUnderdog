@@ -4,6 +4,8 @@ import com.project.dto.EmployeeDto;
 import com.project.dto.MemberDto;
 
 public interface MypageMapper {
-    public MemberDto getMemberInfo(String m_id);
-    public EmployeeDto getEmployeeInfo(int m_key);
+    MemberDto getMemberInfo(String m_id);
+    EmployeeDto getEmployeeInfo(int m_key);
+    void updateMemberInfo(MemberDto member);
+    void updateEmployeeInfo(EmployeeDto employee);
 }

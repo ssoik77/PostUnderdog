@@ -14,4 +14,16 @@
         SELECT * FROM employee_info WHERE m_key = #{m_key}
     </select>
 
+	<update id="updateMemberInfo" parameterType="com.project.dto.MemberDto">
+    	UPDATE member_info
+    	SET m_pw = #{m_pw}, a_authority = #{a_authority}, p_authority = #{p_authority}, e_authority = #{e_authority}
+    	WHERE m_id = #{m_id}
+	</update>
+
+	<update id="updateEmployeeInfo" parameterType="com.project.dto.EmployeeDto">
+    	UPDATE employee_info
+    	SET e_name = #{e_name}, e_birth = #{e_birth}, e_carrier = #{e_carrier}, e_tel_num = #{e_tel_num}
+    	WHERE m_key = #{m_key}
+	</update>
+
 </mapper>
