@@ -1,7 +1,0 @@
-INDEX VERSION 1.4+C:\JAEHOON\00_Workspace\00_teamproject\PostUnderdog\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2781099688.index
-797211816.index
-4159093292.index
-3163416617.index
-329255516.index
-1380102850.index
