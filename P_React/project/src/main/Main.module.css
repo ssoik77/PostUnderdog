@@ -11,3 +11,17 @@
     top: 20px;
     width: 80px;
 }
+
+#EmployeeManageButton {
+    position: absolute;
+    left: 35%;
+    top: 150px;
+    width: 150px;
+}
+
+#productManageButton {
+    position: absolute;
+    left: 50%;
+    top: 150px;
+    width: 150px;
+}

@@ -4,6 +4,8 @@ import Register from "../register/Register"
 import Find from "../find/Find"
 import Main from "../main/Main"
 import Mypage from "../mypage/Mypage"
+import ProductManage from "../product/ProductManage";
+import EmployeeManage from "../employee/EmployeeManage";
 import App from "../App";
 
 function AppRouter() {
@@ -15,6 +17,8 @@ function AppRouter() {
           <Route path="/find" element={<Find/>} />
           <Route path="/main" element={<Main/>} />
           <Route path="/mypage" element={<Mypage/>} />
+          <Route path="/productmanage" element={<ProductManage />} />
+          <Route path="/employeemanage" element={<EmployeeManage />} />
         </Routes>
       </Router>
     );
