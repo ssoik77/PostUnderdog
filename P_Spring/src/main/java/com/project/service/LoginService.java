@@ -12,10 +12,14 @@ import com.project.mapper.LoginMapper;
 @Service
 public class LoginService {
 
-    @Autowired
     private LoginMapper loginMapper;
+    
+    @Autowired
+    public LoginService(LoginMapper loginMapper) {
+		this.loginMapper = loginMapper;
+	}
 
-    public Map<String, Boolean> validateUser(String m_id, String m_pw) {
+	public Map<String, Boolean> validateUser(String m_id, String m_pw) {
         MemberDto storedPassword = loginMapper.getPasswordById(m_id);
         Map<String, Boolean> result = new HashMap<>();
         result.put("pw_check", storedPassword.getM_pw().equals(m_pw));

@@ -7,7 +7,10 @@ import com.project.dto.EmployeeDto;
 import com.project.dto.MemberDto;
 import com.project.mapper.MypageMapper;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class MypageService {
 
     @Autowired

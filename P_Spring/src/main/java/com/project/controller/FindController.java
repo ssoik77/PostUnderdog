@@ -3,7 +3,6 @@ package com.project.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +18,11 @@ import com.project.service.FindService;
 @CrossOrigin(origins = "http://localhost:3000")
 public class FindController {
 
-    @Autowired
-    private FindService findService;
+    private final FindService findService;
+
+    public FindController(FindService findService) {
+        this.findService = findService;
+    }
 
     @PostMapping("/id")
     public Map<String, String> findId(@RequestBody EmployeeDto employeeDto) {
@@ -35,7 +37,7 @@ public class FindController {
         }
         return response;
     }
-    
+
     @PostMapping("/pw")
     public Map<String, String> findPw(@RequestBody FindPwDto findPwDto) {
         Map<String, String> response = new HashMap<>();
@@ -49,5 +51,4 @@ public class FindController {
         }
         return response;
     }
-    
 }
