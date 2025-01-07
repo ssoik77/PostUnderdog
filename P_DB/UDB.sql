@@ -28,7 +28,7 @@ DESCRIBE member_info;
 
 -- 아래로 코드 테스트용 칼럼데이터 추가코드 (없어도 됨)
 INSERT INTO member_info (a_authority, p_authority, e_authority, m_id, m_pw)
-VALUES (0, 0, 0, 'user1234', 'password1235');
+VALUES (0, 0, 0, 'ehvl5361', 'foejtiq44@@');
 
 INSERT INTO employee_info (e_name, e_birth, e_carrier, e_tel_num, m_key)
 VALUES ('엄홍길', '1990-01-01', 'SKT', '01012345678', LAST_INSERT_ID());

@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +24,11 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class MypageController {
 
-    @Autowired
-    private MypageService mypageService;
+    private final MypageService mypageService;
+    
+    public MypageController(MypageService mypageService) {
+        this.mypageService = mypageService;
+    }
 
     @GetMapping("/userinfo")
     public Map<String, Object> getUserInfo(@RequestParam String m_id) {
@@ -59,7 +61,7 @@ public class MypageController {
 
         return response;
     }
-    
+
     @PostMapping("/updateInfo")
     public Map<String, String> updateUserInfo(@RequestBody Map<String, Object> updateData) {
         Map<String, String> response = new HashMap<>();

@@ -29,6 +29,11 @@ const goToEmployeeManage = () => {
   },[locationLogin, sessionLogin])
   
 
+  useEffect(()=>{
+    if(!locationLogin && !sessionLogin){
+      window.location.href="../";
+    }
+  },[locationLogin, sessionLogin])
 
   return (
     <div>
