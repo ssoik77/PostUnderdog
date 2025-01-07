@@ -6,6 +6,7 @@ import Main from "../main/Main"
 import Mypage from "../mypage/Mypage"
 import ProductManage from "../product/ProductManage";
 import EmployeeManage from "../employee/EmployeeManage";
+import HelpManage from "../help/HelpManage"
 import App from "../App";
 
 function AppRouter() {
@@ -19,6 +20,7 @@ function AppRouter() {
           <Route path="/mypage" element={<Mypage/>} />
           <Route path="/productmanage" element={<ProductManage />} />
           <Route path="/employeemanage" element={<EmployeeManage />} />
+          <Route path="/helpmanage" element={<HelpManage/>}/>
         </Routes>
       </Router>
     );

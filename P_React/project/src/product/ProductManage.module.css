@@ -1,7 +1,9 @@
 .container {
+  position: relative;
     text-align: absolute;
-    margin-top: 50px;
-    font-size: 12px;
+    margin-top: 20px;
+    left: 28px;
+    font-size: 20px;
   }
   
 
