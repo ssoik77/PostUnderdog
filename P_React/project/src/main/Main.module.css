@@ -16,6 +16,17 @@
     background-color: rgb(241, 252, 255);
 }
 
+#helpButton{
+    position: relative;
+    left: 1550px;
+    bottom: 210px;
+    width: 110px;
+    height: 40px;
+    border-radius: 8PX;
+    border-width: 2px ;
+    background-color: rgb(241, 252, 255);
+}
+
 #EmployeeManageButton {
     position: relative;
     left: 284px;
