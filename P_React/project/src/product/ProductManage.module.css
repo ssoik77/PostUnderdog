@@ -1,9 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+
 .container {
   position: relative;
-    text-align: absolute;
-    margin-top: 20px;
-    left: 28px;
-    font-size: 20px;
-  }
-  
+  top: 20px;
+  left: 40px;
+  width: 360px;
+  text-align: left;
+  font-size: 20px;
+  background-color: antiquewhite;
+}
 
+.menuButton {
+  position: relative;
+  top: 100px;
+  left: 120px;
+}
+
+.product {
+  background-color: aqua;
+  height: 170px;
+  width: 950px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style:solid ;
+  border-color: white;
+  border-width: 2px;
+}
+
+#main {
+  position: relative;
+  left: 600px;
+  border-style: solid;
+  width: 1000px;
+  height: 800px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  overflow: scroll;       /* 스크롤 활성화 */
+  scrollbar-width: none;  /* Firefox에서 스크롤 바 숨김 */
+
+}
+
+/* 크롬, 사파리에서 스크롤 바 숨기기 */
+.container::-webkit-scrollbar {
+  display: none;
+}
