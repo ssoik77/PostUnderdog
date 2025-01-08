@@ -1,6 +1,6 @@
 package com.project.controller;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +33,7 @@ public class MypageController {
     @GetMapping("/userinfo")
     public Map<String, Object> getUserInfo(@RequestParam String m_id) {
         Map<String, Object> response = new HashMap<>();
-        log.info("wlsdlq: " + m_id);
+        log.info("요청된 회원 ID: " + m_id);
 
         try {
             MemberDto memberInfo = mypageService.getMemberInfo(m_id);
@@ -75,11 +75,20 @@ public class MypageController {
 
             EmployeeDto employee = new EmployeeDto();
             employee.setE_name((String) updateData.get("e_name"));
-            employee.setE_birth(Date.valueOf((String) updateData.get("e_birth")));
+
+            // 문자열로 전달된 생년월일 처리
+            String e_birthStr = (String) updateData.get("e_birth");
+            try {
+                employee.setE_birth(LocalDate.parse(e_birthStr)); // 문자열 -> LocalDate 변환
+            } catch (Exception e) {
+                throw new IllegalArgumentException("유효하지 않은 생년월일 형식: " + e_birthStr, e);
+            }
+
             employee.setE_carrier((String) updateData.get("e_carrier"));
             employee.setE_tel_num((String) updateData.get("e_tel_num"));
             employee.setM_key((Integer) updateData.get("m_key"));
 
+            // 서비스 호출
             mypageService.updateMemberInfo(member);
             mypageService.updateEmployeeInfo(employee);
 

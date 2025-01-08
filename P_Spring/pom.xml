@@ -230,6 +230,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.33</version>
 		</dependency>
+		
+		<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-jsr310</artifactId>
+    <version>2.15.2</version> <!-- 현재 사용 중인 Jackson 버전에 맞게 설정 -->
+</dependency>
 		<!-- ////////////////// 내가 추가 (끝) ////////////////////// -->
 
 	</dependencies>

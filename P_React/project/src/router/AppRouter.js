@@ -4,7 +4,9 @@ import Register from "../register/Register"
 import Find from "../find/Find"
 import Main from "../main/Main"
 import Mypage from "../mypage/Mypage"
+import Emp from "../employee/Employeemain"
 import App from "../App";
+import Organization from '../employee/Organization';
 
 function AppRouter() {
     return (
@@ -15,6 +17,8 @@ function AppRouter() {
           <Route path="/find" element={<Find/>} />
           <Route path="/main" element={<Main/>} />
           <Route path="/mypage" element={<Mypage/>} />
+          <Route path="/emp" element={<Emp/>} />
+          <Route path="/organization" element={<Organization/>} />
         </Routes>
       </Router>
     );

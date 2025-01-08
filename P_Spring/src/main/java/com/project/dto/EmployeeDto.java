@@ -1,6 +1,8 @@
 package com.project.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,12 +12,13 @@ import lombok.NoArgsConstructor;
 public class EmployeeDto {
     int e_num;
     String e_name;
-    Date e_birth;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate e_birth;
     String e_carrier;
     String e_tel_num;
     int m_key;
 
-    public EmployeeDto(int e_num, String e_name, Date e_birth, String e_carrier, String e_tel_num, int m_key) {
+    public EmployeeDto(int e_num, String e_name, LocalDate e_birth, String e_carrier, String e_tel_num, int m_key) {
         this.e_num = e_num;
         this.e_name = e_name;
         this.e_birth = e_birth;
