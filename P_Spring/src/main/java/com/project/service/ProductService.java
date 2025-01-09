@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.project.dto.ProductDto;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class ProductService {
 
     public void productAdd(ProductDto productDto) {
@@ -40,7 +43,9 @@ public class ProductService {
 
         // 파일 저장
         try {
-            Files.write(filePath, productDto.getProduct_image().getBytes());
+        	 productDto.getProduct_image().transferTo(filePath.toFile());
+        	 productDto.setProduct_image_url(uniqueFilename);
+        	 log.info(productDto);
         } catch (IOException e) {
             throw new RuntimeException("Failed to save file", e);
         }

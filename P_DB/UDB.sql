@@ -20,6 +20,20 @@ m_key int,
 FOREIGN KEY (m_key) REFERENCES member_info(m_key)
 );
 
+CREATE TABLE product_info(
+product_code int primary key auto_increment,
+product_image_url CHAR(100),
+product_name CHAR(50),
+product_price CHAR(50),
+product_price_unit CHAR(20),
+product_cost CHAR(50),
+product_cost_unit CHAR(20),
+product_discount CHAR(50),
+product_first_category CHAR(50),
+product_second_category CHAR(50),
+product_selling BOOLEAN
+);
+
 drop table employee_info;
 DESCRIBE employee_info;	
 
