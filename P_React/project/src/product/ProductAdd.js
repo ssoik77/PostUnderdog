@@ -1,108 +1,81 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './ProductAdd.module.css';
 import noimage from './noimage.png'
+import axios from 'axios';
 
 const ProductManage = () => {
-    const [image, setimage] = useState(noimage); // 이미지 저장 그릇
+    const [previewImage, setPreviewImage] = useState(noimage); // 이미지 저장 그릇
+    const [uploadImage, setUploadimage] = useState(noimage); // 이미지 저장 그릇
     const [name, setname] = useState(""); // 상품 이름 저장 그릇
-    const [price, setPrice] = useState(); // 가격 저장 그릇
+    const [price, setPrice] = useState(""); // 가격 저장 그릇
     const [priceUnit, setPriceUnit] = useState("개"); // 가격 단위 저장 그릇
-    const [cost, setCost] = useState(); // 원가 저장 그릇
+    const [cost, setCost] = useState(""); // 원가 저장 그릇
     const [costUnit, setCostUnit] = useState("개"); // 원가 단위 저장 그릇
-    const [discount, setDiscount] = useState(); // 할인가 저장 그릇
+    const [discount, setDiscount] = useState(""); // 할인가 저장 그릇
     const [event, setEvent] = useState("없음"); // 행사 저장 그릇
     const [firstCategory, setFirstCategory] = useState("기타"); // 대분류 저장 그릇
     const [secondCategory, setSecondCategory] = useState("기타"); // 소분류 저장 그릇
     const [selling, setSelling] = useState(false); // 판매 여부 저장 그릇
-    const [ProductDataList, setProductDataList] = useState({}); // DB로 보낼 데이터 묶음 저장 그릇
     // 상품 리스트로 가는 페이지
     const goListPage = () => {
         window.location.href = "/productmanage";
     }
     // 가격 자동 , 설정 함수
     const numberMode = (value) => {
+        if (!value) return "";
         return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     // 이미지 실시간 저장 함수
     const inputImage = (e) => {
         console.log(e.target.files[0]);
-        setimage(URL.createObjectURL(e.target.files[0]));
+       setUploadimage(e.target.files[0]);
+        setPreviewImage(URL.createObjectURL(e.target.files[0]));
     }
     // 상품 이름 실시간 저장 함수
-    const handleName = (e) => {
-        setname(e.target.value);
-    }
+    const handleName = (e) => {setname(e.target.value);}
     // 가격 실시간 저장 함수
-    const handlePrice = (e) => {
-        const number = numberMode(e.target.value);
-        setPrice(number);
-    }
+    const handlePrice = (e) => {setPrice(numberMode(e.target.value)||"");}
     // 가격 단위 실시간 저장 함수
-    const handlePriceUnit = (e) => {
-        setPriceUnit(e.target.value);
-    }
+    const handlePriceUnit = (e) => {setPriceUnit(e.target.value);}
     // 원가 실시간 저장 함수
-    const handleCost = (e) => {
-        const number = numberMode(e.target.value);
-        setCost(number);
-    }
+    const handleCost = (e) => {setCost(numberMode(e.target.value)||"");}
     // 원간 단위 실시간 저장 함수
-    const handleCoastUnit = (e) => {
-        setCostUnit(e.target.value);
-    }
+    const handleCoastUnit = (e) => {setCostUnit(e.target.value);}
     // 할인가 실시간 저장 함수
-    const handleDiscount = (e) => {
-        const number = numberMode(e.target.value);
-        setDiscount(number);
-    }
+    const handleDiscount = (e) => {setDiscount(numberMode(e.target.value)||"");}
     // 행사 실시간 저장 함수
-    const handleEvent = (e) => {
-        setEvent(e.target.value);
-    }
+    const handleEvent = (e) => {setEvent(e.target.value);}
     // 대분류 실시간 저장 함수
-    const handleFirstCategory = (e) => {
-        setFirstCategory(e.target.value);
-    }
+    const handleFirstCategory = (e) => {setFirstCategory(e.target.value);}
     // 소분류 실시간 저장 함수
-    const handleSecondCategory = (e) => {
-        setSecondCategory(e.target.value);
-    }
+    const handleSecondCategory = (e) => {setSecondCategory(e.target.value);}
     // 판매 여부 실시가 저장 함수
-    const handleSelling = (e) => {
-        setSelling(e.target.value);
-    }
-    // 그릇들 실시간 업데이트와 동시에 DB로 보낼 데이터 묶음 만들기
-    useEffect(() => {
-        setProductDataList({
-            image: image,
-            name: name,
-            price: price,
-            priceUnit: priceUnit,
-            cost: cost,
-            costUnit: costUnit,
-            discount: discount,
-            event: event,
-            firstCategory: firstCategory,
-            secondCategory: secondCategory,
-            selling: selling
-        });
-    }, [
-        image,
-        name,
-        price,
-        priceUnit,
-        cost,
-        costUnit,
-        discount,
-        event,
-        firstCategory,
-        secondCategory,
-        selling
-    ])
-    // 데이터 묶음 스프링 전달 함수
-    const sendAddProductData = () => {
-        console.log(ProductDataList);
-    }
+    const handleSelling = (e) => {setSelling(e.target.checked);}
+
+    // 데이터 묶음 서버 전송 함수
+    const sendAddProductData = async (e) => {
+        e.preventDefault(); // 폼 제출 기본 동작 방지
+        const formData = new FormData();
+        formData.append("product_image", uploadImage);
+        formData.append("product_name", name);
+        formData.append("product_price", price);
+        formData.append("product_price_unit", priceUnit);
+        formData.append("product_cost", cost);
+        formData.append("product_cost_unit", costUnit);
+        formData.append("product_discount", discount);
+        formData.append("product_event", event);
+        formData.append("product_first_category", firstCategory);
+        formData.append("product_second_category", secondCategory);
+        formData.append("product_selling", selling);
+        console.log(formData.get("product_image"));
+        
+            axios.post("http://localhost:8080/underdog/product/add", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }).then((response)=>console.log("Product added successfully:", response.data))
+            .catch((error)=>console.error("Error adding product:", error));
+    };
 
     return (
         <>
@@ -122,9 +95,9 @@ const ProductManage = () => {
             <div id={styles.main}>
                 <div id={styles.add}>
                     {/* 설정한 상품 이미지 미리 보기 */}
-                    <img id={styles.previewImage} alt="previewImage" src={image} />
+                    <img id={styles.previewImage} alt="previewImage" src={previewImage} />
                     {/* 설정한 상품 데이터 전송 폼 */}
-                    <form action={sendAddProductData}>
+                    <form onSubmit={sendAddProductData}>
                         {/* 사용자가 이미지 업로드 하는 기능 */}
                         <label id={styles.imageButtonLabel} for="inputImageButton">상품 이미지 선택</label>
                         <input id="inputImageButton" type="file" accept='image/*' onChange={inputImage} style={{ display: "none" }} />
