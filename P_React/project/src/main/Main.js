@@ -25,7 +25,7 @@ const Main = () => {
 
   // 직원 관리 페이지로 이동
 const goToEmployeeManage = () => {
-  window.location.href = "/Employeemanage"; // 페이지 이동
+  window.location.href = "/employeemanage"; // 페이지 이동
 };
 
   useEffect(()=>{
