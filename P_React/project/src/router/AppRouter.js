@@ -9,6 +9,7 @@ import EmployeeManage from "../employee/EmployeeManage";
 import HelpManage from "../help/HelpManage";
 import OrderMenu from "../product/OrderMenu";
 import Order from "../product/Order";
+import OrderEdit from "../product/OrderEdit"
 import App from "../App";
 
 function AppRouter() {
@@ -25,6 +26,7 @@ function AppRouter() {
           <Route path="/helpmanage" element={<HelpManage/>}/>
           <Route path="/ordermenu" element={<OrderMenu/>}/>
           <Route path="/order" element={<Order/>}/>
+          <Route path="/orderedit" element={<OrderEdit/>}/>
         </Routes>
       </Router>
     );

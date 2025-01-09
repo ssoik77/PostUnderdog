@@ -40,6 +40,47 @@ const OrderMenu = () => {
     }
   };
 
+  const editSelectedOrders = () => {
+    if (selectedOrders.length !== 1) { // 한 번에 하나만 수정 가능
+      alert('수정할 발주 데이터를 하나만 선택해주세요.');
+      return;
+    }
+  
+    const orderToEdit = orders.find((order) => order.id === selectedOrders[0]);
+
+    // 숫자 변환 (콤마 제거)
+    const formattedOrderToEdit = {
+      ...orderToEdit,
+      items: orderToEdit.items.map((item) => ({
+        ...item,
+        price: parseInt(item.price.replace(/,/g, ''), 10),
+        total: parseInt(item.total.replace(/,/g, ''), 10),
+      })),
+      total: parseInt(orderToEdit.total.replace(/,/g, ''), 10),
+    };
+
+    const popupFeatures = `width=${window.innerWidth},height=${window.innerHeight},top=0,left=0,resizable=yes,scrollbars=yes`;
+  
+    const popup = window.open(
+      '../orderedit', 
+      '상품 발주 수정', 
+      popupFeatures
+    );
+  
+    // 팝업에 데이터 전달
+    popup.onload = () => {
+      popup.setOrderData(formattedOrderToEdit);
+    };
+  
+    // 팝업이 닫힐 때 로컬 스토리지 데이터 새로고침
+    const interval = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(interval);
+        loadOrdersFromStorage();
+      }
+    }, 500);
+  };
+
   const openOrderPopup = () => {
     const popupFeatures = `width=${window.innerWidth},height=${window.innerHeight},top=0,left=0,resizable=yes,scrollbars=yes`;
     const popup = window.open('../order', '상품 발주', popupFeatures);
@@ -55,14 +96,16 @@ const OrderMenu = () => {
 
   return (
     <div className={styles.container}>
+      <h3>POST UNDERDOG</h3>
       <h1>발주 관리</h1>
       <button onClick={openOrderPopup} className={styles.openOrderButton}>
         상품 발주
       </button>
 
-      <h2>저장된 발주서</h2>
+      
       {orders.length > 0 ? (
         <div>
+          <h2>발주 내역</h2>
           {orders.map((order) => (
             <div key={order.id} className={styles.orderCard}>
               <div className={styles.checkboxContainer}>
@@ -76,9 +119,11 @@ const OrderMenu = () => {
               <table className={styles.orderTable}>
                 <thead>
                   <tr>
+                  <th>업체명</th>
                     <th>상품코드</th>
                     <th>상품명</th>
                     <th>수량</th>
+                    <th>단위</th>
                     <th>단가</th>
                     <th>합계</th>
                     <th>비고</th>
@@ -87,9 +132,11 @@ const OrderMenu = () => {
                 <tbody>
                   {order.items.map((item) => (
                     <tr key={item.id}>
+                      <td>{item.company}</td>
                       <td>{item.code}</td>
                       <td>{item.name}</td>
                       <td>{item.quantity}</td>
+                      <td>{item.unit}</td>
                       <td>{item.price.toLocaleString()}원</td>
                       <td>{item.total.toLocaleString()}원</td>
                       <td>{item.remark}</td>
@@ -101,7 +148,10 @@ const OrderMenu = () => {
             </div>
           ))}
           <button onClick={deleteSelectedOrders} className={styles.deleteButton}>
-            선택된 발주 삭제
+             삭제
+          </button>
+          <button onClick={editSelectedOrders} className={styles.editButton}>
+             수정
           </button>
         </div>
       ) : (

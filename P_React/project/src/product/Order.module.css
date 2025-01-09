@@ -40,39 +40,45 @@
 .table th:nth-child(1),
 .table td:nth-child(1) {
   width: 50px; /* 선택 칸 */
+
 }
 
 .table th:nth-child(2),
 .table td:nth-child(2) {
-  width: 150px; /* 상품코드 칸 */
+  width: 200px; /* 업체명 칸 */
 }
 
 .table th:nth-child(3),
 .table td:nth-child(3) {
-  width: 200px; /* 상품명 칸 */
+  width: 150px; /* 상품코드 칸 */
 }
 
 .table th:nth-child(4),
 .table td:nth-child(4) {
-  width: 100px; /* 수량 칸 */
-}
-.table th:nth-child(5),
-.table td:nth-child(5) {
-  width: 100px; /* 단위 칸 */
+  width: 200px; /* 상품명 칸 */
 }
 
+.table th:nth-child(5),
+.table td:nth-child(5) {
+  width: 100px; /* 수량 칸 */
+}
 .table th:nth-child(6),
 .table td:nth-child(6) {
-  width: 300px; /* 단가 칸 */
+  width: 100px; /* 단위 칸 */
 }
 
 .table th:nth-child(7),
 .table td:nth-child(7) {
-  width: 450px; /* 합계 크기 조정 */
+  width: 300px; /* 단가 칸 */
 }
 
 .table th:nth-child(8),
 .table td:nth-child(8) {
+  width: 450px; /* 합계 크기 조정 */
+}
+
+.table th:nth-child(9),
+.table td:nth-child(9) {
   width: 200px; /* 비고 크기 조정 */
 }
 
@@ -98,6 +104,11 @@
 
 /* 합계 칸 오른쪽 정렬 */
 .table td.total {
+  text-align: right;
+}
+
+.total {
+
   text-align: right;
 }
 

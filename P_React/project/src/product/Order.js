@@ -3,13 +3,13 @@ import styles from './Order.module.css';
 
 const Order = ({ onSaveOrder }) => {
   const [items, setItems] = useState([
-    { id: 1, code: "", name: "", quantity: 0, price: 0, total: 0, remark: "", selected: false },
+    { id: 1, company:"",code: "", name: "", quantity: 0, price: 0, total: 0, remark: "", selected: false },
   ]);
 
   const addItem = () => {
     setItems([
       ...items,
-      { id: items.length + 1, code: "", name: "", quantity: 0, price: 0, total: 0, remark: "", selected: false },
+      { id: items.length + 1,company:"", code: "", name: "", quantity: 0, price: 0, total: 0, remark: "", selected: false },
     ]);
   };
 
@@ -102,6 +102,7 @@ const Order = ({ onSaveOrder }) => {
           <thead>
             <tr>
               <th>선택</th>
+              <th>업체명</th>
               <th>상품코드</th>
               <th>상품명</th>
               <th>수량</th>
@@ -119,6 +120,14 @@ const Order = ({ onSaveOrder }) => {
                     type="checkbox"
                     checked={item.selected}
                     onChange={() => toggleSelectItem(item.id)}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={item.company}
+                    onChange={(e) => handleChange(item.id, "company", e.target.value)}
+                    placeholder="업체명"
                   />
                 </td>
                 <td>
@@ -157,7 +166,7 @@ const Order = ({ onSaveOrder }) => {
                   <input
                     type="number"
                     value={item.price}
-                    step="1000"
+                    step="10000"
                     onChange={(e) => handleChange(item.id, "price", e.target.value)}
                     placeholder="단가"
                   />
@@ -176,7 +185,7 @@ const Order = ({ onSaveOrder }) => {
           </tbody>
         </table>
 
-        <p className={styles.total}>총 합계: {calculateTotal().toLocaleString()}원</p>
+        <p className={styles.footer}>총 합계: {calculateTotal().toLocaleString()}원</p>
       </div>
 
       <div className={styles.footer}>
@@ -187,7 +196,7 @@ const Order = ({ onSaveOrder }) => {
           발주 저장
         </button>
         <button onClick={deleteSelectedItems} className={styles.deleteButton}>
-          선택 항목 삭제
+          삭제
         </button>
         <button onClick={printOrder} className={styles.printButton}>
           인쇄
