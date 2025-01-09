@@ -173,6 +173,7 @@
   margin: 10px 0;
 }
 
+/* 상단 선 스타일 */
 .mindMapNode::before {
   content: '';
   position: absolute;
@@ -182,6 +183,11 @@
   height: 15px;
   background-color: #ddd;
   transform: translateX(-50%);
+}
+
+/* 최상위 노드에서는 상단 선 숨김 */
+.mindMapNode.topNode::before {
+  display: none;
 }
 
 .mindMapChildren {
@@ -211,6 +217,13 @@
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* 기존 링크 스타일 제거 */
+.memberCardLink {
+  text-decoration: none; /* 밑줄 제거 */
+  color: inherit; /* 부모 요소의 색상 상속 */
+  display: block; /* 클릭 영역을 구성원 카드 전체로 확대 */
+}
+
 .memberName {
   font-size: 16px;
   font-weight: bold;
@@ -231,4 +244,22 @@
   right: 0;
   height: 2px;
   background-color: #ddd;
+}
+
+/* children 간의 가로 연결선 스타일 */
+.mindMapChildren {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: 20px;
+}
+
+.horizontalLine {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #ddd;
+  z-index: -1; /* 카드 위로 선이 올라오지 않도록 */
 }

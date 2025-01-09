@@ -75,14 +75,18 @@ const Emp = () => {
   const [selectedTeamName, setSelectedTeamName] = useState("임원진");
 
   // Mind Map 렌더링 함수
-  const renderMindMap = (node) => (
-    <div className={styles.mindMapNode}>
-      <div className={styles.memberCard}>
-        <div className={styles.memberName}>{node.name}</div>
-        <div className={styles.memberPosition}>{node.position}</div>
-      </div>
+  const renderMindMap = (node, isTopNode = false) => (
+    <div className={`${styles.mindMapNode} ${isTopNode ? styles.topNode : ""}`}>
+      <Link to={`/employee/${node.name}`} className={styles.memberCardLink}>
+        <div className={styles.memberCard}>
+          <div className={styles.memberName}>{node.name}</div>
+          <div className={styles.memberPosition}>{node.position}</div>
+        </div>
+      </Link>
       {node.children.length > 0 && (
         <div className={styles.mindMapChildren}>
+          {/* 가로 연결선 */}
+          <div className={styles.horizontalLine}></div>
           {node.children.map((child, index) => (
             <div key={index}>{renderMindMap(child)}</div>
           ))}
@@ -139,7 +143,7 @@ const Emp = () => {
             {/* 팀명 + 조직도 표시 */}
             <h2>{selectedTeamName} 조직도</h2>
             <div className={styles.mindMapContainer}>
-              {renderMindMap(selectedTeam)}
+              {renderMindMap(selectedTeam, true)}
             </div>
           </section>
         </div>

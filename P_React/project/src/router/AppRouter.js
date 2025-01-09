@@ -4,8 +4,8 @@ import Register from "../register/Register"
 import Find from "../find/Find"
 import Main from "../main/Main"
 import Mypage from "../mypage/Mypage"
-import Employeemain from "../employee/Employeemain";
 import Emp from "../employee/Employeemain";
+import EmployeeDetail from "../employee/EmployeeDetail";
 import App from "../App";
 
 function AppRouter() {
@@ -17,8 +17,8 @@ function AppRouter() {
           <Route path="/find" element={<Find/>} />
           <Route path="/main" element={<Main/>} />
           <Route path="/mypage" element={<Mypage/>} />
-          <Route path="/employeemain" element={<Employeemain/>} />
           <Route path="/emp" element={<Emp/>} />
+          <Route path="/employee/:name" element={<EmployeeDetail />} />
         </Routes>
       </Router>
     );
