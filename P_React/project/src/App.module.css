@@ -1,13 +1,10 @@
-
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
-#loginpop{
+#loginpop {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -23,12 +20,11 @@
 }
 
 .AppHeader {
-  text-align: center;
   display: flex;
+  flex-direction: column; /* 수직 정렬 */
   justify-content: center;
   align-items: center;
-  position: relative;
-  top: 100px;
+  margin-top: 90px; /* 헤더 상단 간격 조정 */
 }
 
 #postUnderdog {
@@ -37,50 +33,68 @@
   font-family: 'Arial', sans-serif;
 }
 
-
-#loginUi{
+#loginUi {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 200px;
+  top: 120px;
 }
 
-.button{
+.button {
   background-color: #61dafb;
 }
 
-#id,#pw{
+#id,
+#pw {
   position: relative;
   width: 200px;
   height: 40px;
   border-radius: 5px;
 }
 
-#loginButton{
+#loginButton {
   position: relative;
   width: 200px;
-  top: 100px;
+  top: 10px;
   border-radius: 5px; 
 }
 
-#findIdPwButton{
+.linkButton {
   position: relative;
-  top: 210px;
-  right: 97px;
+  top: 135px;
   border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: rgb(85, 85, 85);
+  
 }
 
-#regiButton{
-  position: relative;
-  top: 210px;
-  left: 100px;
+.linkButton:first-of-type {
+  left: 110px;
   width: 70px;
-  border-radius: 5px;
 }
 
-#loginSaveCheck{
+.linkButton:last-of-type {
+  right: 97px;
+}
+
+#loginSaveCheck {
   position: relative;
-  top:290px;
-  right: 30px;
+  top: 140px;
+  right: 27px;
+}
+#loginSaveCheck input {
+  margin-right: 9px; /* 체크박스와 텍스트 사이 간격 */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  height: 120px;
 }

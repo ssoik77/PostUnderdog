@@ -1,0 +1,136 @@
+/* 메인 컨테이너 */
+.mainBox {
+  width: 1400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 2px solid #333;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border-radius: 8px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+/* 달력 전체 컨테이너 */
+.calendar {
+  width: 1200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+/* 신청한 휴가 */
+.appliedVacations {
+  width: 1200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* 글로벌 스타일로 react-calendar 적용 */
+:global(.react-calendar) {
+  width: 500px;
+  background: white;
+  border: 1px solid #a0a096;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  line-height: 1em;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 네비게이션 버튼 스타일 */
+:global(.react-calendar__navigation button) {
+  min-width: 40px;
+  font-size: 1rem;
+  padding: 10px;
+}
+
+/* 달력 셀 스타일 */
+:global(.react-calendar__tile) {
+  height: 50px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* 오늘 날짜 스타일 */
+:global(.react-calendar__tile--now) {
+  background: #2a27fab7;
+  border-radius: 8px;
+}
+
+/* 선택된 날짜 스타일 */
+:global(.react-calendar__tile--active) {
+  border: 2px solid #007bff !important; /* 파란색 테두리 */
+  color: inherit !important; /* 텍스트 색상 유지 */
+  font-weight: bold; /* 텍스트 굵게 */
+  border-radius: 8px; /* 둥근 모서리 */
+}
+
+/* 다른 스타일 덮어쓰지 않도록 보장 */
+:global(.react-calendar__tile--rangeStart),
+:global(.react-calendar__tile--rangeEnd),
+:global(.react-calendar__tile--rangeBothEnds),
+:global(.react-calendar__tile--range) {
+  background: transparent !important; /* 배경 제거 */
+  color: inherit !important; /* 텍스트 색상 유지 */
+}
+
+.horizontalForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px; /* 필드 간 간격 조정 */
+}
+
+.formRow label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+textarea {
+  resize: none;
+  width: 200px;
+  height: 50px;
+}
+
+.formButtons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row; /* 버튼과 양식을 같은 줄에 배치 */
+  align-items: center;
+  gap: 20px; /* 버튼과 양식 간격 */
+}
+
+.popup {
+  display: block; /* 블록 요소로 유지 */
+  margin: 0; /* 버튼과 일치하도록 위치 조정 */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

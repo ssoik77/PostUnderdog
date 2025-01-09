@@ -1,96 +1,233 @@
-/* Emp.module.css */
 .emp {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    min-height: 100vh;
-    position: relative; /* 레이아웃 안정성 확보 */
-    background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between; /* 로고, 중앙 버튼 그룹, 우측 버튼 배치 */
-    align-items: center;
-    padding: 10px 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* 반투명 헤더 배경 */
-    border-bottom: 1px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: relative; /* 내부 요소 정렬 기준 */
-  }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logoImage {
-    height: 40px;
-    margin-right: 10px;
-  }
-  
-  .logo h1 {
-    font-size: 1.5rem;
-    color: #555;
-    margin: 0;
-  }
-  
-  .nav {
-    position: absolute; /* 중앙 고정 */
-    left: 50%; /* 화면 중앙으로 이동 */
-    transform: translateX(-50%); /* 정확히 중앙 정렬 */
-    display: flex;
-    gap: 20px; /* 버튼 간격 */
-  }
-  
-  .nav a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: #333; /* 텍스트 색상 */
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  .nav a:focus,
-  .nav a:active {
-    outline: none; /* 클릭 시 외곽선 제거 */
-  }
-  
-  .info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .info a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: #007bff; /* 파란색 텍스트 */
-    font-size: 1rem;
-  }
-  
-  .info a:focus,
-  .info a:active {
-    outline: none; /* 클릭 시 외곽선 제거 */
-  }
-  
-  .mainBox {
-    width: 1600px; /* 고정된 너비 */
-    margin: 50px auto;
-    padding: 20px;
-    border: 2px solid #333; /* 더 진한 테두리 색상으로 변경 */
-    background-color: rgba(255, 255, 255, 0.95); /* 더 밝은 배경 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 음영을 더 강조 */
-    text-align: center;
-    border-radius: 8px;
-    height: 700px; /* 고정된 높이 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative; /* 레이아웃 안정성 */
-  }
-  
-  .mainBox p {
-    font-size: 1.2rem;
-    color: #555;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  min-height: 100vh;
+  position: relative; /* 레이아웃 안정성 확보 */
+  background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
+}
 
-  
+.header {
+  display: flex;
+  justify-content: space-between; /* 로고, 중앙 버튼 그룹, 우측 버튼 배치 */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* 반투명 헤더 배경 */
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative; /* 내부 요소 정렬 기준 */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  color: #555;
+  margin: 0;
+}
+
+.nav {
+  position: absolute; /* 중앙 고정 */
+  left: 50%; /* 화면 중앙으로 이동 */
+  transform: translateX(-50%); /* 정확히 중앙 정렬 */
+  display: flex;
+  gap: 20px; /* 버튼 간격 */
+}
+
+.nav a {
+  text-decoration: none; /* 밑줄 제거 */
+  color: #333; /* 텍스트 색상 */
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.nav a:focus,
+.nav a:active {
+  outline: none; /* 클릭 시 외곽선 제거 */
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.info a {
+  text-decoration: none; /* 밑줄 제거 */
+  color: #007bff; /* 파란색 텍스트 */
+  font-size: 1rem;
+}
+
+.info a:focus,
+.info a:active {
+  outline: none; /* 클릭 시 외곽선 제거 */
+}
+
+/* ///////////////////////////////////////// */
+/* 팀 선택 */
+.mainContainer {
+  display: flex;
+  justify-content: flex-start;    /* 왼쪽 정렬 */
+  align-items: stretch;     /* 두 박스의 높이를 동일하게 맞춤 */
+  margin: 50px auto;
+  width: 1700px;
+}
+
+.teamBox {
+  width: 300px;
+  height: 700px;    /* mainBox와 동일한 높이 */
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 2px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-right: 20px;     /* mainBox와 간격 유지 */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.teamBox h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.teamButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #333;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.teamButton:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* ///////////////////////////////////////// */
+
+.mainBox {
+  width: 1300px;      /* 너비 조정 (1700px - teamBox의 너비 300px - 간격 20px) */
+  padding: 20px;
+  border: 2px solid #333; /* 더 진한 테두리 색상으로 변경 */
+  background-color: rgba(255, 255, 255, 0.95); /* 더 밝은 배경 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 음영을 더 강조 */
+  text-align: center;
+  border-radius: 8px;
+  height: 700px; /* 고정된 높이 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* 레이아웃 안정성 */
+}
+
+.mainBox p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* /////////////////////////////////////// */
+
+/* 조직도 섹션 */
+.organizationChart {
+padding: 20px;
+text-align: center;
+}
+
+.organizationChart h2 {
+margin-bottom: 20px;
+font-size: 24px;
+color: #333;
+}
+
+/* 마인드맵 컨테이너 */
+.mindMapContainer {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+position: relative;
+}
+
+/* 마인드맵 노드 */
+.mindMapNode {
+display: flex;
+flex-direction: column;
+align-items: center;
+position: relative;
+margin: 10px 0;
+}
+
+.mindMapNode::before {
+content: '';
+position: absolute;
+top: -15px;
+left: 50%;
+width: 2px;
+height: 15px;
+background-color: #ddd;
+transform: translateX(-50%);
+}
+
+.mindMapChildren {
+display: flex;
+justify-content: center;
+margin-top: 10px;
+flex-wrap: wrap;
+}
+
+.mindMapChildren > div {
+margin: 0 10px;
+}
+
+/* 조직원 카드 스타일 */
+.memberCard {
+background-color: #f9f9f9;
+border: 1px solid #ddd;
+border-radius: 10px;
+padding: 15px;
+text-align: center;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.memberCard:hover {
+transform: translateY(-5px);
+box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.memberName {
+font-size: 16px;
+font-weight: bold;
+margin-bottom: 5px;
+}
+
+.memberPosition {
+font-size: 14px;
+color: #666;
+}
+
+/* 연결선 스타일 */
+.mindMapChildren::before {
+content: '';
+position: absolute;
+top: -10px;
+left: 0;
+right: 0;
+height: 2px;
+background-color: #ddd;
+}

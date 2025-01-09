@@ -7,18 +7,17 @@ import { useEffect, useState } from 'react';
 
 const App = () => {
   const autoLoginId = localStorage.getItem("m_id");
-  useEffect(()=>{
-    if(autoLoginId != null){
-      window.location.href="/main";
+  useEffect(() => {
+    if (autoLoginId != null) {
+      window.location.href = "/main";
     }
-  },[autoLoginId])
-
+  }, [autoLoginId]);
 
   const [isSaveLogin, setIsSaveLogin] = useState(false);
 
   // 회원가입 팝업 열기
   const openPopup = () => {
-    const popupFeatures = "width=800,height=700,top=100,left=550,resizable=no,scrollbars=no"; // 팝업창 크기와 옵션 설정
+    const popupFeatures = "width=800,height=700,top=100,left=550,resizable=no,scrollbars=no";
     window.open(
       "../Register", // 새창에서 띄울 URL 또는 경로
       "회원가입", // 창 이름
@@ -45,19 +44,19 @@ const App = () => {
 
     try {
       const response = await axios.post("http://localhost:8080/underdog/login", { m_id: id, m_pw: pw });
-      if (response.data.pw_check) {//로그인 성공 여부
+      if (response.data.pw_check) { // 로그인 성공 여부
         const resultData = {
-          a_authority: (response.data.a_authority),
-          p_authority: (response.data.p_authority),
-          e_authority: (response.data.e_authority)
+          a_authority: response.data.a_authority,
+          p_authority: response.data.p_authority,
+          e_authority: response.data.e_authority
         };
-        //로그인 저장 체크 여부
-        if(isSaveLogin){
-          localStorage.setItem("m_id", id); // m_id를 localStorage에 저장, 서버에 데이터저장됨
-          localStorage.setItem("authority", JSON.stringify(resultData)); // m_id를 localStorage에 저장, 서버에 데이터저장됨
-        }else{
-          sessionStorage.setItem("m_id", id); // m_id를 sessionStorage에 저장, 브라우저를 유지하는 동안만 데이터 유지 됨
-          sessionStorage.setItem("authority", JSON.stringify(resultData)); // m_id를 sessionStorage에 저장, 브라우저 유지 동안만.
+        // 로그인 저장 체크 여부
+        if (isSaveLogin) {
+          localStorage.setItem("m_id", id);
+          localStorage.setItem("authority", JSON.stringify(resultData));
+        } else {
+          sessionStorage.setItem("m_id", id);
+          sessionStorage.setItem("authority", JSON.stringify(resultData));
         }
         alert("로그인 성공!");
         window.location.href = "/main"; // 이동할 페이지 경로
@@ -74,31 +73,56 @@ const App = () => {
       <div className={styles.App}>
         {/* 타이틀 */}
         <header className={styles.AppHeader}>
+          <img src="/logo.png" alt="Logo" className={styles.logoImage} />
           <h1 id={styles.postUnderdog}>Post Underdog</h1>
         </header>
 
         {/* 로그인 폼 */}
-        {/* id:영문 대소문자+숫자 pw:영문 대소문자+숫자+특수문자(1개이상)+8~16자리 */}
         <form id={styles.loginUi} onSubmit={handleLogin}>
           <table>
             <tbody>
-              {/* 아이디 입력 */}
-              <tr><td><input id={styles.id} placeholder="아이디" size="10" pattern="^[a-zA-Z0-9]+$" required /></td></tr>
-              {/* 비밀번호 입력 */}
-              <tr><td><input id={styles.pw} placeholder="비밀번호" size="10" type="password" required /></td></tr>
-              {/* 로그인 버튼 */}
-              <tr><td><button id={styles.loginButton} className={styles.button} type="submit">로그인</button></td></tr>
+              <tr>
+                <td><input id={styles.id} placeholder="아이디" size="10" pattern="^[a-zA-Z0-9]+$" required /></td>
+              </tr>
+              <tr>
+                <td><input id={styles.pw} placeholder="비밀번호" size="10" type="password" required /></td>
+              </tr>
+              <tr>
+                <td><button id={styles.loginButton} className={styles.button} type="submit">로그인</button></td>
+              </tr>
             </tbody>
           </table>
         </form>
 
-        {/* 회원가입 팝업 */}
-        <button id={styles.regiButton} onClick={openPopup} className={styles.button}>회원가입</button>
-        
-        {/* ID/PW 찾기 팝업 */}
-        <button id={styles.findIdPwButton} onClick={openFindPopup} className={styles.button}>ID/PW 찾기</button>
-        {/*자동 로그인 체크박스*/}
-      <div id={styles.loginSaveCheck}><input type='checkbox' onChange= {({ target: {checked}})=> setIsSaveLogin(checked)} />로그인 정보 저장</div>
+        {/* 회원가입 링크 */}
+        <a
+          href="/register"
+          onClick={(e) => {
+            e.preventDefault();
+            openPopup();
+          }}
+          className={styles.linkButton}
+        >
+          회원가입
+        </a>
+
+        {/* ID/PW 찾기 링크 */}
+        <a
+          href="/find"
+          onClick={(e) => {
+            e.preventDefault();
+            openFindPopup();
+          }}
+          className={styles.linkButton}
+        >
+          ID/PW 찾기
+        </a>
+
+        {/* 자동 로그인 체크박스 */}
+        <div id={styles.loginSaveCheck}>
+          <input type="checkbox" onChange={({ target: { checked } }) => setIsSaveLogin(checked)} />
+          로그인 정보 저장
+        </div>
       </div>
     </div>
   );

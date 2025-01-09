@@ -19,7 +19,7 @@ const Main = () => {
           <h1>Post Underdog</h1>
         </div>
         <nav className={styles.nav}>
-          <Link to="/emp">직원 관리</Link>
+          <Link to="/employeemain">직원 관리</Link>
           <Link to="/prod">상품 관리</Link>
         </nav>
         <div className={styles.info}>

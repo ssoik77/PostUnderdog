@@ -26,6 +26,17 @@ DESCRIBE employee_info;
 drop table member_info;
 DESCRIBE member_info;
 
+CREATE TABLE vacation (
+    vacation_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- 휴가 ID
+    m_id CHAR(20) NOT NULL,                       -- 직원 ID (member_info의 m_id)
+    e_name CHAR(10) NOT NULL,                     -- 직원 이름 (employee_info의 e_name)
+    start_date DATE NOT NULL,                     -- 휴가 시작 날짜
+    end_date DATE NOT NULL,                       -- 휴가 종료 날짜
+    reason TEXT,                                  -- 휴가 사유
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 생성 시간
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- 수정 시간
+);
+
 -- 아래로 코드 테스트용 칼럼데이터 추가코드 (없어도 됨)
 INSERT INTO member_info (a_authority, p_authority, e_authority, m_id, m_pw)
 VALUES (0, 0, 0, 'ehvl5361', 'foejtiq44@@');
