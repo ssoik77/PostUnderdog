@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,7 +33,16 @@ public class ProductController {
 	void productAdd(@ModelAttribute ProductDto productDto) {
 		System.out.println("image: "+ productDto.getProduct_image());
 		log.info(productDto);
-//		product_service.productAdd(productDto);
+		String imagePath;
+		try {
+			imagePath = product_service.productImageAdd(productDto.getProduct_image());
+			productDto.setProduct_image_url(imagePath);
+		}catch(IOException e) {
+		System.out.println(e);
+		}
+		
+		log.info("이미지 업로드 후: "+productDto);
+		product_service.productAdd(productDto);
 	}
 	
 	
