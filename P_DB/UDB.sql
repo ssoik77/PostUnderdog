@@ -26,6 +26,9 @@ DESCRIBE employee_info;
 drop table member_info;
 DESCRIBE member_info;
 
+drop table vacation;
+DESCRIBE vacation;
+
 CREATE TABLE vacation (
     vacation_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- 휴가 ID
     m_id CHAR(20) NOT NULL,                       -- 직원 ID (member_info의 m_id)

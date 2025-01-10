@@ -18,19 +18,15 @@ public class VacationService {
         return vacationMapper.getAllVacations();
     }
 
-    public VacationDto getVacationById(Long vacationId) {
-        return vacationMapper.getVacationById(vacationId);
-    }
-
     public void createVacation(VacationDto vacation) {
         vacationMapper.insertVacation(vacation);
     }
 
     public void updateVacation(VacationDto vacation) {
-        vacationMapper.updateVacation(vacation);
+        vacationMapper.updateVacation(vacation); // Mapper 호출
     }
 
     public void deleteVacation(Long vacationId) {
-        vacationMapper.deleteVacation(vacationId);
+        vacationMapper.deleteVacation(vacationId); // Mapper 호출
     }
 }

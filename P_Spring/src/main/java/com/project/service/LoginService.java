@@ -13,20 +13,19 @@ import com.project.mapper.LoginMapper;
 public class LoginService {
 
     private LoginMapper loginMapper;
-    
+
     @Autowired
     public LoginService(LoginMapper loginMapper) {
-		this.loginMapper = loginMapper;
-	}
+        this.loginMapper = loginMapper;
+    }
 
-	public Map<String, Boolean> validateUser(String m_id, String m_pw) {
+    public Map<String, Object> validateUser(String m_id, String m_pw) {
         MemberDto storedPassword = loginMapper.getPasswordById(m_id);
-        Map<String, Boolean> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("pw_check", storedPassword.getM_pw().equals(m_pw));
         result.put("a_authority", storedPassword.getA_authority());
         result.put("e_authority", storedPassword.getE_authority());
         result.put("p_authority", storedPassword.getP_authority());
-        
         return result;
     }
 }

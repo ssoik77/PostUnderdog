@@ -3,41 +3,26 @@
 
 <mapper namespace="com.project.mapper.VacationMapper">
 
-    <!-- 모든 휴가 조회 -->
     <select id="getAllVacations" resultType="com.project.dto.VacationDto">
         SELECT vacation_id, m_id, e_name, start_date, end_date, reason, created_at, updated_at
         FROM vacation
     </select>
 
-    <!-- 특정 휴가 조회 -->
-    <select id="getVacationById" parameterType="long" resultType="com.project.dto.VacationDto">
-        SELECT vacation_id, m_id, e_name, start_date, end_date, reason, created_at, updated_at
-        FROM vacation
-        WHERE vacation_id = #{vacationId}
-    </select>
-
-    <!-- 휴가 신청 -->
     <insert id="insertVacation" parameterType="com.project.dto.VacationDto">
         INSERT INTO vacation (m_id, e_name, start_date, end_date, reason, created_at, updated_at)
         VALUES (#{employeeId}, #{employeeName}, #{startDate}, #{endDate}, #{reason}, NOW(), NOW())
     </insert>
-
-    <!-- 휴가 수정 -->
+    
     <update id="updateVacation" parameterType="com.project.dto.VacationDto">
-        UPDATE vacation
-        SET m_id = #{employeeId},
-            e_name = #{employeeName},
-            start_date = #{startDate},
-            end_date = #{endDate},
-            reason = #{reason},
-            updated_at = NOW()
-        WHERE vacation_id = #{vacationId}
-    </update>
-
-    <!-- 휴가 삭제 -->
+    UPDATE vacation
+    SET start_date = #{startDate},
+        end_date = #{endDate},
+        reason = #{reason},
+        updated_at = NOW()
+    WHERE vacation_id = #{vacationId}
+	</update>
+    
     <delete id="deleteVacation" parameterType="long">
-        DELETE FROM vacation
-        WHERE vacation_id = #{vacationId}
-    </delete>
-
+    DELETE FROM vacation WHERE vacation_id = #{vacationId}
+	</delete>
 </mapper>
