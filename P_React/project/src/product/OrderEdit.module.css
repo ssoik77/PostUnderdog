@@ -41,44 +41,49 @@
     color: #fff;
   }
   
-  
   .table th:nth-child(1),
-  .table td:nth-child(1) {
-    width: 200px; /* 업체명 칸 */
-  }
+.table td:nth-child(1) {
+  width: 50px; /* 선택 칸 */
+
+}
   
   .table th:nth-child(2),
   .table td:nth-child(2) {
-    width: 150px; /* 상품코드 칸 */
+    width: 200px; /* 업체명 칸 */
   }
   
   .table th:nth-child(3),
   .table td:nth-child(3) {
-    width: 200px; /* 상품명 칸 */
+    width: 150px; /* 상품코드 칸 */
   }
   
   .table th:nth-child(4),
   .table td:nth-child(4) {
-    width: 100px; /* 수량 칸 */
+    width: 200px; /* 상품명 칸 */
   }
   
   .table th:nth-child(5),
   .table td:nth-child(5) {
-    width: 100px; /* 단위 칸 */
+    width: 100px; /* 수량 칸 */
   }
   
   .table th:nth-child(6),
   .table td:nth-child(6) {
-    width: 300px; /* 단가 칸 */
+    width: 100px; /* 단위 칸 */
   }
   
   .table th:nth-child(7),
   .table td:nth-child(7) {
-    width: 450px; /* 합계 크기 조정 */
+    width: 300px; /* 단가 칸 */
   }
   
   .table th:nth-child(8),
   .table td:nth-child(8) {
+    width: 450px; /* 합계 크기 조정 */
+  }
+  
+  .table th:nth-child(9),
+  .table td:nth-child(9) {
     width: 200px; /* 비고 크기 조정 */
   }
   
@@ -110,8 +115,10 @@
     font-size: 16px;
     font-weight: bold;
   }
-  
+
+  .addButton,
   .saveButton,
+  .deleteButton,
   .cancelButton {
     display: inline-block;
     padding: 8px 16px;
@@ -123,16 +130,19 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  
-  .saveButton:hover
+
+  .addButton:hover,
+  .saveButton:hover,
+  .deleteButton:hover
   {
     background-color: #0056b3;
   }
-  
+
+  .deleteButton,
   .cancelButton {
     background-color: #dc3545;
   }
-  
+  .deleteButton:hover, 
   .cancelButton:hover {
     background-color: #a71d2a;
   }

@@ -1,59 +1,93 @@
 import React, { useState } from 'react';
 import styles from './Order.module.css';
 
+// 발주서 컴포넌트
 const Order = ({ onSaveOrder }) => {
+  // 발주 항목 상태 관리
   const [items, setItems] = useState([
-    { id: 1, company:"",code: "", name: "", quantity: 0, price: 0, total: 0, remark: "", selected: false },
+    {
+      id: 1,
+      company: "",
+      code: "",
+      name: "",
+      quantity: 0,
+      price: 0,
+      total: 0,
+      remark: "",
+      selected: false,
+    },
   ]);
 
+  // 항목 추가
   const addItem = () => {
     setItems([
       ...items,
-      { id: items.length + 1,company:"", code: "", name: "", quantity: 0, price: 0, total: 0, remark: "", selected: false },
+      {
+        id: items.length + 1,
+        company: "",
+        code: "",
+        name: "",
+        quantity: 0,
+        price: 0,
+        total: 0,
+        remark: "",
+        selected: false,
+      },
     ]);
   };
 
+  // 선택된 항목 삭제
   const deleteSelectedItems = () => {
-    setItems(items.filter((item) => !item.selected)); // 선택된 항목만 삭제
+    setItems(items.filter((item) => !item.selected));
   };
 
+  // 입력 필드 값 변경 처리
   const handleChange = (id, field, value) => {
     const updatedItems = items.map((item) =>
       item.id === id
         ? {
             ...item,
-            [field]: field === "quantity" || field === "price" ? parseInt(value || 0) : value,
+            [field]:
+              field === "quantity" || field === "price"
+                ? parseInt(value || 0) // 수량과 가격은 숫자로 변환
+                : field === "unit"
+                ? value.toUpperCase() // 단위는 대문자로 변환
+                : value,
             total:
               field === "quantity" || field === "price"
-                ? (field === "quantity" ? value : item.quantity) * (field === "price" ? value : item.price)
-                : item.total,
+                ? (field === "quantity" ? value : item.quantity) *
+                  (field === "price" ? value : item.price)
+                : item.total, // 합계 계산
           }
         : item
     );
     setItems(updatedItems);
   };
 
+  // 총 합계 계산
   const calculateTotal = () => {
     return items.reduce((sum, item) => sum + item.total, 0);
   };
 
+  // 발주 데이터 저장
   const saveOrder = () => {
     const newOrder = {
-      id: Date.now(), // 고유 ID
+      id: Date.now(), // 고유 ID 생성
       date: new Date().toLocaleDateString(),
       items,
       total: calculateTotal(),
     };
 
-    // 로컬 스토리지에 기존 데이터와 함께 추가 저장
-    const existingOrders = JSON.parse(localStorage.getItem('savedOrders')) || [];
+    // 로컬 스토리지에 기존 데이터와 함께 저장
+    const existingOrders = JSON.parse(localStorage.getItem("savedOrders")) || [];
     existingOrders.push(newOrder);
-    localStorage.setItem('savedOrders', JSON.stringify(existingOrders));
+    localStorage.setItem("savedOrders", JSON.stringify(existingOrders));
 
-    alert('발주 데이터가 저장되었습니다!');
+    alert("발주 데이터가 저장되었습니다!");
     window.close();
   };
 
+  // 항목 선택 토글
   const toggleSelectItem = (id) => {
     setItems(
       items.map((item) =>
@@ -62,10 +96,10 @@ const Order = ({ onSaveOrder }) => {
     );
   };
 
+  // 발주서 출력
   const printOrder = () => {
-    // 프린트 영역 지정
-    const printContent = document.getElementById('printableArea');
-    const printWindow = window.open('', '_blank', 'width=800,height=600');
+    const printContent = document.getElementById("printableArea");
+    const printWindow = window.open("", "_blank", "width=800,height=600");
     printWindow.document.write(`
       <html>
         <head>
@@ -91,6 +125,7 @@ const Order = ({ onSaveOrder }) => {
     <div className={styles.container}>
       <h1>상품 발주</h1>
 
+      {/* 발주서 출력 영역 */}
       <div className={styles.purchaseOrder} id="printableArea">
         <div className={styles.header}>
           <h2>발주서</h2>
@@ -98,6 +133,7 @@ const Order = ({ onSaveOrder }) => {
           <p>발주일: {new Date().toLocaleDateString()}</p>
         </div>
 
+        {/* 발주 항목 테이블 */}
         <table className={styles.table}>
           <thead>
             <tr>
@@ -126,7 +162,9 @@ const Order = ({ onSaveOrder }) => {
                   <input
                     type="text"
                     value={item.company}
-                    onChange={(e) => handleChange(item.id, "company", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(item.id, "company", e.target.value)
+                    }
                     placeholder="업체명"
                   />
                 </td>
@@ -134,7 +172,9 @@ const Order = ({ onSaveOrder }) => {
                   <input
                     type="text"
                     value={item.code}
-                    onChange={(e) => handleChange(item.id, "code", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(item.id, "code", e.target.value)
+                    }
                     placeholder="상품코드"
                   />
                 </td>
@@ -142,7 +182,9 @@ const Order = ({ onSaveOrder }) => {
                   <input
                     type="text"
                     value={item.name}
-                    onChange={(e) => handleChange(item.id, "name", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(item.id, "name", e.target.value)
+                    }
                     placeholder="상품명"
                   />
                 </td>
@@ -150,33 +192,41 @@ const Order = ({ onSaveOrder }) => {
                   <input
                     type="number"
                     value={item.quantity}
-                    onChange={(e) => handleChange(item.id, "quantity", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(item.id, "quantity", e.target.value)
+                    }
                     placeholder="수량"
                   />
                 </td>
                 <td>
-                  <input
-                    type="text"
-                    value={item.unit}
-                    onChange={(e) => handleChange(item.id, "unit", e.target.value)}
-                    placeholder="단위"
-                  />
-                </td>
+  <input
+    type="text"
+    value={item.unit}
+    onChange={(e) => handleChange(item.id, "unit", e.target.value)}
+    placeholder="단위"
+  />
+</td>
                 <td>
                   <input
                     type="number"
                     value={item.price}
                     step="10000"
-                    onChange={(e) => handleChange(item.id, "price", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(item.id, "price", e.target.value)
+                    }
                     placeholder="단가"
                   />
                 </td>
-                <td className={styles.total}>{item.total.toLocaleString()}원</td>
+                <td className={styles.total}>
+                  {item.total.toLocaleString()}원
+                </td>
                 <td>
                   <input
                     type="text"
                     value={item.remark}
-                    onChange={(e) => handleChange(item.id, "remark", e.target.value)}
+                    onChange={(e) =>
+                      handleChange(item.id, "remark", e.target.value)
+                    }
                     placeholder="비고"
                   />
                 </td>
@@ -185,9 +235,12 @@ const Order = ({ onSaveOrder }) => {
           </tbody>
         </table>
 
-        <p className={styles.footer}>총 합계: {calculateTotal().toLocaleString()}원</p>
+        <p className={styles.footer}>
+          총 합계: {calculateTotal().toLocaleString()}원
+        </p>
       </div>
 
+      {/* 하단 버튼 */}
       <div className={styles.footer}>
         <button onClick={addItem} className={styles.addButton}>
           항목 추가
