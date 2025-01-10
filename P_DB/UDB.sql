@@ -26,13 +26,21 @@ DESCRIBE employee_info;
 drop table member_info;
 DESCRIBE member_info;
 
--- 아래로 코드 테스트용 칼럼데이터 추가코드 (없어도 됨)
+-- 아래로 코드 테스트용 칼럼데이터 추가코드
 INSERT INTO member_info (a_authority, p_authority, e_authority, m_id, m_pw)
 VALUES (0, 0, 0, 'ehvl5361', 'foejtiq44@@');
 
 INSERT INTO employee_info (e_name, e_birth, e_carrier, e_tel_num, m_key)
 VALUES ('엄홍길', '1990-01-01', 'SKT', '01012345678', LAST_INSERT_ID());
 
+INSERT INTO employee_info (e_name, e_birth, e_carrier, e_tel_num)
+VALUES ('박찬호', '1990-02-02', 'SKT', '01012345678');
+
+INSERT INTO employee_info (e_name, e_birth, e_carrier, e_tel_num)
+VALUES ('박지성', '1990-03-03', 'SKT', '01012345678');
+
+INSERT INTO employee_info (e_name, e_birth, e_carrier, e_tel_num)
+VALUES ('김연아', '1990-04-04', 'SKT', '01012345678');
 
 SELECT m_pw FROM member_info WHERE m_id = 'ehvl5361';
 
