@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+
+.container {
+    position: relative;
+    top: 20px;
+    left: 40px;
+    width: 360px;
+    text-align: left;
+    font-size: 20px;
+    background-color: antiquewhite;
+}
+
+.menuButton {
+    position: relative;
+    top: 100px;
+    left: 120px;
+}
+
+.addSettingBox {
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+}
+
+#main {
+    position: relative;
+    left: 600px;
+    border-style: solid;
+    width: 1000px;
+    height: 800px;
+    display: flex;
+    justify-content: center;
+}
+
+#previewImage {
+    position: relative;
+    top: 50px;
+    right: 300px;
+    width: 200px;
+    height: 200px;
+    border-style: solid;
+    background-color: rgb(219, 219, 219);
+}
+
+#imageButtonLabel {
+    position: relative;
+    top: 50px;
+    right: 300px;
+    width: 140px;
+    cursor: pointer;
+    border-style: solid;
+    text-align: center;
+}
+
+#setSellingBox,
+#setSellingLabel {
+    cursor: pointer;
+}
