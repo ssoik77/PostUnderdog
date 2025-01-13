@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,7 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.project.dto.ProductDto;
+import com.project.mapper.ProductMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -25,8 +27,15 @@ public class ProductService {
     private static final String BUCKET_NAME = "project-product-image";
     private static final String PROJECT_ID = "reflected-song-447400-n5";
 
-    public void productAdd(ProductDto productDto) {
-        // 제품 추가 로직 구현 예정
+    ProductMapper product_mapper;
+    
+    @Autowired
+    public ProductService(ProductMapper product_mapper) {
+		this.product_mapper = product_mapper;
+	}
+
+	public void productAdd(ProductDto productDto) {
+		product_mapper.ProductAdd(productDto);
     }
 
     public String productImageAdd(MultipartFile image) throws IOException {

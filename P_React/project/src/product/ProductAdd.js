@@ -54,7 +54,6 @@ const ProductManage = () => {
 
     // 데이터 묶음 서버 전송 함수
     const sendAddProductData = async (e) => {
-        e.preventDefault(); // 폼 제출 기본 동작 방지
         const formData = new FormData();
         formData.append("product_image", uploadImage);
         formData.append("product_name", name);

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.ProductMapper">
+	<insert id="ProductAdd"
+		parameterType="com.project.dto.ProductDto">
+		insert into product_info(
+		product_image_url,
+		product_name,
+		product_price,
+		product_price_unit,
+		product_cost,
+		product_cost_unit,
+		product_discount,
+		product_first_category,
+		product_second_category,
+		product_selling
+		)values(
+		#{product_image_url},
+		#{product_name},
+		#{product_price},
+		#{product_price_unit},
+		#{product_cost},
+		#{product_cost_unit},
+		#{product_discount},
+		#{product_first_category},
+		#{product_second_category},
+		#{product_selling}
+		)
+	</insert>
+
+</mapper>
