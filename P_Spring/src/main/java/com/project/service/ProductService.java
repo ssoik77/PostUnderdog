@@ -2,8 +2,11 @@ package com.project.service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +38,10 @@ public class ProductService {
 	}
 
 	public void productAdd(ProductDto productDto) {
-		product_mapper.ProductAdd(productDto);
+		product_mapper.productAdd(productDto);
     }
-
+	
+	//이미지 저장 후 url반환 함수
     public String productImageAdd(MultipartFile image) throws IOException {
     	 // 서비스 계정 JSON 파일 경로
         String credentialsPath = "C:/kang/workspace/TeamProject/reflected-song-447400-n5-f030613aa1f0.json";
@@ -57,7 +61,7 @@ public class ProductService {
         if (!allowedExtensions.contains(fileExtension.toLowerCase())) {
             throw new IllegalArgumentException("지원되지 않는 파일 형식: " + fileExtension);
         }
-
+        
         String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
 
         // 업로드할 객체의 식별자 생성
@@ -78,5 +82,9 @@ public class ProductService {
             log.error("파일 업로드 중 오류 발생: " + e.getMessage(), e);
             throw new IOException("Google Cloud Storage 업로드 실패", e);
         }
+    }
+    
+    public ArrayList<ProductDto> productList () {
+    	return product_mapper.productList(); 
     }
 }

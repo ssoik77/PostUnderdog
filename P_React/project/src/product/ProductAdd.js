@@ -4,8 +4,8 @@ import noimage from './noimage.png'
 import axios from 'axios';
 
 const ProductManage = () => {
-    const [previewImage, setPreviewImage] = useState(noimage); // 이미지 저장 그릇
-    const [uploadImage, setUploadimage] = useState(noimage); // 이미지 저장 그릇
+    const [previewImage, setPreviewImage] = useState(noimage); // 미리보기 이미지 저장 그릇
+    const [uploadImage, setUploadimage] = useState(null); // 이미지 저장 그릇
     const [name, setname] = useState(""); // 상품 이름 저장 그릇
     const [price, setPrice] = useState(""); // 가격 저장 그릇
     const [priceUnit, setPriceUnit] = useState("개"); // 가격 단위 저장 그릇
@@ -25,10 +25,11 @@ const ProductManage = () => {
         if (!value) return "";
         return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+
     // 이미지 실시간 저장 함수
     const inputImage = (e) => {
-        console.log(e.target.files[0]);
-       setUploadimage(e.target.files[0]);
+        setUploadimage(e.target.files[0]);
         setPreviewImage(URL.createObjectURL(e.target.files[0]));
     }
     // 상품 이름 실시간 저장 함수
@@ -99,7 +100,7 @@ const ProductManage = () => {
                     <form onSubmit={sendAddProductData}>
                         {/* 사용자가 이미지 업로드 하는 기능 */}
                         <label id={styles.imageButtonLabel} for="inputImageButton">상품 이미지 선택</label>
-                        <input id="inputImageButton" type="file" accept='image/*' onChange={inputImage} style={{ display: "none" }} />
+                        <input id="inputImageButton" type="file" accept='image/*' onChange={inputImage} style={{ visibility: 'hidden' }} required/>
                         {/* 상품이름 설정 */}
                         <input className={styles.addSettingBox} id={styles.setNameBox} onChange={handleName} value={name} placeholder='상품 이름' />
                         {/* 판매가 설정 */}

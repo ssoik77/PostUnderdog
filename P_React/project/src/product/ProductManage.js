@@ -1,81 +1,68 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ProductManage.module.css';
+import ShowProduct from './ShowProduct.js'
+import axios from 'axios';
 
 const ProductManage = () => {
-  const [produtList, setProductList] = useState([]);
+  const [productList, setProductList] = useState([]);
+
 
   const goAddPage = () => {
     window.location.href = "/productAdd";
   }
 
+  useEffect(()=>{
+    pullProduct();
+  },[])
+
   const pullProduct = () => {
-    axios.post("http://localhost:8080/underdog/product/add")
+    axios.post("http://localhost:8080/underdog/product/list"  ,{
+      headers: {
+        "Content-Type": "application/json", // JSON 형식으로 변경
+        Accept: "application/json",
+      },
+    })
       .then((response) => {
-        console.log("Product Pull successfully");
-        setProductList([...produtList, response.data])
+        console.log(response.data);
+        const updatedList = response.data.map(item => ({
+          ...item,
+          checked: false, // 각 항목에 `checked` 속성 추가
+      }));
+        setProductList(updatedList);
       })
       .catch((error) => console.error("Error Pull product:", error));
   };
-
-
-
-  const showProductList = ({ list }) => {
-    const code = list.product_code;
-    const imageURL = list.product_image_url;
-    const name = list.product_name;
-    const price = list.product_price;
-    const priceUnit = list.product_price_unit;
-    const cost = list.product_cost;
-    const costUnit = list.product_cost_unit;
-    const discount = list.product_discount;
-    const firstCategory = list.product_first_category;
-    const secondCategory = list.product_second_category;
-    const selling = list.product_selling;
-    return (
-      <td>
-        <form>
-          상품이미지
-          <img src={imageURL} />
-          상품코드
-          <div>{code}</div>
-          상품이름
-          <input value={name} />
-          상품가격
-          <input value={price} />
-              가격 단위
-              <select value={priceUnit}>
-              <option value='개'>개</option>
-              <option value='1kg'>1kg</option>
-              <option value='100g'>100g</option>
-          </select>
-          상품원가
-          <input value={cost} />
-          원가 단위
-              <select value={costUnit}>
-              <option value='개'>개</option>
-              <option value='1kg'>1kg</option>
-              <option value='100g'>100g</option>
-          </select>
-          상품할인
-          <input value={discount} />
-          상품대분류
-          <select value={firstCategory}>
-            <option value='기타'>기타</option>
-            <option value='식품'>식품</option>
-            <option value='의류'>의류</option>
-            <option value='pc기기'>pc기기</option>
-          </select>
-          상품소분류
-          <select value={secondCategory}>
-            <option value='기타'>기타</option>
-          </select>
-      판매여부
-      <input type='checkbox'/>
-        </form>
-      </td>
-    )
+  
+  const sendEditData = (e) => {
+    e.preventDefault()
+    console.log('수정함수 작동!');
+    axios.post("http://localhost:8080/underdog/product/edit", productList, {
+      headers: {
+        "Content-Type": "application/json", // JSON 형식으로 변경
+        Accept: "application/json",
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+      const updatedList = response.data.map(item => ({
+        ...item,
+        checked: false, // 각 항목에 `checked` 속성 추가
+      }));
+      setProductList(updatedList);
+    })
+    .catch((error) => console.error("Error Pull product:", error));
   }
-  //폼태그와 라벨 사용
+
+  const editData = (data) => {
+    setProductList((prev) => {
+      // 수정된 데이터를 적용
+      const updatedData = prev.map(item =>
+        item.product_code === data.product_code ? data : item
+      );
+      return updatedData;
+    });
+  };
+  
   return (
     <>
       <div className={styles.container}>
@@ -86,11 +73,19 @@ const ProductManage = () => {
         <button id={styles.listButton} className={styles.menuButton} style={{ backgroundColor: 'blue' }}>상품 리스트</button>
         <button id={styles.addButton} className={styles.menuButton} onClick={goAddPage}>상품 추가</button>
       </div>
+            <label id={styles.editButtonLabel} htmlFor='editButton'>수정완료</label>
       <div id={styles.main}>
         <div id={styles.list}>
+            <form onSubmit={sendEditData}>
           <table>
-            {produtList.map((list, index) => (<showProductList key={index} list={list} />))}
+          {productList.map((list, index) => (
+            <tr key={index}>
+                  <ShowProduct list={list} editData={editData} />
+                </tr>
+              ))}
           </table>
+              <input id='editButton' type='submit' value={'수정완료'} style={{visibility: 'hidden'}}/>
+              </form>
         </div>
       </div>
     </>

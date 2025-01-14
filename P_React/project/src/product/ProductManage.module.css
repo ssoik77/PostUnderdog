@@ -26,17 +26,6 @@ body {
   left: 120px;
 }
 
-.product {
-  background-color: aqua;
-  height: 170px;
-  width: 950px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-style:solid ;
-  border-color: white;
-  border-width: 2px;
-}
 
 #main {
   position: relative;
@@ -56,3 +45,13 @@ body {
 .container::-webkit-scrollbar {
   display: none;
 }
+
+#editButtonLabel{
+  background-color: cadetblue;
+  position: relative;
+  width: 100px;
+  left: 600px;
+}
+
+
+

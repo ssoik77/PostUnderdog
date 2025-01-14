@@ -22,7 +22,7 @@ FOREIGN KEY (m_key) REFERENCES member_info(m_key)
 
 CREATE TABLE product_info(
 product_code int primary key auto_increment,
-product_image_url CHAR(100),
+product_image_url CHAR(200),
 product_name CHAR(50),
 product_price CHAR(50),
 product_price_unit CHAR(20),

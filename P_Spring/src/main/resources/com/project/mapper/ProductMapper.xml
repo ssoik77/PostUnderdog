@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.ProductMapper">
-	<insert id="ProductAdd"
+	<insert id="productAdd"
 		parameterType="com.project.dto.ProductDto">
 		insert into product_info(
 		product_image_url,
@@ -29,5 +29,7 @@
 		#{product_selling}
 		)
 	</insert>
-
+	<select id="productList" resultType="com.project.dto.ProductDto">
+	select * from product_info;
+	</select>
 </mapper>
