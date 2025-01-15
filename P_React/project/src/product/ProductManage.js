@@ -6,7 +6,6 @@ import axios from 'axios';
 const ProductManage = () => {
   const [productList, setProductList] = useState([]);
 
-
   const goAddPage = () => {
     window.location.href = "/productAdd";
   }
@@ -19,7 +18,6 @@ const ProductManage = () => {
     axios.post("http://localhost:8080/underdog/product/list"  ,{
       headers: {
         "Content-Type": "application/json", // JSON 형식으로 변경
-        Accept: "application/json",
       },
     })
       .then((response) => {
@@ -39,7 +37,6 @@ const ProductManage = () => {
     axios.post("http://localhost:8080/underdog/product/edit", productList, {
       headers: {
         "Content-Type": "application/json", // JSON 형식으로 변경
-        Accept: "application/json",
       },
     })
     .then((response) => {

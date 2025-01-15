@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,7 @@ public class ProductController {
 	@PostMapping("/edit")
 	@Transactional
 	@ResponseBody
-	void productEdit(@RequestBody ProductDto productDto) {
+	void productEdit(@RequestBody List<ProductDto> productDto) {
 		log.info(productDto);
 //		String json = "";
 //		try {

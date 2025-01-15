@@ -40,6 +40,8 @@ DESCRIBE employee_info;
 drop table member_info;
 DESCRIBE member_info;
 
+drop table product_info;
+
 -- 아래로 코드 테스트용 칼럼데이터 추가코드 (없어도 됨)
 INSERT INTO member_info (a_authority, p_authority, e_authority, m_id, m_pw)
 VALUES (0, 0, 0, 'ehvl5361', 'foejtiq44@@');
@@ -53,9 +55,11 @@ SELECT m_pw FROM member_info WHERE m_id = 'ehvl5361';
 
 SELECT * FROM member_info;
 SELECT * FROM employee_info;
+SELECT * FROM product_info;
 
 SELECT m_id, m_key FROM member_info WHERE m_id = 'ehvl5361';
 
 SELECT e_birth FROM employee_info WHERE e_num = 1;
 
 
+SELECT product_code FROM product_info;
