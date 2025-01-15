@@ -19,13 +19,16 @@
 		destroy-method="close">
 		<!-- log4jdbc.log4j2 때문에 기존 코드 주석친거 -->
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/post_underdog" />
+		<property name="url" value="jdbc:mysql://localhost:3306/post_underdog?allowMultiQueries=true"/>
 		<!-- 시작 끝-->
 		<!-- log4jdbc.log4j2 때문에 수정 삽입한거 -->
 
 		<property name="username" value="root" />
 		<property name="password" value="root" />
+
 	</bean>
+
+
 
 	<!-- 내가 추가한거 -->
 	<!-- SQLSessionFactiory -->

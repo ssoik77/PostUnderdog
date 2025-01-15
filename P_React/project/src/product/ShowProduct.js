@@ -1,39 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from './ShowProduct.module.css';
 
 const ShowProduct = ({ list, editData }) => {
   const [localData, setLocalData] = useState({
-    code: list.product_code,
-    imageURL: list.product_image_url,
-    name: list.product_name,
-    price: list.product_price,
-    priceUnit: list.product_price_unit,
-    cost: list.product_cost,
-    costUnit: list.product_cost_unit,
-    discount: list.product_discount,
-    firstCategory: list.product_first_category,
-    secondCategory: list.product_second_category,
-    selling: list.product_selling,
-    checked: list.editChecked
+    product_code: list.product_code,
+    product_image_url: list.product_image_url,
+    product_name: list.product_name,
+    product_price: list.product_price,
+    product_price_unit: list.product_price_unit,
+    product_cost: list.product_cost,
+    product_cost_unit: list.product_cost_unit,
+    product_discount: list.product_discount,
+    product_first_category: list.product_first_category,
+    product_second_category: list.product_second_category,
+    product_selling: list.product_selling,
+    checked: list.checked
   });
-
-  // `list` 변경 시 `localData` 초기화
-  useEffect(() => {
-    setLocalData({
-      code: list.product_code,
-      imageURL: list.product_image_url,
-      name: list.product_name,
-      price: list.product_price,
-      priceUnit: list.product_price_unit,
-      cost: list.product_cost,
-      costUnit: list.product_cost_unit,
-      discount: list.product_discount,
-      firstCategory: list.product_first_category,
-      secondCategory: list.product_second_category,
-      selling: list.product_selling,
-      checked: list.editChecked
-    });
-  }, [list]);
 
   // 가격 자동 ',' 설정 함수
   const numberMode = (value) => {
@@ -70,32 +52,32 @@ const ShowProduct = ({ list, editData }) => {
     <td>
       <div className={styles.product}>
         <input id={styles.checked} type="checkbox" name="checked" checked={localData.checked} onChange={handleChecked} />
-        <img id={styles.productImage} src={localData.imageURL} alt="상품 이미지" />
-        <div id={styles.productCode}>{localData.code}</div>
-        <input className={styles.editInput} id={styles.productName} name="name" value={localData.name} onChange={handleData} />
-        <input className={styles.editInput} id={styles.productPrice} name="price" value={localData.price} onChange={handleNumberData} />
-        <select className={styles.editInput} id={styles.productPriceUnit} name="priceUnit" value={localData.priceUnit} onChange={handleData}>
+        <img id={styles.productImage} src={localData.product_image_url} alt="상품 이미지" />
+        <div id={styles.productCode}>{localData.product_code}</div>
+        <input className={styles.editInput} id={styles.productName} name="product_name" value={localData.product_name} onChange={handleData} />
+        <input className={styles.editInput} id={styles.productPrice} name="product_price" value={localData.product_price} onChange={handleNumberData} />
+        <select className={styles.editInput} id={styles.productPriceUnit} name="product_price_unit" value={localData.product_price_unit} onChange={handleData}>
           <option value="개">개</option>
           <option value="1kg">1kg</option>
           <option value="100g">100g</option>
         </select>
-        <input className={styles.editInput} id={styles.productDiscount} name="discount" value={localData.discount} onChange={handleNumberData} />
-        <input className={styles.editInput} id={styles.productCost} name="cost" value={localData.cost} onChange={handleNumberData} />
-        <select className={styles.editInput} id={styles.productCostUnit} name="costUnit" value={localData.costUnit} onChange={handleData}>
+        <input className={styles.editInput} id={styles.productDiscount} name="product_discount" value={localData.product_discount} onChange={handleNumberData} />
+        <input className={styles.editInput} id={styles.productCost} name="product_cost" value={localData.product_cost} onChange={handleNumberData} />
+        <select className={styles.editInput} id={styles.productCostUnit} name="product_cost_unit" value={localData.product_cost_unit} onChange={handleData}>
           <option value="개">개</option>
           <option value="1kg">1kg</option>
           <option value="100g">100g</option>
         </select>
-        <select className={styles.editInput} id={styles.productFirstCategory} name="firstCategory" value={localData.firstCategory} onChange={handleData}>
+        <select className={styles.editInput} id={styles.productFirstCategory} name="product_first_category" value={localData.product_first_category} onChange={handleData}>
           <option value="기타">기타</option>
           <option value="식품">식품</option>
           <option value="의류">의류</option>  
           <option value="pc기기">pc기기</option>
         </select>
-        <select className={styles.editInput} id={styles.productSecondCategory} name="secondCategory" value={localData.secondCategory} onChange={handleData}>
+        <select className={styles.editInput} id={styles.productSecondCategory} name="product_second_category" value={localData.product_second_category} onChange={handleData}>
           <option value="기타">기타</option>
         </select>
-        <input id={styles.productSelling} type="checkbox" name="selling" checked={localData.selling} onChange={handleChecked} />
+        <input id={styles.productSelling} type="checkbox" name="product_selling" checked={localData.product_selling} onChange={handleChecked} />
       </div>
     </td>
   );

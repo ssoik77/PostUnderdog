@@ -22,7 +22,6 @@ body {
 
 .menuButton {
   position: relative;
-  top: 100px;
   left: 120px;
 }
 
@@ -46,12 +45,34 @@ body {
   display: none;
 }
 
-#editButtonLabel{
-  background-color: cadetblue;
-  position: relative;
-  width: 100px;
-  left: 600px;
+#goMainButton{
+position: relative;
+left: 1600px;
+bottom: 60px;
 }
 
+#deleteButton{
+  position: relative;
+  bottom: 20px;
+  left: 700px;
+}
 
+#editButton{
+  position: relative;
+  bottom: 20px;
+  left: 550px;
+}
 
+#listButton{
+  position: relative;
+  
+}
+
+#addButton{
+  position: relative;
+
+}
+
+#menu{
+  background-color: antiquewhite;
+}

@@ -67,17 +67,22 @@ public class ProductController {
 
 	@PostMapping("/edit")
 	@Transactional
-	@ResponseBody
 	void productEdit(@RequestBody List<ProductDto> productDto) {
-		log.info(productDto);
-//		String json = "";
-//		try {
-//			ObjectMapper objectMapper = new ObjectMapper();
-//			json = objectMapper.writeValueAsString(product_service.productList());
-//		} catch (JsonProcessingException e) {
-//			e.printStackTrace();
-//		}
-//		return json;
+		product_service.productEdit(productDto);
+	}
+	
+	@PostMapping("/delete")
+	@Transactional
+	void productDelete(@RequestBody List<ProductDto> productDto) {
+	    try {
+	        product_service.productDelete(productDto);
+	    } catch (RuntimeException e) {
+	        // 롤백을 위해 RuntimeException을 던지거나 로그를 남기고 다시 던짐
+	        e.printStackTrace();  // 예외 로그 출력
+	        throw e;  // 트랜잭션 롤백을 위해 다시 던져야 함
+	    }
 	}
 
+	
+	
 }

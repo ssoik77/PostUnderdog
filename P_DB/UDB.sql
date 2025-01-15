@@ -62,4 +62,4 @@ SELECT m_id, m_key FROM member_info WHERE m_id = 'ehvl5361';
 SELECT e_birth FROM employee_info WHERE e_num = 1;
 
 
-SELECT product_code FROM product_info;
+SELECT * FROM product_info ;

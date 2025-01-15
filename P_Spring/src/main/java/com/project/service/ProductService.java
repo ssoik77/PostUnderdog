@@ -1,19 +1,16 @@
 package com.project.service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -43,12 +40,9 @@ public class ProductService {
 	
 	//이미지 저장 후 url반환 함수
     public String productImageAdd(MultipartFile image) throws IOException {
-    	 // 서비스 계정 JSON 파일 경로
-        String credentialsPath = "C:/kang/workspace/TeamProject/reflected-song-447400-n5-f030613aa1f0.json";
     	
         // Google Cloud Storage 클라이언트 초기화
         Storage storage = StorageOptions.newBuilder()
-        	.setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(credentialsPath)))
             .setProjectId(PROJECT_ID)
             .build()
             .getService();
@@ -87,4 +81,39 @@ public class ProductService {
     public ArrayList<ProductDto> productList () {
     	return product_mapper.productList(); 
     }
+    
+    public void productEdit (List<ProductDto> productDto) {
+    	product_mapper.productEdit(productDto);
+    }
+    
+    public void productDelete(List<ProductDto> productDto) {
+    	log.info(productDto);
+        // Google Cloud Storage 클라이언트 초기화
+        Storage storage = StorageOptions.newBuilder()
+                .setProjectId(PROJECT_ID).build().getService();
+
+        for (ProductDto imgUrl : productDto) {
+            String url = imgUrl.getProduct_image_url();
+            // URL에서 이미지 이름 추출 (이 부분은 URL 형식에 따라 더 안전하게 처리해야 할 수 있음)
+            String imgName = url.substring(url.lastIndexOf("/") + 1);
+            
+            // Google Cloud Storage에서 객체 가져오기
+            Blob blob = storage.get(BUCKET_NAME, imgName);
+            
+            // Blob이 null인지 확인 후 삭제
+            if (blob != null) {
+                BlobId idWithGeneration = blob.getBlobId();
+                // 이미지 삭제
+                storage.delete(idWithGeneration);
+                System.out.println("Deleted image: " + imgName);
+            } else {
+                System.out.println("Image not found: " + imgName);
+            }
+        }
+
+        // 데이터베이스에서 제품 삭제
+        product_mapper.productDelete(productDto);
+    }
+
+    
 }
