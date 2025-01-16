@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ProductAdd.module.css';
 import noimage from './noimage.png'
 import axios from 'axios';
 
 const ProductManage = () => {
+    const locationLogin = localStorage.getItem("m_id");
+    const sessionLogin = sessionStorage.getItem("m_id");
+
     const [previewImage, setPreviewImage] = useState(noimage); // 미리보기 이미지 저장 그릇
     const [uploadImage, setUploadimage] = useState(null); // 이미지 저장 그릇
     const [name, setname] = useState(""); // 상품 이름 저장 그릇
@@ -16,10 +19,29 @@ const ProductManage = () => {
     const [firstCategory, setFirstCategory] = useState("기타"); // 대분류 저장 그릇
     const [secondCategory, setSecondCategory] = useState("기타"); // 소분류 저장 그릇
     const [selling, setSelling] = useState(false); // 판매 여부 저장 그릇
+
+// 로그인 아이디 로컬,세션 스토리지에서 삭제되면 로그인 페이지로 이동  
+useEffect(()=>{
+    if(!locationLogin && !sessionLogin){
+      window.location.href="../";
+    }
+  },[locationLogin, sessionLogin])
+
     // 상품 리스트로 가는 페이지
     const goListPage = () => {
         window.location.href = "/productmanage";
     }
+
+     // 내 정보 팝업 열기 함수
+ const openPopup = () => {
+    const popupFeatures = "width=500,height=350,top=100,left=100,resizable=no,scrollbars=yes";
+    window.open("../Mypage", "내 정보", popupFeatures);
+  };
+// 메인 페이지 이동 함수
+  const goMainPage = () => {
+    window.location.href = "/main";
+  }
+
     // 가격 자동 , 설정 함수
     const numberMode = (value) => {
         if (!value) return "";
@@ -77,6 +99,8 @@ const ProductManage = () => {
             .catch((error)=>console.error("Error adding product:", error));
     };
 
+
+
     return (
         <>
             {/* 페이지 로고 */}
@@ -84,7 +108,12 @@ const ProductManage = () => {
                 <h3>POST UNDERDOG</h3>
                 <h1>상품 관리 페이지</h1>
             </div>
-
+            {/* 메인 페이지 이동 버튼 */}
+ <button id={styles.goMainButton} onClick={goMainPage}>메인 페이지</button>
+  {/* 내 정보 팝업 버튼 */}
+       <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
+         내 정보
+       </button>
             {/* 상품 페이지 이동 버튼 */}
             <div id={styles.menu}>
                 <button id={styles.listButton} className={styles.menuButton} onClick={goListPage}>상품 리스트</button>

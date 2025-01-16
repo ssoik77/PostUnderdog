@@ -4,7 +4,17 @@ import ShowProduct from './ShowProduct.js'
 import axios from 'axios';
 
 const ProductManage = () => {
+  const locationLogin = localStorage.getItem("m_id");
+  const sessionLogin = sessionStorage.getItem("m_id");
+
   const [productList, setProductList] = useState([]);
+
+  // 로그인 아이디 로컬,세션 스토리지에서 삭제되면 로그인 페이지로 이동  
+  useEffect(()=>{
+      if(!locationLogin && !sessionLogin){
+        window.location.href="../";
+      }
+    },[locationLogin, sessionLogin])
 
   const goAddPage = () => {
     window.location.href = "/productAdd";
@@ -12,6 +22,12 @@ const ProductManage = () => {
   const goMainPage = () => {
     window.location.href = "/main";
   }
+
+      // 내 정보 팝업 열기 함수
+ const openPopup = () => {
+  const popupFeatures = "width=500,height=350,top=100,left=100,resizable=no,scrollbars=yes";
+  window.open("../Mypage", "내 정보", popupFeatures);
+};
 
   useEffect(() => {
     pullProduct();
@@ -97,6 +113,10 @@ const ProductManage = () => {
         <h1>상품 관리 페이지</h1>
       </div>
       <button id={styles.goMainButton} onClick={goMainPage}>메인 페이지</button>
+      {/* 내 정보 팝업 버튼 */}
+      <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
+      내 정보
+      </button>
       <div id={styles.menu}>
         <button id={styles.listButton} className={styles.menuButton} style={{ backgroundColor: 'blue' }}>상품 리스트</button>
         <button id={styles.addButton} className={styles.menuButton} onClick={goAddPage}>상품 추가</button>

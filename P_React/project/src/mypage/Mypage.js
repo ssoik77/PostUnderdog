@@ -57,6 +57,7 @@ const Mypage = () => {
       .catch(() => setError("서버 오류가 발생했습니다."));
   }, [localM_id, sessionM_id]);
 
+  // 로그아웃 로직
   const logout = () => {
     // 스토리지에 데이터가 있을 경우 삭제
     if (window.opener) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from './Find.module.css'; // CSS 모듈 파일
 import axios from 'axios';
 
@@ -41,7 +41,7 @@ const Find = () => {
             setMessage("입력한 정보로 ID를 찾을 수 없습니다.");
         }
     };
-    
+    // pw 찾기 데이터 전송
     const sendFindPwData = async (e) => {
         e.preventDefault();
         const findData = {
@@ -67,11 +67,12 @@ const Find = () => {
             setMessage("입력한 정보로 PW를 찾을 수 없습니다.");
         }
     };
-
+    // 비밀번호 찾기 누르면 아이디 찾기 폼 숨김
    const findIdFormDisable = () => {
     setIsIdFormOpen({display: 'none'});
     setIsPwFormOpen({display: 'block'});
 }
+// 아이디 찾시 누르면 비밀번호 찾기 폼 숨김
 const findPwFormDisable = () => {
     setIsPwFormOpen({display: 'none'});
     setIsIdFormOpen({display: 'block'});

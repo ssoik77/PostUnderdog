@@ -4,21 +4,9 @@
     top: 7px;
 }
 
-
 #infoButton{
     position: relative;
     left: 1780px;
-    bottom: 210px;
-    width: 110px;
-    height: 40px;
-    border-radius: 8PX;
-    border-width: 2px ;
-    background-color: rgb(241, 252, 255);
-}
-
-#helpButton{
-    position: relative;
-    left: 1550px;
     bottom: 210px;
     width: 110px;
     height: 40px;
