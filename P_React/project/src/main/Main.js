@@ -12,12 +12,6 @@ const Main = () => {
     window.open("../Mypage", "내 정보", popupFeatures);
   };
   
-
-  // 문의사항 페이지로 이동
-  const goToHelpManage = () => {
-    window.location.href = "/helpmanage"; // 페이지 이동
-  };
-
   // 상품 관리 페이지로 이동
   const goToProductManage = () => {
     window.location.href = "/productmanage"; // 페이지 이동
@@ -28,18 +22,13 @@ const goToEmployeeManage = () => {
   window.location.href = "/Employeemanage"; // 페이지 이동
 };
 
-  useEffect(()=>{
+// 로그인 아이디 로컬,세션 스토리지에서 삭제되면 로그인 페이지로 이동  
+useEffect(()=>{
     if(!locationLogin && !sessionLogin){
       window.location.href="../";
     }
   },[locationLogin, sessionLogin])
   
-
-  useEffect(()=>{
-    if(!locationLogin && !sessionLogin){
-      window.location.href="../";
-    }
-  },[locationLogin, sessionLogin])
 
   return (
     <div>
@@ -49,11 +38,6 @@ const goToEmployeeManage = () => {
       {/* 내 정보 팝업 버튼 */}
       <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
         내 정보
-      </button>
-
-      {/* 문의사항 페이지 이동 버튼 */}
-      <button id={styles.helpButton} onClick={goToHelpManage} className={styles.button}>
-        문의사항
       </button>
 
       {/* 직원 관리 페이지 이동 버튼 */}

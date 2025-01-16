@@ -20,11 +20,27 @@ m_key int,
 FOREIGN KEY (m_key) REFERENCES member_info(m_key)
 );
 
+CREATE TABLE product_info(
+product_code int primary key auto_increment,
+product_image_url CHAR(200),
+product_name CHAR(50),
+product_price CHAR(50),
+product_price_unit CHAR(20),
+product_cost CHAR(50),
+product_cost_unit CHAR(20),
+product_discount CHAR(50),
+product_first_category CHAR(50),
+product_second_category CHAR(50),
+product_selling BOOLEAN
+);
+
 drop table employee_info;
 DESCRIBE employee_info;	
 
 drop table member_info;
 DESCRIBE member_info;
+
+drop table product_info;
 
 -- 아래로 코드 테스트용 칼럼데이터 추가코드 (없어도 됨)
 INSERT INTO member_info (a_authority, p_authority, e_authority, m_id, m_pw)
@@ -39,9 +55,11 @@ SELECT m_pw FROM member_info WHERE m_id = 'ehvl5361';
 
 SELECT * FROM member_info;
 SELECT * FROM employee_info;
+SELECT * FROM product_info;
 
 SELECT m_id, m_key FROM member_info WHERE m_id = 'ehvl5361';
 
 SELECT e_birth FROM employee_info WHERE e_num = 1;
 
 
+SELECT * FROM product_info ;
