@@ -25,6 +25,16 @@
     margin: 0;
 }
 
+  #info {
+    display: flex;
+    align-items: center;
+  }
+  
+  #infoButton{
+    border-style: none;
+    background-color: none;
+  }
+
 
 
 #mainBox{

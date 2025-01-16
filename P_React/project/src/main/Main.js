@@ -29,7 +29,6 @@ useEffect(()=>{
       window.location.href="../";
     }
   },[locationLogin, sessionLogin])
-  
 
   return (
     <div id={styles.mainBox}>
@@ -38,12 +37,11 @@ useEffect(()=>{
         <img id={styles.logo} src={logo} alt='로고'/>
         <h1 id={styles.brandName}>POST UNDERDOG</h1>
         </div>
+        <div></div>
+        <div id={styles.info}>
+          <button id={styles.infoButton} onClick={openPopup}>내 정보</button>
+          </div>
       </header>
-
-      {/* 내 정보 팝업 버튼 */}
-      <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
-        내 정보
-      </button>
 
     <div id={styles.mainContent}>
       {/* 직원 관리 페이지 이동 버튼 */}
