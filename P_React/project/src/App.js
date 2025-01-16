@@ -2,6 +2,7 @@ import styles from './App.module.css';
 import './register/Register.js';
 import './find/Find.js';
 import './main/Main.js';
+import logo from './logo.png'
 import axios from 'axios'; // 서버 통신을 위해 axios 추가
 import { useEffect, useState } from 'react';
 
@@ -76,12 +77,15 @@ const App = () => {
   };
 
   return (
-    <div id={styles.loginpop}>
-      <div className={styles.App}>
+    <>
         {/* 타이틀 */}
-        <header className={styles.AppHeader}>
-          <h1 id={styles.postUnderdog}>Post Underdog</h1>
+        <header id={styles.loginHeader}>
+          <img id={styles.logo} src={logo} alt='로고'/>
+          <h1 id={styles.brandName}>Post Underdog</h1>
         </header>
+
+    <div id={styles.loginBox}>
+      <div id={styles.login}>
 
         {/* 로그인 폼 */}
         {/* id:영문 대소문자+숫자 pw:영문 대소문자+숫자+특수문자(1개이상)+8~16자리 */}
@@ -98,15 +102,23 @@ const App = () => {
           </table>
         </form>
 
+    <div id={styles.anotherTool}>
+      <div id={styles.regiFindBox}>
         {/* 회원가입 팝업 */}
-        <button id={styles.regiButton} onClick={openPopup} className={styles.button}>회원가입</button>
-        
+        <button id={styles.regiButton} onClick={openPopup} className={styles.button}>회원가입</button> 
+        | 
         {/* ID/PW 찾기 팝업 */}
         <button id={styles.findIdPwButton} onClick={openFindPopup} className={styles.button}>ID/PW 찾기</button>
+      </div>
         {/*자동 로그인 체크박스*/}
-      <div id={styles.loginSaveCheck}><input type='checkbox' onChange= {({ target: {checked}})=> setIsSaveLogin(checked)} />로그인 정보 저장</div>
+        <div id={styles.loginSaveCheck}>
+      <label id={styles.loginSaveCheckLabel}><input id={styles.checkbox}type='checkbox' onChange= {({ target: {checked}})=> setIsSaveLogin(checked)} /> 로그인 정보 저장</label>
+        </div>
+    </div>
+     
       </div>
     </div>
+    </>
   );
 };
 

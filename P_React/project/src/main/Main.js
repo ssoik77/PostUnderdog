@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './Main.module.css';
+import logo from '../logo.png'
 import '../mypage/Mypage.js';
 
 const Main = () => {
@@ -31,24 +32,29 @@ useEffect(()=>{
   
 
   return (
-    <div>
-      <header className={styles.header}>
-        <h1>POST UNDERDOG</h1>
+    <div id={styles.mainBox}>
+      <header id={styles.mainHeader}>
+        <div id={styles.brand}>
+        <img id={styles.logo} src={logo} alt='로고'/>
+        <h1 id={styles.brandName}>POST UNDERDOG</h1>
+        </div>
       </header>
+
       {/* 내 정보 팝업 버튼 */}
       <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
         내 정보
       </button>
 
+    <div id={styles.mainContent}>
       {/* 직원 관리 페이지 이동 버튼 */}
       <button id={styles.EmployeeManageButton} onClick={goToEmployeeManage} className={styles.button}>
         직원 관리 페이지
       </button>
-
       {/* 상품 관리 페이지 이동 버튼 */}
       <button id={styles.productManageButton} onClick={goToProductManage} className={styles.button}>
         상품 관리 페이지
       </button>
+    </div>
 
     </div>
   );

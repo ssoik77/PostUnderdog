@@ -1,13 +1,40 @@
-.header{
-    position: absolute;
-    left: 20px;
-    top: 7px;
+#mainHeader{
+    display: flex;
+    justify-content: space-between; /* 로고, 중앙 버튼 그룹, 우측 버튼 배치 */
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* 반투명 헤더 배경 */
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative; /* 내부 요소 정렬 기준 */
+}
+
+#brand{
+    display: flex;
+    align-items: center;
+}
+
+#logo{
+    height: 40px;
+    margin-right: 10px;
+}
+
+#brandName{
+    font-size: 1.5rem;
+    color: #555;
+    margin: 0;
+}
+
+
+
+#mainBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #infoButton{
     position: relative;
-    left: 1780px;
-    bottom: 210px;
     width: 110px;
     height: 40px;
     border-radius: 8PX;
@@ -15,16 +42,15 @@
     background-color: rgb(241, 252, 255);
 }
 
+#mainContent{
+    display: flex;
+}
 #EmployeeManageButton {
     position: relative;
-    left: 284px;
-    top: 170px;
 }
 
 #productManageButton {
     position: relative;
-    left: 668px;
-    top: 170px;
 }
 
 #productManageButton,
