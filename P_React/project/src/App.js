@@ -77,7 +77,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <div id={styles.loginPage}>
         {/* 타이틀 */}
         <header id={styles.loginHeader}>
           <img id={styles.logo} src={logo} alt='로고'/>
@@ -118,7 +118,7 @@ const App = () => {
      
       </div>
     </div>
-    </>
+    </div>
   );
 };
 

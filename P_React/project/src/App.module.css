@@ -1,15 +1,17 @@
 
 
 /* body css */
-body{
+#loginPage{
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  color: #333333;
+  color: #333;
   min-height: 100vh;
   position: relative; /* 레이아웃 안정성 확보 */
-  background-color: #fffdf9; /* 배경색 설정 (기본 흰색에 가까운 베이지 색) */
-  justify-items: center;
+  background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #loginHeader{
@@ -18,7 +20,7 @@ body{
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
-  background-color:  #fffdf9;
+  background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
   position: relative; /* 내부 요소 정렬 기준 */
 }
 
@@ -81,7 +83,7 @@ width: 300px;
 height: 60px;
 font-family: Arial, sans-serif;
 font-size: 1.2rem;
-background-color: #c8dcf4;
+background-color: #b8c9df;
 border-radius: 8px;
 cursor: pointer;
 
