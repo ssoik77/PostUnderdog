@@ -12,7 +12,7 @@ import com.project.mapper.LoginMapper;
 @Service
 public class LoginService {
 
-    private LoginMapper loginMapper;
+    private final LoginMapper loginMapper;
 
     @Autowired
     public LoginService(LoginMapper loginMapper) {
@@ -27,5 +27,9 @@ public class LoginService {
         result.put("e_authority", storedPassword.getE_authority());
         result.put("p_authority", storedPassword.getP_authority());
         return result;
+    }
+
+    public String getUserNameById(String m_id) {
+        return loginMapper.getUserNameById(m_id);
     }
 }

@@ -9,18 +9,18 @@ import com.project.dto.VacationDto;
 
 @Mapper
 public interface VacationMapper {
-    // 모든 휴가 조회
-    List<VacationDto> getAllVacations();
+    // 특정 사용자의 휴가 신청 목록 조회
+    List<VacationDto> selectVacationsByMemberId(@Param("mId") String mId);
 
-    // 특정 휴가 조회
+    // 새로운 휴가 신청 추가
+    void insertVacation(VacationDto vacationDto);
+
+    // 휴가 신청 ID로 조회
     VacationDto getVacationById(@Param("vacationId") Long vacationId);
 
-    // 휴가 신청
-    void insertVacation(VacationDto vacation);
+    // 휴가 신청 삭제
+    void deleteVacationById(@Param("vacationId") Long vacationId);
 
-    // 휴가 수정
-    void updateVacation(VacationDto vacation);
-
-    // 휴가 삭제
-    void deleteVacation(@Param("vacationId") Long vacationId);
+    // 휴가 신청 수정
+    void updateVacation(VacationDto vacationDto);
 }

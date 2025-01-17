@@ -35,9 +35,19 @@ public class LoginController {
 
         Map<String, Object> response = loginService.validateUser(memberDto.getM_id(), memberDto.getM_pw());
         if ((Boolean) response.get("pw_check")) {
-            session.setAttribute("userId", memberDto.getM_id());
-            session.setAttribute("userName", "김성태");
+            // 사용자 이름 조회 (employeeDto에서 가져옴)
+            String userName = loginService.getUserNameById(memberDto.getM_id());
+            
+            // 세션에 사용자 정보 저장
+            session.setAttribute("userId", memberDto.getM_id()); // 사용자 ID
+            session.setAttribute("userName", userName);         // 사용자 이름
+
             response.put("message", "로그인 성공");
+            response.put("userName", userName);
+
+            log.info("세션에 저장된 userId: " + session.getAttribute("userId"));
+            log.info("세션에 저장된 userName: " + session.getAttribute("userName"));
+
             return ResponseEntity.ok(response);
         } else {
             response.put("message", "아이디 또는 비밀번호가 틀렸습니다.");

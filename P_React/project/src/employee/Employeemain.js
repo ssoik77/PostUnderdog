@@ -1,87 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./Employeemain.module.css";
 
 const Employeemain = () => {
-  // 팀별 조직도 데이터
-  const teams = {
-    임원진: {
-      name: "최고경영자",
-      position: "CEO",
-      children: [
-        { name: "이사 A", position: "운영 이사", children: [] },
-        { name: "이사 B", position: "전략 이사", children: [] },
-        { name: "이사 C", position: "재무 이사", children: [] },
-      ],
-    },
-    인사팀: {
-      name: "박지영",
-      position: "인사 팀장",
-      children: [
-        { name: "김민수", position: "채용 담당자", children: [] },
-        { name: "한나영", position: "교육 담당자", children: [] },
-        { name: "이준혁", position: "성과 관리 담당자", children: [] },
-      ],
-    },
-    회계팀: {
-      name: "이서연",
-      position: "회계 팀장",
-      children: [
-        { name: "정수빈", position: "세무 담당자", children: [] },
-        { name: "송하늘", position: "자산 관리 담당자", children: [] },
-        { name: "윤지호", position: "재무 분석가", children: [] },
-      ],
-    },
-    영업팀: {
-      name: "김영수",
-      position: "영업 팀장",
-      children: [
-        { name: "이슬기", position: "B2B 담당자", children: [] },
-        { name: "최하늘", position: "B2C 담당자", children: [] },
-        { name: "강민지", position: "고객 관리 담당자", children: [] },
-      ],
-    },
-    홍보팀: {
-      name: "정해준",
-      position: "홍보 팀장",
-      children: [
-        { name: "한유리", position: "SNS 홍보 담당자", children: [] },
-        { name: "김현준", position: "언론 홍보 담당자", children: [] },
-        { name: "이지훈", position: "브랜드 마케팅", children: [] },
-      ],
-    },
-    생산팀: {
-      name: "최은호",
-      position: "생산 팀장",
-      children: [
-        { name: "윤서진", position: "품질 관리", children: [] },
-        { name: "박지훈", position: "생산 계획", children: [] },
-        { name: "강다현", position: "공정 관리", children: [] },
-      ],
-    },
-    관리팀: {
-      name: "조민호",
-      position: "관리 팀장",
-      children: [
-        { name: "최민정", position: "시설 관리", children: [] },
-        { name: "서지우", position: "안전 관리", children: [] },
-        { name: "박하영", position: "자재 관리", children: [] },
-      ],
-    },
-  };
+  const [teams, setTeams] = useState({});
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [selectedTeamName, setSelectedTeamName] = useState("");
 
-  // 선택된 팀명과 조직도 상태 관리
-  const [selectedTeam, setSelectedTeam] = useState(teams["임원진"]);
-  const [selectedTeamName, setSelectedTeamName] = useState("임원진");
+  // 백엔드에서 데이터 가져오기
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/underdog/employees") // API 호출 경로
+      .then((response) => {
+        // 데이터를 적절히 가공하여 teams로 설정
+        const formattedTeams = response.data.reduce((acc, employee) => {
+          const teamName = employee.e_team; // e_team을 팀 이름으로 사용
+          if (!acc[teamName]) {
+            acc[teamName] = {
+              name: `${teamName} 팀`,
+              position: "팀장",
+              children: [],
+            };
+          }
+          acc[teamName].children.push({
+            name: employee.e_name,
+            position: employee.e_level,
+            tel: employee.e_tel_num, // 전화번호 추가
+          });
+          return acc;
+        }, {});
+        setTeams(formattedTeams);
+        setSelectedTeam(formattedTeams["영업팀"]); // 기본 선택 팀 설정
+        setSelectedTeamName("영업팀");
+      })
+      .catch((error) => {
+        console.error("Error fetching team data:", error);
+      });
+  }, []);
 
   // Mind Map 렌더링 함수
   const renderMindMap = (node) => (
     <div className={styles.mindMapNode}>
       <div className={styles.memberCard}>
-        <div className={styles.memberName}>{node.name}</div>
-        <div className={styles.memberPosition}>{node.position}</div>
+        <div className={styles.memberName}>이름: {node.name}</div>
+        <div className={styles.memberPosition}>직급: {node.position}</div>
+        <div className={styles.memberTel}>전화번호: {node.tel}</div>
       </div>
-      {node.children.length > 0 && (
+      {node.children && node.children.length > 0 && (
         <div className={styles.mindMapChildren}>
           {node.children.map((child, index) => (
             <div key={index}>{renderMindMap(child)}</div>
@@ -106,11 +72,8 @@ const Employeemain = () => {
           <h1>Post Underdog</h1>
         </div>
         <nav className={styles.nav}>
-          {/* <Link to="/organization">조직도</Link> */}
           <Link to="/employeemain">조직도</Link>
           <Link to="/vacation">휴가 관리</Link>
-          <Link to="/fieldwork">외근 관리</Link>
-          <Link to="/salary">급여 관리</Link>
         </nav>
         <div className={styles.info}>
           <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>
@@ -139,7 +102,7 @@ const Employeemain = () => {
             {/* 팀명 + 조직도 표시 */}
             <h2>{selectedTeamName} 조직도</h2>
             <div className={styles.mindMapContainer}>
-              {renderMindMap(selectedTeam)}
+              {selectedTeam && renderMindMap(selectedTeam)}
             </div>
           </section>
         </div>

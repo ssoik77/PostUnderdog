@@ -1,6 +1,10 @@
 CREATE DATABASE post_underdog;
 USE post_underdog;
 
+drop table employee_info;
+drop table vacation;
+drop table member_info;
+
 CREATE TABLE member_info(
 a_authority TINYINT NOT NULL DEFAULT 0,
 p_authority TINYINT NOT NULL DEFAULT 0,
@@ -16,46 +20,44 @@ e_name CHAR(10),
 e_birth DATE,
 e_carrier CHAR(10),
 e_tel_num CHAR(11),
+e_level CHAR(10),
+e_team CHAR(10),
 m_key int,
 FOREIGN KEY (m_key) REFERENCES member_info(m_key)
 );
 
-drop table employee_info;
-DESCRIBE employee_info;	
-
-drop table member_info;
-DESCRIBE member_info;
-
-drop table vacation;
-DESCRIBE vacation;
-
 CREATE TABLE vacation (
-    vacation_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- 휴가 ID
-    m_id CHAR(20) NOT NULL,                       -- 직원 ID (member_info의 m_id)
-    e_name CHAR(10) NOT NULL,                     -- 직원 이름 (employee_info의 e_name)
-    start_date DATE NOT NULL,                     -- 휴가 시작 날짜
-    end_date DATE NOT NULL,                       -- 휴가 종료 날짜
-    reason TEXT,                                  -- 휴가 사유
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 생성 시간
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- 수정 시간
+    vacation_id BIGINT NOT NULL,
+    m_id CHAR(20), -- member_info 테이블의 m_id와 동일
+    e_name CHAR(10), -- employee_ info 테이블의 e_name과 동일
+    start_date DATE,
+    end_date DATE,
+    reason TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    m_key int,
+    FOREIGN KEY (m_key) REFERENCES member_info(m_key),
+    PRIMARY KEY (vacation_id)
 );
 
 -- 아래로 코드 테스트용 칼럼데이터 추가코드 (없어도 됨)
-INSERT INTO member_info (a_authority, p_authority, e_authority, m_id, m_pw)
-VALUES (0, 0, 0, 'ehvl5361', 'foejtiq44@@');
-
-INSERT INTO employee_info (e_name, e_birth, e_carrier, e_tel_num, m_key)
-VALUES ('엄홍길', '1990-01-01', 'SKT', '01012345678', LAST_INSERT_ID());
-
-
 SELECT m_pw FROM member_info WHERE m_id = 'ehvl5361';
-
 
 SELECT * FROM member_info;
 SELECT * FROM employee_info;
 
 SELECT m_id, m_key FROM member_info WHERE m_id = 'ehvl5361';
 
-SELECT e_birth FROM employee_info WHERE e_num = 1;
+SELECT vacation_id from vacation;
 
+INSERT INTO member_info (m_id, m_pw)
+VALUES
+('admin', 'admin123'),
+('user1', 'password1'),
+('user2', 'password2');
 
+INSERT INTO employee_info (e_name, e_birth, e_level, e_tel_num, m_key, e_team)
+VALUES
+('김영수', '1985-01-01', '팀장', '01012345678', 1, '영업팀'),
+('이슬기', '1990-03-15', '사원', '01023456789', 2, '기술팀'),
+('최하늘', '1988-07-22', '사원', '01034567890', 3, '기술팀');

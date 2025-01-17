@@ -2,27 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.mapper.VacationMapper">
-
-    <select id="getAllVacations" resultType="com.project.dto.VacationDto">
-        SELECT vacation_id, m_id, e_name, start_date, end_date, reason, created_at, updated_at
+    <select id="selectVacationsByMemberId" resultType="com.project.dto.VacationDto">
+        SELECT vacation_id AS vacationId, m_id AS mId, e_name AS eName, start_date AS startDate, end_date AS endDate, reason
         FROM vacation
+        WHERE m_id = #{mId}
+        ORDER BY start_date DESC;
     </select>
 
-    <insert id="insertVacation" parameterType="com.project.dto.VacationDto">
-        INSERT INTO vacation (m_id, e_name, start_date, end_date, reason, created_at, updated_at)
-        VALUES (#{employeeId}, #{employeeName}, #{startDate}, #{endDate}, #{reason}, NOW(), NOW())
+    <insert id="insertVacation">
+        INSERT INTO vacation (vacation_id, m_id, e_name, start_date, end_date, reason, created_at, updated_at)
+        VALUES (#{vacationId}, #{mId}, #{eName}, #{startDate}, #{endDate}, #{reason}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
     </insert>
     
+    <!-- 휴가 신청 삭제 -->
+    <delete id="deleteVacationById" parameterType="long">
+        DELETE FROM vacation
+        WHERE vacation_id = #{vacationId};
+    </delete>
+
+    <!-- 휴가 신청 수정 -->
     <update id="updateVacation" parameterType="com.project.dto.VacationDto">
-    UPDATE vacation
-    SET start_date = #{startDate},
-        end_date = #{endDate},
-        reason = #{reason},
-        updated_at = NOW()
-    WHERE vacation_id = #{vacationId}
-	</update>
+        UPDATE vacation
+        SET start_date = #{startDate},
+            end_date = #{endDate},
+            reason = #{reason},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE vacation_id = #{vacationId};
+    </update>
     
-    <delete id="deleteVacation" parameterType="long">
-    DELETE FROM vacation WHERE vacation_id = #{vacationId}
-	</delete>
+    <select id="getVacationById" parameterType="long" resultType="com.project.dto.VacationDto">
+    SELECT vacation_id AS vacationId, 
+           m_id AS mId, 
+           e_name AS eName, 
+           start_date AS startDate, 
+           end_date AS endDate, 
+           reason 
+    FROM vacation
+    WHERE vacation_id = #{vacationId};
+</select>
+    
 </mapper>

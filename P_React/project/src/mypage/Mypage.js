@@ -3,9 +3,9 @@ import axios from 'axios';
 import styles from './Mypage.module.css';
 
 const Mypage = () => {
-  const [userInfo, setUserInfo] = useState(null); // 사용자 정보 상태
-  const [error, setError] = useState(null); // 에러 상태
-  const [editMode, setEditMode] = useState(false); // 수정 모드 상태
+  const [userInfo, setUserInfo] = useState(null);
+  const [error, setError] = useState(null);
+  const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     m_id: '',
     m_pw: '',
@@ -19,13 +19,12 @@ const Mypage = () => {
     m_key: null,
   });
 
-  const localM_id = localStorage.getItem('m_id'); // 로그인 시 저장된 ID
-  const sessionM_id = sessionStorage.getItem('m_id'); // 로그인 시 저장된 ID
+  const localM_id = localStorage.getItem('m_id');
+  const sessionM_id = sessionStorage.getItem('m_id');
 
-  // 사용자 정보 가져오기
   useEffect(() => {
     const fetchUserInfo = async () => {
-      setError(null); // 에러 초기화
+      setError(null);
       const m_id = localM_id == null ? sessionM_id : localM_id;
 
       if (!m_id) {
@@ -44,7 +43,6 @@ const Mypage = () => {
           const member = response.data.memberInfo;
           const employee = response.data.employeeInfo;
 
-          // 상태 초기화
           setFormData({
             m_id: member.m_id,
             m_pw: member.m_pw,
@@ -78,15 +76,11 @@ const Mypage = () => {
     window.close();
   };
 
-  // 입력값 변경 핸들러
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    // 상태 업데이트
     setFormData({ ...formData, [name]: value });
   };
 
-  // 수정 저장
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -94,21 +88,17 @@ const Mypage = () => {
 
       if (response.data.status === 'success') {
         alert('수정이 완료되었습니다.');
-
-        // 서버 응답으로 상태 업데이트
         const updatedEmployeeInfo = response.data.employeeInfo || {
           e_name: formData.e_name,
           e_birth: formData.e_birth,
           e_carrier: formData.e_carrier,
           e_tel_num: formData.e_tel_num,
         };
-
         setUserInfo((prevState) => ({
           ...prevState,
           employeeInfo: updatedEmployeeInfo,
         }));
-
-        setEditMode(false); // 수정 모드 종료
+        setEditMode(false);
       } else {
         alert('수정 실패: ' + response.data.message);
       }

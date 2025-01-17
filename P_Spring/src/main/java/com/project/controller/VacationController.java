@@ -2,6 +2,9 @@ package com.project.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,42 +19,77 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.dto.VacationDto;
 import com.project.service.VacationService;
 
-import lombok.extern.log4j.Log4j;
+import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/vacations")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-@Log4j
+@RequestMapping("/vacations")
+@RequiredArgsConstructor
 public class VacationController {
 
     private final VacationService vacationService;
 
-    public VacationController(VacationService vacationService) {
-        this.vacationService = vacationService;
+    @PostMapping
+    public ResponseEntity<String> createVacation(@RequestBody VacationDto vacationDto, HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        String userName = (String) session.getAttribute("userName");
+
+        if (userId == null || userName == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        vacationDto.setMId(userId);
+        vacationDto.setEName(userName);
+
+        vacationService.createVacation(vacationDto);
+        return ResponseEntity.ok("휴가 신청이 완료되었습니다.");
     }
 
-    @GetMapping
-    public ResponseEntity<List<VacationDto>> getAllVacations() {
-        List<VacationDto> vacations = vacationService.getAllVacations();
+    @GetMapping("/list")
+    public ResponseEntity<List<VacationDto>> getMyVacations(HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        List<VacationDto> vacations = vacationService.getVacationsByMemberId(userId);
         return ResponseEntity.ok(vacations);
     }
 
-    @PostMapping
-    public ResponseEntity<Void> createVacation(@RequestBody VacationDto vacationDto) {
-        vacationService.createVacation(vacationDto);
-        return ResponseEntity.ok().build();
-    }
+    @DeleteMapping("/{vacationId}")
+    public ResponseEntity<String> deleteVacation(@PathVariable Long vacationId, HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateVacation(@PathVariable("id") Long vacationId, @RequestBody VacationDto vacationDto) {
-        vacationDto.setVacationId(vacationId);
-        vacationService.updateVacation(vacationDto);
-        return ResponseEntity.ok().build();
-    }
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVacation(@PathVariable("id") Long vacationId) {
-        vacationService.deleteVacation(vacationId);
-        return ResponseEntity.noContent().build();
+        try {
+            vacationService.deleteVacation(vacationId, userId);
+            return ResponseEntity.ok("휴가 신청이 삭제되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+    
+    @PutMapping("/{vacationId}")
+    public ResponseEntity<String> updateVacation(
+        @PathVariable Long vacationId,
+        @RequestBody VacationDto vacationDto,
+        HttpSession session
+    ) {
+        String userId = (String) session.getAttribute("userId");
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        try {
+            vacationService.updateVacation(vacationId, vacationDto, userId);
+            return ResponseEntity.ok("휴가 신청이 수정되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
     }
 }

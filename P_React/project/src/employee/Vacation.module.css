@@ -1,85 +1,92 @@
-/* 메인 컨테이너 */
-.mainBox {
-  width: 1400px;
+/* 컨테이너 스타일 */
+.vacationContainer {
+  width: 60%;
   margin: 50px auto;
-  padding: 20px;
-  border: 2px solid #333;
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+}
+
+/* 제목 스타일 */
+.vacationTitle {
   text-align: center;
-  border-radius: 8px;
-  height: 700px;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* 폼 스타일 */
+.vacationForm {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative;
+  gap: 15px;
 }
 
-/* 팝업 스타일 */
-.popup {
-  position: fixed; /* 화면에 고정 */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000; /* 다른 요소 위에 표시 */
+/* 폼 그룹 */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formGroup label {
+  font-size: 16px;
+  color: #555;
+}
+
+.formGroup input,
+.formGroup textarea {
+  padding: 10px;
+  font-size: 14px;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 400px;
-}
-
-/* 오버레이 */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
+  border-radius: 5px;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-  z-index: 999; /* 팝업 아래에 위치 */
-}
-
-/* 신청한 휴가 목록 */
-.appliedVacations {
-  width: 1200px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* 버튼 */
-.buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.horizontalForm {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.formRow label {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  box-sizing: border-box;
 }
 
 textarea {
   resize: none;
-  width: 100%;
-  height: 80px;
+  height: 100px;
 }
 
-.formButtons {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
+/* 버튼 스타일 */
+.submitButton {
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.scrollableList {
+  max-height: 300px; /* 목록의 최대 높이 설정 */
+  overflow-y: auto; /* 수직 스크롤 활성화 */
+  border: 1px solid #ddd; /* 경계선 추가 */
+  padding: 10px; /* 내부 여백 */
+  background-color: #f9f9f9; /* 배경색 */
+  border-radius: 5px; /* 모서리 둥글게 */
+}
+
+.scrollableList ul {
+  list-style-type: none; /* 목록 점 제거 */
+  padding: 0; /* 목록 내부 여백 제거 */
+  margin: 0; /* 목록 외부 여백 제거 */
+}
+
+.scrollableList li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* 목록 항목 구분선 */
+}
+
+.scrollableList li:last-child {
+  border-bottom: none; /* 마지막 항목에 구분선 제거 */
 }

@@ -56,7 +56,21 @@
 #loginButton {
   position: relative;
   width: 200px;
-  top: 10px;
+  top: 30px;
+  border-radius: 5px; 
+}
+
+#findIdPwButton {
+  position: relative;
+  width: 100px;
+  top: 100px;
+  border-radius: 5px; 
+}
+
+#regiButton {
+  position: relative;
+  width: 100px;
+  top: 100px;
   border-radius: 5px; 
 }
 
