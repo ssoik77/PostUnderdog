@@ -4,9 +4,31 @@ import noimage from './noimage.png'
 import axios from 'axios';
 
 const ProductManage = () => {
-    const locationLogin = localStorage.getItem("m_id");
-    const sessionLogin = sessionStorage.getItem("m_id");
+    
+    useEffect(() => {
+        const loginId = localStorage.getItem("m_id") || sessionStorage.getItem("m_id");
+    
+        if (loginId !== null) {
+            // json 형식의 권한 데이터를 객체로 푸는 작업
+            const storedAuthority = localStorage.getItem("authority") || sessionStorage.getItem("authority");
+            if (storedAuthority) {
+                const authority = JSON.parse(storedAuthority)
+                const a_authority = authority.a_authority;
+                const p_authority = authority.p_authority;
 
+                if (a_authority && p_authority) {
+                    console.log("권한 있음");
+                } else {
+                    console.log("권한 없음");
+                    window.location.href = "../main";
+                }
+            }
+        } else {
+            console.log("아이디 없음");
+            // window.location.href = "../";
+        }
+    }, []); // 처음 로드 시에만 실행
+    
     const [previewImage, setPreviewImage] = useState(noimage); // 미리보기 이미지 저장 그릇
     const [uploadImage, setUploadimage] = useState(null); // 이미지 저장 그릇
     const [name, setname] = useState(""); // 상품 이름 저장 그릇
@@ -20,27 +42,20 @@ const ProductManage = () => {
     const [secondCategory, setSecondCategory] = useState("기타"); // 소분류 저장 그릇
     const [selling, setSelling] = useState(false); // 판매 여부 저장 그릇
 
-// 로그인 아이디 로컬,세션 스토리지에서 삭제되면 로그인 페이지로 이동  
-useEffect(()=>{
-    if(!locationLogin && !sessionLogin){
-      window.location.href="../";
-    }
-  },[locationLogin, sessionLogin])
-
     // 상품 리스트로 가는 페이지
     const goListPage = () => {
-        window.location.href = "/productmanage";
+        window.location.href = "/productEdit";
     }
 
-     // 내 정보 팝업 열기 함수
- const openPopup = () => {
-    const popupFeatures = "width=500,height=350,top=100,left=100,resizable=no,scrollbars=yes";
-    window.open("../Mypage", "내 정보", popupFeatures);
-  };
-// 메인 페이지 이동 함수
-  const goMainPage = () => {
-    window.location.href = "/main";
-  }
+    // 내 정보 팝업 열기 함수
+    const openPopup = () => {
+        const popupFeatures = "width=500,height=350,top=100,left=100,resizable=no,scrollbars=yes";
+        window.open("../Mypage", "내 정보", popupFeatures);
+    };
+    // 메인 페이지 이동 함수
+    const goMainPage = () => {
+        window.location.href = "/main";
+    }
 
     // 가격 자동 , 설정 함수
     const numberMode = (value) => {
@@ -55,25 +70,25 @@ useEffect(()=>{
         setPreviewImage(URL.createObjectURL(e.target.files[0]));
     }
     // 상품 이름 실시간 저장 함수
-    const handleName = (e) => {setname(e.target.value);}
+    const handleName = (e) => { setname(e.target.value); }
     // 가격 실시간 저장 함수
-    const handlePrice = (e) => {setPrice(numberMode(e.target.value)||"");}
+    const handlePrice = (e) => { setPrice(numberMode(e.target.value) || ""); }
     // 가격 단위 실시간 저장 함수
-    const handlePriceUnit = (e) => {setPriceUnit(e.target.value);}
+    const handlePriceUnit = (e) => { setPriceUnit(e.target.value); }
     // 원가 실시간 저장 함수
-    const handleCost = (e) => {setCost(numberMode(e.target.value)||"");}
+    const handleCost = (e) => { setCost(numberMode(e.target.value) || ""); }
     // 원간 단위 실시간 저장 함수
-    const handleCoastUnit = (e) => {setCostUnit(e.target.value);}
+    const handleCoastUnit = (e) => { setCostUnit(e.target.value); }
     // 할인가 실시간 저장 함수
-    const handleDiscount = (e) => {setDiscount(numberMode(e.target.value)||"");}
+    const handleDiscount = (e) => { setDiscount(numberMode(e.target.value) || ""); }
     // 행사 실시간 저장 함수
-    const handleEvent = (e) => {setEvent(e.target.value);}
+    const handleEvent = (e) => { setEvent(e.target.value); }
     // 대분류 실시간 저장 함수
-    const handleFirstCategory = (e) => {setFirstCategory(e.target.value);}
+    const handleFirstCategory = (e) => { setFirstCategory(e.target.value); }
     // 소분류 실시간 저장 함수
-    const handleSecondCategory = (e) => {setSecondCategory(e.target.value);}
+    const handleSecondCategory = (e) => { setSecondCategory(e.target.value); }
     // 판매 여부 실시가 저장 함수
-    const handleSelling = (e) => {setSelling(e.target.checked);}
+    const handleSelling = (e) => { setSelling(e.target.checked); }
 
     // 데이터 묶음 서버 전송 함수
     const sendAddProductData = async (e) => {
@@ -90,13 +105,13 @@ useEffect(()=>{
         formData.append("product_second_category", secondCategory);
         formData.append("product_selling", selling);
         console.log(formData.get("product_image"));
-        
-            axios.post("http://localhost:8080/underdog/product/add", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            }).then((response)=>console.log("Product added successfully:", response.data))
-            .catch((error)=>console.error("Error adding product:", error));
+
+        axios.post("http://localhost:8080/underdog/product/add", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }).then((response) => console.log("Product added successfully:", response.data))
+            .catch((error) => console.error("Error adding product:", error));
     };
 
 
@@ -109,14 +124,14 @@ useEffect(()=>{
                 <h1>상품 관리 페이지</h1>
             </div>
             {/* 메인 페이지 이동 버튼 */}
- <button id={styles.goMainButton} onClick={goMainPage}>메인 페이지</button>
-  {/* 내 정보 팝업 버튼 */}
-       <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
-         내 정보
-       </button>
+            <button id={styles.goMainButton} onClick={goMainPage}>메인 페이지</button>
+            {/* 내 정보 팝업 버튼 */}
+            <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
+                내 정보
+            </button>
             {/* 상품 페이지 이동 버튼 */}
             <div id={styles.menu}>
-                <button id={styles.listButton} className={styles.menuButton} onClick={goListPage}>상품 리스트</button>
+                <button id={styles.listButton} className={styles.menuButton} onClick={goListPage}>상품 수정</button>
                 <button id={styles.addButton} className={styles.menuButton} style={{ backgroundColor: 'blue' }}>상품 추가</button>
             </div>
 
@@ -129,7 +144,7 @@ useEffect(()=>{
                     <form onSubmit={sendAddProductData}>
                         {/* 사용자가 이미지 업로드 하는 기능 */}
                         <label id={styles.imageButtonLabel} for="inputImageButton">상품 이미지 선택</label>
-                        <input id="inputImageButton" type="file" accept='image/*' onChange={inputImage} style={{ visibility: 'hidden' }} required/>
+                        <input id="inputImageButton" type="file" accept='image/*' onChange={inputImage} style={{ visibility: 'hidden' }} required />
                         {/* 상품이름 설정 */}
                         <input className={styles.addSettingBox} id={styles.setNameBox} onChange={handleName} value={name} placeholder='상품 이름' />
                         {/* 판매가 설정 */}

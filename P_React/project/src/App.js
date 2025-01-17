@@ -2,19 +2,23 @@ import styles from './App.module.css';
 import './register/Register.js';
 import './find/Find.js';
 import './main/Main.js';
+import logo from './logo.png'
 import axios from 'axios'; // 서버 통신을 위해 axios 추가
 import { useEffect, useState } from 'react';
 
 const App = () => {
-  const autoLoginId = localStorage.getItem("m_id");
+  
+  const [isSaveLogin, setIsSaveLogin] = useState(false); // 로그인 정보가 저장 되어 있는지 여부를 저장하는 객체
+
+  //자동 로그인이 되어있는지 확인하는 정보를 담는 객체
+  const autoLoginId = localStorage.getItem("m_id") || sessionStorage.getItem("m_id");
+
+  //autoLoginId에 데이터가 담겨 있으면 바로 메인 페이지로 넘어가는 useEffect
   useEffect(()=>{
     if(autoLoginId != null){
       window.location.href="/main";
     }
   },[autoLoginId])
-
-
-  const [isSaveLogin, setIsSaveLogin] = useState(false);
 
   // 회원가입 팝업 열기
   const openPopup = () => {
@@ -38,13 +42,16 @@ const App = () => {
 
   // 로그인 처리 함수
   const handleLogin = async (event) => {
-    event.preventDefault(); // 폼 기본 동작 방지
+    event.preventDefault(); // 폼 기본 동작 페이지 새로고침 방지
 
-    const id = document.getElementById(styles.id).value;
-    const pw = document.getElementById(styles.pw).value;
+    const id = document.getElementById(styles.id).value; // id: styles.id의 입력값을 가져오는 코드
+    const pw = document.getElementById(styles.pw).value; // id: styles.pw의 입력값을 가져오는 코드
 
     try {
+      // axios로 json데이터와 함께 스프링에 http요청을 보내고 await로 비동기 함수가 완료 될 때까지 기다린다.
       const response = await axios.post("http://localhost:8080/underdog/login", { m_id: id, m_pw: pw });
+
+      // axios로 가져온 비밀번호 체크 결과를 대입
       if (response.data.pw_check) {//로그인 성공 여부
         const resultData = {
           a_authority: (response.data.a_authority),
@@ -70,12 +77,15 @@ const App = () => {
   };
 
   return (
-    <div id={styles.loginpop}>
-      <div className={styles.App}>
+    <div id={styles.loginPage}>
         {/* 타이틀 */}
-        <header className={styles.AppHeader}>
-          <h1 id={styles.postUnderdog}>Post Underdog</h1>
+        <header id={styles.loginHeader}>
+          <img id={styles.logo} src={logo} alt='로고'/>
+          <h1 id={styles.brandName}>Post Underdog</h1>
         </header>
+
+    <div id={styles.loginBox}>
+      <div id={styles.login}>
 
         {/* 로그인 폼 */}
         {/* id:영문 대소문자+숫자 pw:영문 대소문자+숫자+특수문자(1개이상)+8~16자리 */}
@@ -92,14 +102,22 @@ const App = () => {
           </table>
         </form>
 
+    <div id={styles.anotherTool}>
+      <div id={styles.regiFindBox}>
         {/* 회원가입 팝업 */}
-        <button id={styles.regiButton} onClick={openPopup} className={styles.button}>회원가입</button>
-        
+        <button id={styles.regiButton} onClick={openPopup} className={styles.button}>회원가입</button> 
+        | 
         {/* ID/PW 찾기 팝업 */}
         <button id={styles.findIdPwButton} onClick={openFindPopup} className={styles.button}>ID/PW 찾기</button>
-        {/*자동 로그인 체크박스*/}
-      <div id={styles.loginSaveCheck}><input type='checkbox' onChange= {({ target: {checked}})=> setIsSaveLogin(checked)} />로그인 정보 저장</div>
       </div>
+        {/*자동 로그인 체크박스*/}
+        <div id={styles.loginSaveCheck}>
+      <label id={styles.loginSaveCheckLabel}><input id={styles.checkbox}type='checkbox' onChange= {({ target: {checked}})=> setIsSaveLogin(checked)} /> 로그인 정보 저장</label>
+        </div>
+    </div>
+     
+      </div>
+    </div>
     </div>
   );
 };
