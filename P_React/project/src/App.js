@@ -11,7 +11,7 @@ const App = () => {
   const [isSaveLogin, setIsSaveLogin] = useState(false); // 로그인 정보가 저장 되어 있는지 여부를 저장하는 객체
 
   //자동 로그인이 되어있는지 확인하는 정보를 담는 객체
-  const autoLoginId = localStorage.getItem("m_id");
+  const autoLoginId = localStorage.getItem("m_id") || sessionStorage.getItem("m_id");
 
   //autoLoginId에 데이터가 담겨 있으면 바로 메인 페이지로 넘어가는 useEffect
   useEffect(()=>{

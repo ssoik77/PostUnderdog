@@ -1,33 +1,49 @@
 import { useEffect, useState } from 'react';
 import styles from './ProductManage.module.css';
-import ShowProduct from './ShowProduct.js'
+import ShowEditProduct from './ShowEditProduct.js'
 import axios from 'axios';
 
 const ProductManage = () => {
-  const locationLogin = localStorage.getItem("m_id");
-  const sessionLogin = sessionStorage.getItem("m_id");
+  useEffect(() => {
+    const loginId = localStorage.getItem("m_id") || sessionStorage.getItem("m_id");
+
+    if (loginId !== null) {
+        // json 형식의 권한 데이터를 객체로 푸는 작업
+        const storedAuthority = localStorage.getItem("authority") || sessionStorage.getItem("authority");
+        if (storedAuthority) {
+            const authority = JSON.parse(storedAuthority)
+            const a_authority = authority.a_authority;
+            const p_authority = authority.p_authority;
+
+            if (a_authority && p_authority) {
+                console.log("권한 있음");
+            } else {
+                console.log("권한 없음");
+                window.location.href = "../main";
+            }
+        }
+    } else {
+        console.log("아이디 없음");
+        window.location.href = "../";
+    }
+}, []); // 처음 로드 시에만 실행
 
   const [productList, setProductList] = useState([]);
 
-  // 로그인 아이디 로컬,세션 스토리지에서 삭제되면 로그인 페이지로 이동  
-  useEffect(()=>{
-      if(!locationLogin && !sessionLogin){
-        window.location.href="../";
-      }
-    },[locationLogin, sessionLogin])
-
+  //상품 추가 페이지 이동 함수    
   const goAddPage = () => {
     window.location.href = "/productAdd";
   }
+  //메인 페이지 이동 함수
   const goMainPage = () => {
     window.location.href = "/main";
   }
 
-      // 내 정보 팝업 열기 함수
- const openPopup = () => {
-  const popupFeatures = "width=500,height=350,top=100,left=100,resizable=no,scrollbars=yes";
-  window.open("../Mypage", "내 정보", popupFeatures);
-};
+  // 내 정보 팝업 열기 함수
+  const openPopup = () => {
+    const popupFeatures = "width=500,height=350,top=100,left=100,resizable=no,scrollbars=yes";
+    window.open("../Mypage", "내 정보", popupFeatures);
+  };
 
   useEffect(() => {
     pullProduct();
@@ -40,7 +56,7 @@ const ProductManage = () => {
       },
     })
       .then((response) => {
-        if(response.data.length === 0){
+        if (response.data.length === 0) {
           setProductList("상품이 없습니다.");
         }
         const updatedList = response.data.map(item => ({
@@ -74,24 +90,24 @@ const ProductManage = () => {
 
   const deleteProduct = () => {
     const deleteProductCode = productList
-    .filter(item => item.checked)  // `checked`가 true인 객체만 필터링
-    .map(({ product_code, product_image_url }) => ({product_code, product_image_url})); 
+      .filter(item => item.checked)  // `checked`가 true인 객체만 필터링
+      .map(({ product_code, product_image_url }) => ({ product_code, product_image_url }));
 
-  if (deleteProductCode.length === 0) {
-    alert("삭제 할 항목을 체크 해주세요");
-  } else {
-    const checkDelete = window.confirm("정말 삭제 하시겠습니까?");
-    if(checkDelete){
-      axios.post("http://localhost:8080/underdog/product/delete", deleteProductCode, {
-        headers: {
-          "Content-Type": "application/json", // JSON 형식으로 변경
-        },
-      })
-      .then(() => {
-        window.location.reload(true);
-      })
-      .catch((error) => console.error("Error Pull product:", error));
-    }
+    if (deleteProductCode.length === 0) {
+      alert("삭제 할 항목을 체크 해주세요");
+    } else {
+      const checkDelete = window.confirm("정말 삭제 하시겠습니까?");
+      if (checkDelete) {
+        axios.post("http://localhost:8080/underdog/product/delete", deleteProductCode, {
+          headers: {
+            "Content-Type": "application/json", // JSON 형식으로 변경
+          },
+        })
+          .then(() => {
+            window.location.reload(true);
+          })
+          .catch((error) => console.error("Error Pull product:", error));
+      }
     }
   }
 
@@ -107,7 +123,7 @@ const ProductManage = () => {
   }
 
   return (
-    <>
+    <div id={styles.productMainPage}>
       <div className={styles.container}>
         <h3>POST UNDERDOG</h3>
         <h1>상품 관리 페이지</h1>
@@ -115,28 +131,28 @@ const ProductManage = () => {
       <button id={styles.goMainButton} onClick={goMainPage}>메인 페이지</button>
       {/* 내 정보 팝업 버튼 */}
       <button id={styles.infoButton} onClick={openPopup} className={styles.button}>
-      내 정보
+        내 정보
       </button>
       <div id={styles.menu}>
-        <button id={styles.listButton} className={styles.menuButton} style={{ backgroundColor: 'blue' }}>상품 리스트</button>
+        <button id={styles.listButton} className={styles.menuButton} style={{ backgroundColor: 'blue' }}>상품 수정</button>
         <button id={styles.addButton} className={styles.menuButton} onClick={goAddPage}>상품 추가</button>
       </div>
       <button id={styles.deleteButton} onClick={deleteProduct}>상품 삭제</button>
       <button id={styles.editButton} onClick={sendEditData}>상품 수정</button>
       <div id={styles.main}>
         <div id={styles.list}>
-            <table>
-                <tbody>
+          <table>
+            <tbody>
               {productList.map((list) => (
                 <tr key={list.product_code}>
-                  <ShowProduct list={list} editData={editData} />
+                  <ShowEditProduct list={list} editData={editData} />
                 </tr>
               ))}
-              </tbody>
-            </table>
+            </tbody>
+          </table>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

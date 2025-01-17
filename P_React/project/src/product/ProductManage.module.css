@@ -1,4 +1,14 @@
 
+#productMainPage{
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  min-height: 100vh;
+  position: relative; /* 레이아웃 안정성 확보 */
+  background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
+}
+
 .container {
   position: relative;
   width: 360px;
@@ -16,7 +26,7 @@
   left: 150px;
   border-style: solid;
   width: 1600px;
-  height: 800px;
+  height: 700px;
   padding-top: 10px;
   display: flex;
   justify-content: center;
