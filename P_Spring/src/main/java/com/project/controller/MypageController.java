@@ -33,7 +33,6 @@ public class MypageController {
     @GetMapping("/userinfo")
     public Map<String, Object> getUserInfo(@RequestParam String m_id) {
         Map<String, Object> response = new HashMap<>();
-        log.info("요청된 회원 ID: " + m_id);
 
         try {
             MemberDto memberInfo = mypageService.getMemberInfo(m_id);
