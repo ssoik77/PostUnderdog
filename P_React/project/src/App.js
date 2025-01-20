@@ -3,7 +3,7 @@ import './register/Register.js';
 import './find/Find.js';
 import './employee/Employeemain.js';
 import axios from 'axios';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // 환경 변수에서 API URL 가져오기
@@ -15,6 +15,14 @@ const App = () => {
   const pwRef = useRef(null);
 
   const [isSaveLogin, setIsSaveLogin] = useState(false);
+
+  useEffect(()=>{
+    const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
+    if(loginId){
+      navigate("/employeemain")
+    }
+  },[navigate])
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -33,14 +41,16 @@ const App = () => {
       );
   
       if (response.data.pw_check) {
-        const { userName } = response.data; // 서버에서 반환된 사용자 이름
+        const { userName, userAuthority } = response.data; // 서버에서 반환된 사용자 이름
   
         if (isSaveLogin) {
-          localStorage.setItem("m_id", id);
+          localStorage.setItem("m_id", id); // 사용자 id 저장
           localStorage.setItem("e_name", userName); // 사용자 이름 저장
+          localStorage.setItem("authority", userAuthority); // 사용자 권한 저장
         } else {
-          sessionStorage.setItem("m_id", id);
+          sessionStorage.setItem("m_id", id); // 사용자 id 저장
           sessionStorage.setItem("e_name", userName); // 사용자 이름 저장
+          sessionStorage.setItem("authority", userAuthority); // 사용자 권한 저장
         }
   
         alert(response.data.message || "로그인 성공!");
@@ -78,7 +88,7 @@ const App = () => {
             <tbody>
               <tr>
                 <td>
-                  <input ref={idRef} id={styles.id} placeholder="아이디" size="10" required/>
+                  <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' required/>
                 </td>
               </tr>
               <tr>

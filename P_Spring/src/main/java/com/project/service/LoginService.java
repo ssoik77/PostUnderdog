@@ -20,12 +20,10 @@ public class LoginService {
     }
 
     public Map<String, Object> validateUser(String m_id, String m_pw) {
-        MemberDto storedPassword = loginMapper.getPasswordById(m_id);
-        Map<String, Object> result = new HashMap<>();
-        result.put("pw_check", storedPassword.getM_pw().equals(m_pw));
-        result.put("a_authority", storedPassword.getA_authority());
-        result.put("e_authority", storedPassword.getE_authority());
-        result.put("p_authority", storedPassword.getP_authority());
+    	Map<String, Object> result = new HashMap<>();
+        MemberDto loginUserData = loginMapper.getPasswordById(m_id);
+        result.put("pw_check", loginUserData.getM_pw().equals(m_pw));
+        result.put("authority", loginUserData.getAuthority());
         return result;
     }
 

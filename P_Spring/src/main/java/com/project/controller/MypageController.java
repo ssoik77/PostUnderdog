@@ -69,9 +69,7 @@ public class MypageController {
             MemberDto member = new MemberDto();
             member.setM_id((String) updateData.get("m_id"));
             member.setM_pw((String) updateData.get("m_pw"));
-            member.setA_authority((Boolean) updateData.get("a_authority"));
-            member.setP_authority((Boolean) updateData.get("p_authority"));
-            member.setE_authority((Boolean) updateData.get("e_authority"));
+            member.setAuthority((Boolean) updateData.get("authority"));
 
             EmployeeDto employee = new EmployeeDto();
             employee.setE_name((String) updateData.get("e_name"));

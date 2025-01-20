@@ -4,8 +4,8 @@ import axios from 'axios';
 
 const Register = () => {
 
-    const [idMessage, setIdMessage] = useState(""); // 아이디 입력 오류 메세지
     const [id, setId] = useState(""); // 아이디 입력값
+    const [idMessage, setIdMessage] = useState(""); // 아이디 입력 오류 메세지
     const [idCheckResult, setIdCheckResult] = useState(false); //아이디 체크 했는지 여부
 
     const [password, setPassword] = useState(""); // 상태 변수: 비밀번호 입력값
@@ -29,7 +29,7 @@ const Register = () => {
     // 아이디 중복 체크를 위한 비동기 함수
     const checkId = async () => {
         // 아이디 입력 값이 비어있으면 경고 메시지 설정
-        if (!id.trim()) {
+        if (!id) {
             setIdMessage('아이디를 입력해주세요.');
             return;
         }
@@ -44,7 +44,6 @@ const Register = () => {
             );
 
             // 서버로부터 받은 응답 메시지 설정
-            console.log(response.data);
             setIdMessage(response.data);  // 응답에서 'message' 속성만 상태에 설정
             if (response.data === "사용 가능한 아이디입니다.") {
                 setIdCheckResult(true);
@@ -54,6 +53,7 @@ const Register = () => {
             setIdMessage('서버 오류 발생');
         };
     }
+
     // ----------------준강 아이디, 아이디 중복 버튼 병합 ------------------
 
     // ----------------성태 비번, 비번 체크 병합 --------------------------------------------
@@ -154,119 +154,87 @@ const Register = () => {
     };
 
     return (
-        <form onSubmit={sendRegisterData}>
-            <div className={styles['form-container']}>
-            {/* -----------------------준강 아이디, 아이디 중복 버튼 병합 -------------------*/}
-            <div className={styles['idgroup']}>
-            {/* 아이디 입력 필드 */}
-            <input
-                type="text"
-                id={styles.id}
-                placeholder="아이디를 입력하세요"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-                required
-            />
-            {/* 아이디 중복 체크 버튼 */}
-            <button
-                type="button"
-                id={styles.idcheck}
-                onClick={checkId}
-                >
-            아이디 중복 체크
-            </button>
-        </div>
-        {/* 아이디 중복 체크 결과 메시지 */}
-        <div
-            className={
-                idMessage === "사용 가능한 아이디입니다."
-                ? styles.successMessage
-                : styles.errorMessage
-            }
-            >
-            {idMessage}
-        </div>
-
-            {/* -------------------------준강 아이디, 아이디 중복 버튼 병합 ------------------*/}
-
-            {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
-
-
-            {/* 비밀번호 입력 필드 */}
-            <div className={styles['pwgroup']}>
-                <input
-                    id={styles.pw}
-                    placeholder="비밀번호"
-                    type="password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    required
-                />
-                <input
-                    id={styles.confirmPw}
-                    placeholder="비밀번호 확인"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={handleConfirmPasswordChange}
-                    required
-                />
+        <div id={styles.registerPage}>
+            <form id={styles.registerForm} onSubmit={sendRegisterData}>
+                {/* -----------------------준강 아이디, 아이디 중복 버튼 병합 -------------------*/}
+                <div id={styles.idAllBox}>
+                    {/* 아이디 입력 필드 */}
+                    <div id={styles.idBox}>
+                        ID
+                        <input type="text" id={styles.idInput} className={styles.registerInput} placeholder="아이디를 입력하세요" value={id} onChange={(e) => setId(e.target.value)} required />
+                    </div>
+                    {/* 아이디 중복 체크 버튼 */}
+                    <button type="button" id={styles.idCheckButton} onClick={checkId}>
+                        중복 확인
+                    </button>
                 </div>
-            {/* 메시지 출력 */}
-            <div id="message" className={pwMessageStyle}>
-                {pwMessage}
-            </div>
+                        {/* 아이디 중복 체크 결과 메시지 */}
+                        <div id={styles.idMessage} className={idCheckResult ? styles.successMessage : styles.errorMessage}>
+                            {idMessage} &nbsp;
+                        </div>
+                {/* -------------------------준강 아이디, 아이디 중복 버튼 병합 ------------------*/}
 
-            {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
-            
-            {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
-            
-            {/* 이름 입력 */}
-            <div className={styles['namegroup']}>
-            <input
-                type="text"
-                id={styles.name}
-                className={styles.name}
-                placeholder="이름을 입력하세요"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-            />
-            </div>
-            {/* 생년월일 입력 */}
-            <div className={styles['birthgroup']}>
-            생년월일:{' '}
-            <input
-                type="date"
-                id={styles.birth}
-                className={styles.birth}
-                value={birthDate}
-                onChange={(e) => setBirthDate(e.target.value)}
-                required
-            />
-            </div>
+                {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
 
-            {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
+                <div>
+                    {/* 비밀번호 입력 필드 */}
+                    <div id={styles.pwBox}>
+                        비밀번호
+                        <input id={styles.pw} className={styles.registerInput} placeholder="비밀번호" type="password" value={password} onChange={handlePasswordChange} required />
+                        비밀번호 확인
+                        <input id={styles.confirmPw} className={styles.registerInput} placeholder="비밀번호 확인" type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
+                    </div>
+                </div>
+                        {/* 메시지 출력 */}
+                        <div id={styles.pwMessage} className={pwMessageStyle}>
+                            {pwMessage} &nbsp;
+                        </div>
 
-            {/* 통신사 선택 드롭다운 */}
-            <div className={styles['telgroup']}>
-            <select id={styles.carrier} onChange={selectCarrier} value={mobileCarrier}>
-                <option value='SKT'>SKT</option>
-                <option value='KT'>KT</option>
-                <option value='LGU+'>LGU+</option>
-                <option value='알뜰폰'>알뜰폰</option>
-            </select>
+                {/* -------------------------성태 비번, 비번 체크 병합 ------------------*/}
 
-            {/* 전화번호 입력 필드 */}
-            <input type="tel" id={styles.tel_1} maxLength="3" value={tel1} onChange={handleTel1Change} required /> -{' '}
-            <input type="tel" id={styles.tel_2} maxLength="4" value={tel2} onChange={handleTel2Change} required /> -{' '}
-            <input type="tel" id={styles.tel_3} maxLength="4" value={tel3} onChange={handleTel3Change} required />
-            </div>
-            {/* 회원가입 버튼 */}
-            <button type="submit" className={styles.button} >완료</button>
-            {/* 아이디 체크 제대로 하지 않고 정보 제출시 메세지 출력 */}
-            {resultMessage}
-            </div>
-        </form>
+                {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
+                <div>
+                    {/* 이름 입력 */}
+                    <div id={styles.nameBox}>
+                        이름
+                        <input type="text" id={styles.name} className={styles.registerInput} placeholder="이름을 입력하세요" value={name} onChange={(e) => setName(e.target.value)} required />
+                    </div>
+                </div>
+                <div>
+                    {/* 생년월일 입력 */}
+                    <div id={styles.birthBox}>
+                        생년월일
+                        <input type="date" id={styles.birth} className={styles.registerInput} value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
+                    </div>
+                </div>
+
+                {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
+                <div id={styles.numBox}>
+                            전화번호
+                    {/* 통신사 선택 드롭다운 */}
+                    <div >
+                        {/* 전화번호 입력 필드 */}
+                        <input type="tel" id={styles.tel_1} className={styles.registerInput} maxLength="3" value={tel1} onChange={handleTel1Change} required /> -{' '}
+                        <input type="tel" id={styles.tel_2} className={styles.registerInput} maxLength="4" value={tel2} onChange={handleTel2Change} required /> -{' '}
+                        <input type="tel" id={styles.tel_3} className={styles.registerInput} maxLength="4" value={tel3} onChange={handleTel3Change} required />
+                    </div>
+                </div>
+                        <select id={styles.carrier} onChange={selectCarrier} value={mobileCarrier}>
+                            <option value='SKT'>SKT</option>
+                            <option value='KT'>KT</option>
+                            <option value='LGU+'>LGU+</option>
+                            <option value='알뜰폰'>알뜰폰</option>
+                        </select>
+
+                        <div id={styles.loginMessage}>
+                    {/* 아이디 체크 제대로 하지 않고 정보 제출시 메세지 출력 */}
+                    {resultMessage}
+                        </div>
+
+                    {/* 회원가입 버튼 */}
+                    <button id={styles.loginButton} type="submit"  >완료</button>
+            </form>
+        </div>
     );
 };
 

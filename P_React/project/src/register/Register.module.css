@@ -1,109 +1,135 @@
-.title {
-    color: #ffee00;
-    font-family: 'Arial', sans-serif;
-  }  
-  
-  .form-container {
-    display: flex;
-    flex-direction: column; /* 세로 방향 정렬 */
-    justify-content: center; /* 세로 중앙 정렬 */
-    align-items: center; /* 가로 중앙 정렬 */
-    min-height: 100vh; /* 화면 전체 높이 사용 */
-    gap: 15px; /* 각 필드 간 간격 */
-    margin: 0 auto; /* 가로 가운데 정렬 */
-  }
-  
-/* 준강 추가내용 */
-.idgroup {
-  display: flex;
-  align-items: center; /* 세로 가운데 정렬 */
-  gap: 13px; /* 필드와 버튼 사이 간격 */
+.errorMessage{
+  color: rgb(203, 48, 48);
 }
-
-.pwgroup {
-  display: flex;
-  flex-direction: column; /* 세로 정렬 */
-  gap: 8px; /* 필드 간 간격을 조정 (기본값보다 좁게) */
+.successMessage{
+  color: rgb(11, 233, 55);
 }
-
-.namegroup {
-  display: flex;
-  flex-direction: column; /* 세로 정렬 */
-  gap: 8px; /* 필드 간 간격을 조정 (기본값보다 좁게) */
-}
-
-.birthgroup {
-  display: flex;
-  flex-direction: center; /* 세로 정렬 */
-  gap: 8px; /* 필드 간 간격을 조정 (기본값보다 좁게) */
-}
-
-.telgroup {
-  display: flex; /* 가로 정렬 */
-  gap: 5px; /* 필드 간 간격 */
-}
-
-/* 입력 필드 스타일 */
-#id, #pw, #confirmPw, #name, #birth {
-  padding: 8px; /* 내부 여백 */
-  border: 1px solid #ccc; /* 테두리 */
-  border-radius: 4px; /* 둥근 모서리 */
-  font-size: 15px;
+.registerInput{
   width: 200px;
 }
 
+#registerPage{
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative; /* 레이아웃 안정성 확보 */
+  background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
+}
+
+#registerForm{
+  display: flex;
+  justify-content: center; /* 로고, 중앙 버튼 그룹, 우측 버튼 배치 */
+  align-items: center;
+  width: 500px;
+  min-width: 500px;
+  min-height: 600px;
+  border: 2px solid #333; /* 더 진한 테두리 색상으로 변경 */
+border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.95); /* 더 밝은 배경 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 음영을 더 강조 */
+}
+
+
+
+#idAllBox{
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: 30px;
+  left: 35px;
+}
+
+#idBox{
+  display: flex;
+  flex-direction: column;
+}
+
+#idCheckButton{
+  font-size: 0.7rem;
+  width: 70px;
+  height: 30px;
+  position: relative;
+  top: 9px;
+  left: 20px;
+}
+
+#idMessage{
+  font-size: 0.9rem;
+  position: relative;
+  top: 13px;
+  height: 10px;
+}
+
+#pwBox{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 12px;
+  width: 200px;
+}
+
+#pw{
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#pwMessage{
+  font-size: 0.8rem;
+  position: relative;
+  bottom: 4px;
+  height: 10px;
+}
+
+
+#nameBox{
+display: flex;
+flex-direction: column;
+position: relative;
+bottom: 5px;
+}
+
+#birthBox{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  bottom: 5px;
+}
+
+#birth{
+  height: 35px;
+}
+
+#numBox{
+  display: flex;
+  flex-direction: column;
+}
+
+#numBox input{
+  width: 70px;
+  height: 30px;
+}
+
 #carrier{
-  padding: 8px; /* 내부 여백 */
-  border: 1px solid #ccc; /* 테두리 */
-  border-radius: 4px; /* 둥근 모서리 */
-  font-size: 15px;
+  position: relative;
   width: 80px;
+  left: 170px;
+  bottom: 40px;
 }
 
-#tel_1, #tel_2, #tel_3{
-  padding: 8px; /* 내부 여백 */
-  border: 1px solid #ccc; /* 테두리 */
-  border-radius: 4px; /* 둥근 모서리 */
-  font-size: 15px;
-  width: 100px;
+#loginMessage{
+  position: relative;
+  bottom: 30px;
+  height: 10px;
 }
 
-/* 버튼 스타일 */
-#idcheck {
-  display: flex;
-  padding: 8px 10px; /* 버튼 내부 여백 */
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px; /* 둥근 모서리 */
-  cursor: pointer;
-  font-size: 13px;
+#loginButton{
+  position: relative;
+  bottom: 15px;
+  height: 30px;
+  width: 120px;
 }
-
-/* 성공 및 에러 메시지 스타일 */
-.successMessage {
-  display: flex;
-  color: green;
-  font-size: 15px;
-  margin-top: 5px;
-  text-align: left;
-}
-
-.errorMessage {
-  color: red;
-  font-size: 15px;
-  margin-top: 5px;
-  text-align: left;
-}
-/* 준강 추가내용 */
-
-
-/* 재훈 추가내용 */
-  #registerContainer {
-  display: flex;
-  justify-content: center; /* 수평 가운데 정렬 */
-  align-items: center; /* 수직 가운데 정렬 */
-  margin-top: 100px;
-  gap: 2px; /* 입력 칸 사이 간격 */
-}
-/* ----재훈 추가내용---- */

@@ -25,17 +25,12 @@ public class RegiController {
 
     @PostMapping("/set")
     public void setRegister(@RequestBody RegisterDto registerDto) {
-        log.info("회원가입 컨트롤러 진입");
-        log.info("회원가입 데이터" + registerDto);
         regiService.setRegister(registerDto);
     }
 
     @PostMapping("/id/check")
     public String checkId(@RequestBody RegisterDto registerDto) {
-        log.info("아이디 체크 컨트롤러 진입");
-        log.info("체크할 아이디: " + registerDto.getM_id());
         String message = regiService.checkId(registerDto.getM_id());
-        log.info("체크 결과: " + message);
         return message;
     }
 }

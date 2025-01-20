@@ -24,35 +24,31 @@ import lombok.extern.log4j.Log4j;
 public class LoginController {
 
     private final LoginService loginService;
-
+    
     public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto, HttpSession session) {
-        log.info("로그인 요청 데이터: " + memberDto);
+    public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto) {
 
         Map<String, Object> response = loginService.validateUser(memberDto.getM_id(), memberDto.getM_pw());
+        
         if ((Boolean) response.get("pw_check")) {
             // 사용자 이름 조회 (employeeDto에서 가져옴)
             String userName = loginService.getUserNameById(memberDto.getM_id());
-            
+            Object userAuthority = response.get("authority");
             // 세션에 사용자 정보 저장
-            session.setAttribute("userId", memberDto.getM_id()); // 사용자 ID
-            session.setAttribute("userName", userName);         // 사용자 이름
-
             response.put("message", "로그인 성공");
             response.put("userName", userName);
-
-            log.info("세션에 저장된 userId: " + session.getAttribute("userId"));
-            log.info("세션에 저장된 userName: " + session.getAttribute("userName"));
+            response.put("userAuthority", userAuthority);
 
             return ResponseEntity.ok(response);
         } else {
             response.put("message", "아이디 또는 비밀번호가 틀렸습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
+        
     }
 
     @GetMapping("/userinfo")
