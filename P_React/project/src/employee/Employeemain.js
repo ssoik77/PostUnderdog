@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Employeemain.module.css";
 
 const Employeemain = () => {
+  const navigate = useNavigate();
   const [teams, setTeams] = useState({});
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectedTeamName, setSelectedTeamName] = useState("");
-// 
+
+  useEffect(()=>{
+    const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
+    if(!loginId){
+      navigate("/"); 
+    }
+  },[navigate])
+
   // 백엔드에서 데이터 가져오기
   useEffect(() => {
     axios
@@ -60,7 +68,7 @@ const Employeemain = () => {
   const openPopup = (e) => {
     e.preventDefault();
     const popupFeatures =
-      "width=600,height=400,top=100,left=100,resizable=no,scrollbars=yes";
+      "width=700,height=600,top=100,left=100,resizable=no,scrollbars=yes";
     window.open("/Mypage", "내 정보", popupFeatures);
   };
 

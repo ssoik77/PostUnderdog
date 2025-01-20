@@ -5,15 +5,11 @@
 <mapper namespace="com.project.mapper.RegiMapper">
 	<insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto" useGeneratedKeys="true" keyProperty="m_key">
 		insert into member_info(
-		a_authority,
-		p_authority,
-		e_authority,
+		authority,
 		m_id,
 		m_pw
 		)values(
-		#{a_authority},
-		#{p_authority},
-		#{e_authority},
+		#{authority},
 		#{m_id},
 		#{m_pw}
 		)

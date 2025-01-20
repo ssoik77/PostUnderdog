@@ -16,7 +16,7 @@
 
 	<update id="updateMemberInfo" parameterType="com.project.dto.MemberDto">
     	UPDATE member_info
-    	SET m_pw = #{m_pw}, a_authority = #{a_authority}, p_authority = #{p_authority}, e_authority = #{e_authority}
+    	SET m_pw = #{m_pw}, authority = #{authority}
     	WHERE m_id = #{m_id}
 	</update>
 

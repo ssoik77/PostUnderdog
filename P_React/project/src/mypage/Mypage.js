@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './Mypage.module.css';
 
+// 환경 변수에서 API URL 가져오기
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/underdog";
+
 const Mypage = () => {
+
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     m_id: '',
     m_pw: '',
-    a_authority: false,
-    p_authority: false,
-    e_authority: false,
+    authority: false,
     e_name: '',
     e_birth: '',
     e_carrier: '',
@@ -19,13 +21,11 @@ const Mypage = () => {
     m_key: null,
   });
 
-  const localM_id = localStorage.getItem('m_id');
-  const sessionM_id = sessionStorage.getItem('m_id');
+  const m_id = localStorage.getItem('m_id') || sessionStorage.getItem('m_id');
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       setError(null);
-      const m_id = localM_id == null ? sessionM_id : localM_id;
 
       if (!m_id) {
         setError('로그인 정보가 없습니다. 다시 로그인해주세요.');
@@ -33,8 +33,9 @@ const Mypage = () => {
       }
 
       try {
-        const response = await axios.get('http://localhost:8080/underdog/mypage/userinfo', {
-          params: { m_id },
+        //axios가 완전히 처리 될 때 까지 await로 기다림
+        const response = await axios.get(`${API_URL}/mypage/userinfo`, {
+          params: { m_id }
         });
 
         if (response.data.status === 'success') {
@@ -46,9 +47,7 @@ const Mypage = () => {
           setFormData({
             m_id: member.m_id,
             m_pw: member.m_pw,
-            a_authority: member.a_authority,
-            p_authority: member.p_authority,
-            e_authority: member.e_authority,
+            authority: member.authority,
             e_name: employee.e_name,
             e_birth: employee.e_birth,
             e_carrier: employee.e_carrier,
@@ -63,9 +62,8 @@ const Mypage = () => {
         setError('서버 오류가 발생했습니다.');
       }
     };
-
     fetchUserInfo();
-  }, [localM_id, sessionM_id]);
+  }, [m_id]);
 
   const logout = () => {
     if (window.opener) {
@@ -115,48 +113,25 @@ const Mypage = () => {
       <h2>사용자 정보</h2>
       {userInfo ? (
         editMode ? (
-          <form onSubmit={handleSubmit}>
+          <form id={styles.editBox}onSubmit={handleSubmit}>
             <div>
               <label>비밀번호:</label>
-              <input
-                type="password"
-                name="m_pw"
-                value={formData.m_pw}
-                onChange={handleInputChange}
-                placeholder="비밀번호"
-              />
+              <input type="password" name="m_pw" value={formData.m_pw} onChange={handleInputChange} placeholder="비밀번호"/>
             </div>
             <div>
               <label>이름:</label>
-              <input
-                type="text"
-                name="e_name"
-                value={formData.e_name}
-                onChange={handleInputChange}
-                placeholder="이름"
-              />
+              <input type="text" name="e_name" value={formData.e_name} onChange={handleInputChange} placeholder="이름"/>
             </div>
             <div>
               <label>생년월일:</label>
-              <input
-                type="date"
-                name="e_birth"
-                value={formData.e_birth}
-                onChange={handleInputChange}
-              />
+              <input type="date" name="e_birth" value={formData.e_birth} onChange={handleInputChange}/>
             </div>
             <div>
               <label>연락처:</label>
-              <input
-                type="text"
-                name="e_tel_num"
-                value={formData.e_tel_num}
-                onChange={handleInputChange}
-                placeholder="연락처"
-              />
+              <input type="text" name="e_tel_num" value={formData.e_tel_num} onChange={handleInputChange} placeholder="연락처"/>
             </div>
-            <button type="submit">저장</button>
-            <button type="button" onClick={() => setEditMode(false)}>
+            <button id={styles.SaveButton} type="submit">저장</button>
+            <button id={styles.EditCancleButton} type="button" onClick={() => setEditMode(false)}>
               취소
             </button>
           </form>
@@ -174,10 +149,10 @@ const Mypage = () => {
             <p>
               <strong>연락처:</strong> {userInfo.employeeInfo.e_tel_num}
             </p>
-            <button onClick={() => setEditMode(true)}>정보 수정</button>
-            <button id={styles.logoutButton} onClick={logout}>
-              로그아웃
-            </button>
+            <div id={styles.myPageButtonBox}>
+            <button id={styles.infoEditButton} onClick={() => setEditMode(true)}>정보 수정</button>
+            <button id={styles.logoutButton} onClick={logout}>로그아웃</button>
+            </div>
           </div>
         )
       ) : (

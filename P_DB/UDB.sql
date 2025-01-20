@@ -6,9 +6,7 @@ drop table vacation;
 drop table member_info;
 
 CREATE TABLE member_info(
-a_authority TINYINT NOT NULL DEFAULT 0,
-p_authority TINYINT NOT NULL DEFAULT 0,
-e_authority TINYINT NOT NULL DEFAULT 0,
+authority TINYINT NOT NULL DEFAULT 0,
 m_id CHAR(20),
 m_pw VARCHAR(20),
 m_key int auto_increment primary key
@@ -40,24 +38,7 @@ CREATE TABLE vacation (
     PRIMARY KEY (vacation_id)
 );
 
--- 아래로 코드 테스트용 칼럼데이터 추가코드 (없어도 됨)
-SELECT m_pw FROM member_info WHERE m_id = 'ehvl5361';
-
 SELECT * FROM member_info;
 SELECT * FROM employee_info;
+SELECT * FROM vacation;
 
-SELECT m_id, m_key FROM member_info WHERE m_id = 'ehvl5361';
-
-SELECT vacation_id from vacation;
-
-INSERT INTO member_info (m_id, m_pw)
-VALUES
-('admin', 'admin123'),
-('user1', 'password1'),
-('user2', 'password2');
-
-INSERT INTO employee_info (e_name, e_birth, e_level, e_tel_num, m_key, e_team)
-VALUES
-('김영수', '1985-01-01', '팀장', '01012345678', 1, '영업팀'),
-('이슬기', '1990-03-15', '사원', '01023456789', 2, '기술팀'),
-('최하늘', '1988-07-22', '사원', '01034567890', 3, '기술팀');

@@ -3,7 +3,7 @@ import './register/Register.js';
 import './find/Find.js';
 import './employee/Employeemain.js';
 import axios from 'axios';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // 환경 변수에서 API URL 가져오기
@@ -15,6 +15,14 @@ const App = () => {
   const pwRef = useRef(null);
 
   const [isSaveLogin, setIsSaveLogin] = useState(false);
+
+  useEffect(()=>{
+    const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
+    if(loginId){
+      navigate("/employeemain")
+    }
+  },[navigate])
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -33,14 +41,16 @@ const App = () => {
       );
   
       if (response.data.pw_check) {
-        const { userName } = response.data; // 서버에서 반환된 사용자 이름
+        const { userName, userAuthority } = response.data; // 서버에서 반환된 사용자 이름
   
         if (isSaveLogin) {
-          localStorage.setItem("m_id", id);
+          localStorage.setItem("m_id", id); // 사용자 id 저장
           localStorage.setItem("e_name", userName); // 사용자 이름 저장
+          localStorage.setItem("authority", userAuthority); // 사용자 권한 저장
         } else {
-          sessionStorage.setItem("m_id", id);
+          sessionStorage.setItem("m_id", id); // 사용자 id 저장
           sessionStorage.setItem("e_name", userName); // 사용자 이름 저장
+          sessionStorage.setItem("authority", userAuthority); // 사용자 권한 저장
         }
   
         alert(response.data.message || "로그인 성공!");
@@ -62,13 +72,15 @@ const App = () => {
   };
 
   return (
-    <div id={styles.loginpop}>
-      <div className={styles.App}>
+    <div id={styles.loginPage}>
         {/* 타이틀 */}
-        <header className={styles.AppHeader}>
-          <img src="/logo.png" alt="Logo" className={styles.logoImage} />
-          <h1 id={styles.postUnderdog}>Post Underdog</h1>
+        <header id={styles.loginHeader}>
+          <img src="/logo.png" alt="Logo" id={styles.logo} />
+          <h1 id={styles.brandName}>Post Underdog</h1>
         </header>
+
+        <div id={styles.loginBox}>
+        <div id={styles.login}>
 
         {/* 로그인 폼 */}
         <form id={styles.loginUi} onSubmit={handleLogin}>
@@ -76,25 +88,12 @@ const App = () => {
             <tbody>
               <tr>
                 <td>
-                  <input
-                    ref={idRef}
-                    id={styles.id}
-                    placeholder="아이디"
-                    size="10"
-                    required
-                  />
+                  <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' required/>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <input
-                    ref={pwRef}
-                    id={styles.pw}
-                    placeholder="비밀번호"
-                    size="10"
-                    type="password"
-                    required
-                  />
+                  <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" required />
                 </td>
               </tr>
               <tr>
@@ -105,34 +104,29 @@ const App = () => {
             </tbody>
           </table>
         </form>
+        <div id={styles.regiFindBox}>
 
         {/* 회원가입 팝업 */}
-        <button
-          id={styles.regiButton}
-          onClick={() => openPopup("../Register", "회원가입")}
-          className={styles.button}
-        >
+        <button id={styles.regiButton} onClick={() => openPopup("../Register", "회원가입")} className={styles.button} >
           회원가입
         </button>
-
+        |
         {/* ID/PW 찾기 팝업 */}
-        <button
-          id={styles.findIdPwButton}
-          onClick={() => openPopup("../Find", "ID/PW 찾기")}
-          className={styles.button}
-        >
+        <button id={styles.findIdPwButton} onClick={() => openPopup("../Find", "ID/PW 찾기")} className={styles.button} >
           ID/PW 찾기
         </button>
+          </div>
 
         {/* 자동 로그인 체크박스 */}
         <div id={styles.loginSaveCheck}>
-          <input
-            type="checkbox"
-            onChange={({ target: { checked } }) => setIsSaveLogin(checked)}
-          />{" "}
+          <label id={styles.loginSaveCheckLabel}>
+          <input id={styles.checkbox} type="checkbox" onChange={({ target: { checked } }) => setIsSaveLogin(checked)} />
           로그인 정보 저장
+          </label>
         </div>
-      </div>
+            </div>
+            </div>
+
     </div>
   );
 };

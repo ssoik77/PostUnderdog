@@ -18,7 +18,7 @@ public class EmployeeDto {
     private String e_level; // 직책
     private String e_team; // 팀 이름
     private String e_tel_num;
-    int m_key;
+    private int m_key;
 
     public EmployeeDto(int e_num, String e_name, LocalDate e_birth, String e_level, String e_team, String e_carrier, String e_tel_num, int m_key) {
         this.e_num = e_num;
