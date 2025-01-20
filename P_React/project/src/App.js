@@ -62,13 +62,15 @@ const App = () => {
   };
 
   return (
-    <div id={styles.loginpop}>
-      <div className={styles.App}>
+    <div id={styles.loginPage}>
         {/* 타이틀 */}
-        <header className={styles.AppHeader}>
-          <img src="/logo.png" alt="Logo" className={styles.logoImage} />
-          <h1 id={styles.postUnderdog}>Post Underdog</h1>
+        <header id={styles.loginHeader}>
+          <img src="/logo.png" alt="Logo" id={styles.logo} />
+          <h1 id={styles.brandName}>Post Underdog</h1>
         </header>
+
+        <div id={styles.loginBox}>
+        <div id={styles.login}>
 
         {/* 로그인 폼 */}
         <form id={styles.loginUi} onSubmit={handleLogin}>
@@ -76,25 +78,12 @@ const App = () => {
             <tbody>
               <tr>
                 <td>
-                  <input
-                    ref={idRef}
-                    id={styles.id}
-                    placeholder="아이디"
-                    size="10"
-                    required
-                  />
+                  <input ref={idRef} id={styles.id} placeholder="아이디" size="10" required/>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <input
-                    ref={pwRef}
-                    id={styles.pw}
-                    placeholder="비밀번호"
-                    size="10"
-                    type="password"
-                    required
-                  />
+                  <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" required />
                 </td>
               </tr>
               <tr>
@@ -105,34 +94,29 @@ const App = () => {
             </tbody>
           </table>
         </form>
+        <div id={styles.regiFindBox}>
 
         {/* 회원가입 팝업 */}
-        <button
-          id={styles.regiButton}
-          onClick={() => openPopup("../Register", "회원가입")}
-          className={styles.button}
-        >
+        <button id={styles.regiButton} onClick={() => openPopup("../Register", "회원가입")} className={styles.button} >
           회원가입
         </button>
-
+        |
         {/* ID/PW 찾기 팝업 */}
-        <button
-          id={styles.findIdPwButton}
-          onClick={() => openPopup("../Find", "ID/PW 찾기")}
-          className={styles.button}
-        >
+        <button id={styles.findIdPwButton} onClick={() => openPopup("../Find", "ID/PW 찾기")} className={styles.button} >
           ID/PW 찾기
         </button>
+          </div>
 
         {/* 자동 로그인 체크박스 */}
         <div id={styles.loginSaveCheck}>
-          <input
-            type="checkbox"
-            onChange={({ target: { checked } }) => setIsSaveLogin(checked)}
-          />{" "}
+          <label id={styles.loginSaveCheckLabel}>
+          <input id={styles.checkbox} type="checkbox" onChange={({ target: { checked } }) => setIsSaveLogin(checked)} />
           로그인 정보 저장
+          </label>
         </div>
-      </div>
+            </div>
+            </div>
+
     </div>
   );
 };
