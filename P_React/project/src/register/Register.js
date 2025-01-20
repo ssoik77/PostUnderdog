@@ -155,21 +155,37 @@ const Register = () => {
 
     return (
         <form onSubmit={sendRegisterData}>
-
+            <div className={styles['form-container']}>
             {/* -----------------------준강 아이디, 아이디 중복 버튼 병합 -------------------*/}
-
-            {/* 아이디 입력 */}
-            <input type="text" id={styles.inputId} placeholder="아이디를 입력하세요" value={id}
-                onChange={(e) => setId(e.target.value)} // 아이디 입력 값 업데이트 
-                required />
+            <div className={styles['idgroup']}>
+            {/* 아이디 입력 필드 */}
+            <input
+                type="text"
+                id={styles.id}
+                placeholder="아이디를 입력하세요"
+                value={id}
+                onChange={(e) => setId(e.target.value)}
+                required
+            />
             {/* 아이디 중복 체크 버튼 */}
-            <button type="button" id={styles.idCheckButton} onClick={checkId}>
-                아이디 중복 체크
+            <button
+                type="button"
+                id={styles.idcheck}
+                onClick={checkId}
+                >
+            아이디 중복 체크
             </button>
-            {/* 아이디 중복 체크 후 메세지 출력 */}
-            <div id={idMessage === "사용 가능한 아이디입니다." ? styles.successMessage : styles.errorMessage}>
-                {idMessage}
-            </div>
+        </div>
+        {/* 아이디 중복 체크 결과 메시지 */}
+        <div
+            className={
+                idMessage === "사용 가능한 아이디입니다."
+                ? styles.successMessage
+                : styles.errorMessage
+            }
+            >
+            {idMessage}
+        </div>
 
             {/* -------------------------준강 아이디, 아이디 중복 버튼 병합 ------------------*/}
 
@@ -177,26 +193,24 @@ const Register = () => {
 
 
             {/* 비밀번호 입력 필드 */}
-            <input
-                id={styles.pw}
-                placeholder="비밀번호"
-                type="password"
-                value={password}
-                onChange={handlePasswordChange}
-                required
-            />
-
-            <br />
-            {/* 비밀번호 확인 입력 필드 */}
-            <input
-                id={styles.confirmPw}
-                placeholder="비밀번호 확인"
-                type="password"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                required
-            />
-            <br />
+            <div className={styles['pwgroup']}>
+                <input
+                    id={styles.pw}
+                    placeholder="비밀번호"
+                    type="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    required
+                />
+                <input
+                    id={styles.confirmPw}
+                    placeholder="비밀번호 확인"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    required
+                />
+                </div>
             {/* 메시지 출력 */}
             <div id="message" className={pwMessageStyle}>
                 {pwMessage}
@@ -207,6 +221,7 @@ const Register = () => {
             {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
             
             {/* 이름 입력 */}
+            <div className={styles['namegroup']}>
             <input
                 type="text"
                 id={styles.name}
@@ -216,22 +231,25 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
             />
-
+            </div>
             {/* 생년월일 입력 */}
-            <label htmlFor="birthDate">생년월일:</label>
+            <div className={styles['birthgroup']}>
+            생년월일:{' '}
             <input
                 type="date"
-                id={styles.birthDate}
-                className={styles.birthDate}
+                id={styles.birth}
+                className={styles.birth}
                 value={birthDate}
                 onChange={(e) => setBirthDate(e.target.value)}
                 required
             />
+            </div>
 
             {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
 
             {/* 통신사 선택 드롭다운 */}
-            <select id={styles.carrierSelectBox} onChange={selectCarrier} value={mobileCarrier}>
+            <div className={styles['telgroup']}>
+            <select id={styles.carrier} onChange={selectCarrier} value={mobileCarrier}>
                 <option value='SKT'>SKT</option>
                 <option value='KT'>KT</option>
                 <option value='LGU+'>LGU+</option>
@@ -239,15 +257,15 @@ const Register = () => {
             </select>
 
             {/* 전화번호 입력 필드 */}
-            <label htmlFor="tel">전화번호:</label>
-            <input type="tel" id={styles.tel_1} maxLength="3" value={tel1} onChange={handleTel1Change} required /> -
-            <input type="tel" id={styles.tel_2} maxLength="4" value={tel2} onChange={handleTel2Change} required /> -
+            <input type="tel" id={styles.tel_1} maxLength="3" value={tel1} onChange={handleTel1Change} required /> -{' '}
+            <input type="tel" id={styles.tel_2} maxLength="4" value={tel2} onChange={handleTel2Change} required /> -{' '}
             <input type="tel" id={styles.tel_3} maxLength="4" value={tel3} onChange={handleTel3Change} required />
-
+            </div>
             {/* 회원가입 버튼 */}
             <button type="submit" className={styles.button} >완료</button>
             {/* 아이디 체크 제대로 하지 않고 정보 제출시 메세지 출력 */}
             {resultMessage}
+            </div>
         </form>
     );
 };

@@ -1,7 +1,7 @@
 import styles from './App.module.css';
 import './register/Register.js';
 import './find/Find.js';
-import './main/Main.js';
+import './employee/Employeemain.js';
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +44,7 @@ const App = () => {
         }
   
         alert(response.data.message || "로그인 성공!");
-        navigate("/main");
+        navigate("/Employeemain");
       }
     } catch (error) {
       if (error.response?.status === 401) {

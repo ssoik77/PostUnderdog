@@ -2,89 +2,108 @@
     color: #ffee00;
     font-family: 'Arial', sans-serif;
   }  
+  
+  .form-container {
+    display: flex;
+    flex-direction: column; /* 세로 방향 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    min-height: 100vh; /* 화면 전체 높이 사용 */
+    gap: 15px; /* 각 필드 간 간격 */
+    margin: 0 auto; /* 가로 가운데 정렬 */
+  }
+  
 /* 준강 추가내용 */
-
-#inputId {
-  width: 200px;
-  top: 100px;
+.idgroup {
+  display: flex;
+  align-items: center; /* 세로 가운데 정렬 */
+  gap: 13px; /* 필드와 버튼 사이 간격 */
 }
 
-#idCheckButton {
-  padding: 10px;
+.pwgroup {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  gap: 8px; /* 필드 간 간격을 조정 (기본값보다 좁게) */
+}
+
+.namegroup {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  gap: 8px; /* 필드 간 간격을 조정 (기본값보다 좁게) */
+}
+
+.birthgroup {
+  display: flex;
+  flex-direction: center; /* 세로 정렬 */
+  gap: 8px; /* 필드 간 간격을 조정 (기본값보다 좁게) */
+}
+
+.telgroup {
+  display: flex; /* 가로 정렬 */
+  gap: 5px; /* 필드 간 간격 */
+}
+
+/* 입력 필드 스타일 */
+#id, #pw, #confirmPw, #name, #birth {
+  padding: 8px; /* 내부 여백 */
+  border: 1px solid #ccc; /* 테두리 */
+  border-radius: 4px; /* 둥근 모서리 */
+  font-size: 15px;
+  width: 200px;
+}
+
+#carrier{
+  padding: 8px; /* 내부 여백 */
+  border: 1px solid #ccc; /* 테두리 */
+  border-radius: 4px; /* 둥근 모서리 */
+  font-size: 15px;
+  width: 80px;
+}
+
+#tel_1, #tel_2, #tel_3{
+  padding: 8px; /* 내부 여백 */
+  border: 1px solid #ccc; /* 테두리 */
+  border-radius: 4px; /* 둥근 모서리 */
+  font-size: 15px;
+  width: 100px;
+}
+
+/* 버튼 스타일 */
+#idcheck {
+  display: flex;
+  padding: 8px 10px; /* 버튼 내부 여백 */
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 4px; /* 둥근 모서리 */
   cursor: pointer;
-  width: 100%;
-  margin-bottom: 10px;
+  font-size: 13px;
 }
 
-
-#successMessage {
+/* 성공 및 에러 메시지 스타일 */
+.successMessage {
+  display: flex;
   color: green;
-  font-size: 14px;
-  text-align: center;
-  margin-top: 10px;
+  font-size: 15px;
+  margin-top: 5px;
+  text-align: left;
 }
 
-#errorMessage {
+.errorMessage {
   color: red;
-  font-size: 14px;
-  text-align: center;
-  margin-top: 10px;
+  font-size: 15px;
+  margin-top: 5px;
+  text-align: left;
 }
 /* 준강 추가내용 */
 
 
 /* 재훈 추가내용 */
   #registerContainer {
-    display: flex;
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-    margin-top: 100px;
-    gap: 20px; /* 입력 칸 사이 간격 */
-}
-
-#nameGroup {
   display: flex;
-  flex-direction: column; /* 라벨 위, 입력 칸 아래 정렬 */
-  align-items: center; /* 가로 가운데 정렬 */
-}
-
-#birthGroup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#nameLabel,
-#birthLabel {
-  margin-bottom: 5px; /* 라벨과 입력 칸 간격 */
-  font-size: 1rem;
-  color: #333;
-}
-
-#nameInput,
-#birthInput {
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 200px;
-  text-align: center; /* 입력 내용 가운데 정렬 */
-  box-sizing: border-box;
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+  margin-top: 100px;
+  gap: 2px; /* 입력 칸 사이 간격 */
 }
 /* ----재훈 추가내용---- */
-
-
-
-#pw {
-  width: 200px;
-  top: 100px;
-}
-
-#confirmPw {
-  width: 200px;
-  top: 1200px;
-}
