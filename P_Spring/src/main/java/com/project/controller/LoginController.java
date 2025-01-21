@@ -30,29 +30,30 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto) {
-
+    public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto, HttpSession session) {
         Map<String, Object> response = loginService.validateUser(memberDto.getM_id(), memberDto.getM_pw());
-        
+
         if ((Boolean) response.get("pw_check")) {
-            // 사용자 이름 조회 (employeeDto에서 가져옴)
             String userName = loginService.getUserNameById(memberDto.getM_id());
-            Object userAuthority = response.get("authority");
-            // 세션에 사용자 정보 저장
+            session.setAttribute("userId", memberDto.getM_id());
+            session.setAttribute("userName", userName);
+
+            log.info("세션에 사용자 정보 저장: userId=" + memberDto.getM_id() + ", userName=" + userName);
+
             response.put("message", "로그인 성공");
             response.put("userName", userName);
-            response.put("userAuthority", userAuthority);
-
             return ResponseEntity.ok(response);
         } else {
+            log.warn("로그인 실패: 아이디 또는 비밀번호가 틀렸습니다. 사용자 ID: " + memberDto.getM_id());
             response.put("message", "아이디 또는 비밀번호가 틀렸습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
-        
     }
 
     @GetMapping("/userinfo")
     public ResponseEntity<?> getUserInfo(HttpSession session) {
+        log.info("사용자 정보 조회 요청");
+        
         String userId = (String) session.getAttribute("userId");
         String userName = (String) session.getAttribute("userName");
 
@@ -60,6 +61,8 @@ public class LoginController {
             log.warn("로그인된 사용자가 없습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인된 사용자가 없습니다.");
         }
+
+        log.info("세션에서 가져온 사용자 정보: 사용자 ID: " + userId + ", 이름: " + userName);
 
         Map<String, String> userInfo = new HashMap<>();
         userInfo.put("userId", userId);

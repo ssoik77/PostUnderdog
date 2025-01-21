@@ -19,19 +19,19 @@ public class RegisterDto {
 	String e_tel_num;
 
 	
-	int m_key;
+	int e_key;
 
 
-	public RegisterDto(String e_name, Date e_birth, String e_carrier, String e_tel_num, int m_key) {
+	public RegisterDto(String e_name, Date e_birth, String e_carrier, String e_tel_num, int e_key) {
 		this.e_name = e_name;
 		this.e_birth = e_birth;
 		this.e_carrier = e_carrier;
 		this.e_tel_num = e_tel_num;
-		this.m_key = m_key;
+		this.e_key = e_key;
 	}
 
 	public RegisterDto(int authority, String m_id, String m_pw, String e_name, Date e_birth, String e_carrier,
-			String e_tel_num, int m_key) {
+			String e_tel_num, int e_key) {
 		this.authority = authority;
 		this.m_id = m_id;
 		this.m_pw = m_pw;
@@ -39,7 +39,7 @@ public class RegisterDto {
 		this.e_birth = e_birth;
 		this.e_carrier = e_carrier;
 		this.e_tel_num = e_tel_num;
-		this.m_key = m_key;
+		this.e_key = e_key;
 	}
 
 	public RegisterDto(int authority, String m_id, String m_pw) {

@@ -20,13 +20,13 @@
 		e_birth,
 		e_carrier,
 		e_tel_num,
-		m_key
+		e_key
 		)values(
 		#{e_name},
 		#{e_birth},
 		#{e_carrier},
 		#{e_tel_num},
-		#{m_key}
+		#{e_key}
 		)
 	</insert>
 	<select id="pullId" resultType="com.project.dto.RegisterDto">
