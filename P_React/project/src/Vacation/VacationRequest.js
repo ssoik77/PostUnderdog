@@ -17,7 +17,7 @@ const VacationRequest = () => {
   // 백엔드에서 데이터 가져오기
   useEffect(() => {
     axios
-      .get("http://localhost:8080/underdog/employees") // API 호출 경로
+      .get("http://localhost:8080/underdog/employee") // API 호출 경로
       .then((response) => {
     
       })

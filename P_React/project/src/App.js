@@ -54,7 +54,7 @@ const App = () => {
         }
   
         alert(response.data.message || "로그인 성공!");
-        navigate("/Employeemain");
+        navigate("/vacationrequest");
       }
     } catch (error) {
       if (error.response?.status === 401) {

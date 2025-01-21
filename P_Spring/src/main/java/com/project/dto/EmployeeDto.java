@@ -18,9 +18,9 @@ public class EmployeeDto {
     private String e_level; // 직책
     private String e_team; // 팀 이름
     private String e_tel_num;
-    private int m_key;
+    private int e_key;
 
-    public EmployeeDto(int e_num, String e_name, LocalDate e_birth, String e_level, String e_team, String e_carrier, String e_tel_num, int m_key) {
+    public EmployeeDto(int e_num, String e_name, LocalDate e_birth, String e_level, String e_team, String e_carrier, String e_tel_num, int e_key) {
         this.e_num = e_num;
         this.e_name = e_name;
         this.e_birth = e_birth;
@@ -28,6 +28,6 @@ public class EmployeeDto {
         this.e_level = e_level;
         this.e_team = e_team;
         this.e_tel_num = e_tel_num;
-        this.m_key = m_key;
+        this.e_key = e_key;
     }
 }

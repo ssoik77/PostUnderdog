@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dto.EmployeeDto;
@@ -18,30 +19,20 @@ import com.project.service.EmployeeService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/employees")
+@RequestMapping("/employee")
 public class EmployeeController {
 
-    @Autowired
     private EmployeeService employeeService;
+    
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
 
-    @GetMapping
-    public List<EmployeeDto> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    @PostMapping("/add")
+    void employeeRegistration(@RequestBody EmployeeDto employeeDto) {
+    	employeeService.add(employeeDto.getE_num());
     }
-
-    @PostMapping
-    public void addEmployee(@RequestBody EmployeeDto employee) {
-        employeeService.addEmployee(employee);
-    }
-
-    @PutMapping("/{id}")
-    public void updateEmployee(@PathVariable int id, @RequestBody EmployeeDto employee) {
-        employee.setE_num(id);
-        employeeService.updateEmployee(employee);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable int id) {
-        employeeService.deleteEmployee(id);
-    }
+    
+    
 }

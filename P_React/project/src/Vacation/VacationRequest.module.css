@@ -50,6 +50,18 @@
   align-items: center;
 }
 
+#popupLink {
+  text-decoration: none; /* 밑줄 제거 */
+  color: rgb(56, 172, 255);
+  cursor: pointer; /* 커서 포인터 */
+  
+}
+
+#popupLink:visited,
+#popupLink:active {
+  color: rgb(56, 172, 255); /* 클릭 시 색상 변경 없음 */
+}
+
 #mainContainer {
   padding: 20px;
   flex-grow: 1;

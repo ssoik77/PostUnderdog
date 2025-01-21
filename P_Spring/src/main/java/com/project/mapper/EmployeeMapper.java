@@ -8,9 +8,5 @@ import com.project.dto.EmployeeDto;
 
 @Mapper
 public interface EmployeeMapper {
-    List<EmployeeDto> getAllEmployees();
-    EmployeeDto getEmployeeById(int id);
-    void addEmployee(EmployeeDto employee);
-    void updateEmployee(EmployeeDto employee);
-    void deleteEmployee(int id);
+	void add(int e_num);
 }

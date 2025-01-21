@@ -14,7 +14,7 @@
 <select id="getUserNameById" resultType="string">
     SELECT e.e_name
     FROM employee_info e
-    JOIN member_info m ON e.m_key = m.m_key
+    JOIN member_info m ON e.e_key = m.e_key
     WHERE m.m_id = #{m_id};
 </select>
 </mapper>

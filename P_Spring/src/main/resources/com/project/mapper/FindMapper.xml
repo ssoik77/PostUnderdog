@@ -8,7 +8,7 @@
     <select id="findIdByDetails" parameterType="com.project.dto.EmployeeDto" resultType="java.lang.String">
         SELECT m.m_id
         FROM member_info m
-        JOIN employee_info e ON m.m_key = e.m_key
+        JOIN employee_info e ON m.e_key = e.e_key
         WHERE e.e_name = #{e_name}
           AND e.e_tel_num = #{e_tel_num}
           AND e.e_birth = #{e_birth};
@@ -17,7 +17,7 @@
 	<select id="findPwByDetails" parameterType="com.project.dto.FindPwDto" resultType="java.lang.String">
 	    SELECT m.m_pw
 	    FROM member_info m
-	    JOIN employee_info e ON m.m_key = e.m_key
+	    JOIN employee_info e ON m.e_key = e.e_key
 	    WHERE m.m_id = #{m_id}
 	      AND e.e_tel_num = #{e_tel_num};
 	</select>

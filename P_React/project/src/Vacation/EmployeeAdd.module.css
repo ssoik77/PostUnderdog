@@ -1,0 +1,94 @@
+#employeeAddPage {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    min-height: 100vh;
+    position: relative; /* 레이아웃 안정성 확보 */
+    background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #header {
+    display: flex;
+    justify-content: space-between; /* 로고, 중앙 버튼 그룹, 우측 버튼 배치 */
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* 반투명 헤더 배경 */
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative; /* 내부 요소 정렬 기준 */
+  }
+  
+  #logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  #logoImage {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  #nav {
+    position: absolute; /* 중앙 고정 */
+    left: 50%; /* 화면 중앙으로 이동 */
+    transform: translateX(-50%); /* 정확히 중앙 정렬 */
+    display: flex;
+    gap: 20px; /* 버튼 간격 */
+  }
+  
+  #nav a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: #333; /* 텍스트 색상 */
+    font-size: 1rem;
+  }
+  
+  #info {
+    display: flex;
+    align-items: center;
+  }
+  
+  #popupLink {
+    text-decoration: none; /* 밑줄 제거 */
+    color: rgb(56, 172, 255);
+    cursor: pointer; /* 커서 포인터 */
+
+  }
+  
+  #popupLink:visited,
+  #popupLink:active {
+    color: rgb(56, 172, 255); /* 클릭 시 색상 변경 없음 */
+  }
+
+  #mainContainer {
+    padding: 20px;
+    flex-grow: 1;
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #employeeBox {
+    background-color: aquamarine;
+    width: 1300px; /* 적절한 너비 설정 */
+    height: 100px; /* 전체 높이 설정 */
+    padding: 10px; /* 내부 여백 설정 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    border-radius: 10px;
+}
+
+#mainBox {
+    background-color: #fff;
+    width: 1300px; /* 적절한 너비 설정 */
+    height: 650px; /* 전체 높이 설정 */
+    overflow-y: auto; /* 스크롤 가능하게 설정 */
+    padding: 10px;
+    margin-top: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    
+  }

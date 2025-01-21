@@ -42,7 +42,7 @@ public class MypageController {
                 return response;
             }
 
-            EmployeeDto employeeInfo = mypageService.getEmployeeInfo(memberInfo.getM_key());
+            EmployeeDto employeeInfo = mypageService.getEmployeeInfo(memberInfo.getE_key());
             if (employeeInfo == null) {
                 response.put("status", "failure");
                 response.put("message", "직원 정보를 찾을 수 없습니다.");
@@ -83,7 +83,7 @@ public class MypageController {
 
             employee.setE_carrier((String) updateData.get("e_carrier"));
             employee.setE_tel_num((String) updateData.get("e_tel_num"));
-            employee.setM_key((Integer) updateData.get("m_key"));
+            employee.setE_key((Integer) updateData.get("m_key"));
 
             // 서비스 호출
             mypageService.updateMemberInfo(member);

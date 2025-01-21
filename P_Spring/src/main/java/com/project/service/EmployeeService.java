@@ -11,26 +11,14 @@ import com.project.mapper.EmployeeMapper;
 @Service
 public class EmployeeService {
 
-    @Autowired
-    private EmployeeMapper employeeMapper;
+	private EmployeeMapper employeeMapper;
 
-    public List<EmployeeDto> getAllEmployees() {
-        return employeeMapper.getAllEmployees();
-    }
+	@Autowired
+	public EmployeeService(EmployeeMapper employeeMapper) {
+		this.employeeMapper = employeeMapper;
+	}
 
-    public EmployeeDto getEmployeeById(int id) {
-        return employeeMapper.getEmployeeById(id);
-    }
-
-    public void addEmployee(EmployeeDto employee) {
-        employeeMapper.addEmployee(employee);
-    }
-
-    public void updateEmployee(EmployeeDto employee) {
-        employeeMapper.updateEmployee(employee);
-    }
-
-    public void deleteEmployee(int id) {
-        employeeMapper.deleteEmployee(id);
-    }
+	public void add(int e_num) {
+		employeeMapper.add(e_num);
+	}
 }
