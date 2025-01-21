@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./VacationApproval"
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./VacationRequest.module.css";
 
-const Employeemain = () => {
+const VacationRequest = () => {
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -35,38 +36,40 @@ const Employeemain = () => {
   };
 
   return (
-    <div className={styles.emp}>
+    <div id={styles.emp}>
 
-      <header className={styles.header}>
-        <div className={styles.logo}>
-          <img src="/logo.png" alt="Logo" className={styles.logoImage} />
+      <header id={styles.header}>
+        <div id={styles.logo}>
+          <img src="/logo.png" alt="Logo" id={styles.logoImage} />
           <h1>Post Underdog</h1>
         </div>
 
-        <nav className={styles.nav}>
+        <nav id={styles.nav}>
           <Link to="/vacationapproval">휴가 승인</Link>
+          <Link to="/employeeadd">직원 추가</Link>
         </nav>
 
-        <div className={styles.info}>
-          <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>
+        <div id={styles.info}>
+          <a href="/Mypage" onClick={openPopup} id={styles.popupLink}>
             내 정보
           </a>
         </div>
       </header>
 
-      <main className={styles.mainContainer}>
-        <div className={styles.teamBox}>
+      <main id={styles.mainContainer}>
+
+        <div id={styles.employeeBox}>
         </div>
 
-        <div className={styles.mainBox}>
-          <section className={styles.organizationChart}>
+        <div id={styles.mainBox}>
 
-          </section>
+
         </div>
 
       </main>
+
     </div>
   );
 };
 
-export default Employeemain;
+export default VacationRequest;
