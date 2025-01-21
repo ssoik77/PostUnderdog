@@ -44,6 +44,7 @@ const Employeemain = () => {
         </div>
 
         <nav className={styles.nav}>
+          <Link to="/vacationapproval">휴가 승인</Link>
         </nav>
 
         <div className={styles.info}>
