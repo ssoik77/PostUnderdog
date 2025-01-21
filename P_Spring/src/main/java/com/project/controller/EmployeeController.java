@@ -1,25 +1,26 @@
 package com.project.controller;
 
-import java.util.List;
+
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.dto.EmployeeDto;
+import com.project.dto.RegisterDto;
 import com.project.service.EmployeeService;
+
+import lombok.extern.log4j.Log4j;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/employee")
+@Log4j
 public class EmployeeController {
 
     private EmployeeService employeeService;
@@ -30,9 +31,19 @@ public class EmployeeController {
 	}
 
     @PostMapping("/add")
-    void employeeRegistration(@RequestBody EmployeeDto employeeDto) {
-    	employeeService.add(employeeDto.getE_num());
+    @Transactional
+    void employeeRegistration(@RequestBody String e_num) {
+    	log.info(e_num);
+    	employeeService.add(e_num);
     }
     
+    @PostMapping("/list")
+    @ResponseBody
+    ArrayList<RegisterDto> employeeList() {
+    	log.info("작동함");
+    	ArrayList<RegisterDto> list = employeeService.list();
+    	log.info(list);
+    	return list;
+    }
     
 }

@@ -4,8 +4,13 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.mapper.EmployeeMapper">
-	<insert id="add" parameterType="int">
-	INSERT INTO member_info(e_num) values(#{e_num});
-	</insert>
 
+	<insert id="add" parameterType="String">
+	INSERT INTO employee_info(e_num) values(#{e_num});
+	</insert>
+	
+	<select id="list" resultType="com.project.dto.RegisterDto">
+	SELECT * FROM employee_info e LEFT JOIN member_info m ON e.e_key = m.e_key;
+	</select>
+	
 </mapper>
