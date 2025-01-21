@@ -76,7 +76,8 @@ const App = () => {
         {/* 타이틀 */}
         <header id={styles.loginHeader}>
           <img src="/logo.png" alt="Logo" id={styles.logo} />
-          <h1 id={styles.brandName}>Post Underdog</h1>
+          <h1 id={styles.brandNametwo}>E.V.M</h1>
+          <h1 id={styles.brandNameone}>Employee Vacation Manager</h1>
         </header>
 
         <div id={styles.loginBox}>
