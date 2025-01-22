@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const Register = () => {
 
+   const [employeeNumber, setEmployeeNumber] = useState(""); // 사원번호 입력값
+
     const [id, setId] = useState(""); // 아이디 입력값
     const [idMessage, setIdMessage] = useState(""); // 아이디 입력 오류 메세지
     const [idCheckResult, setIdCheckResult] = useState(false); //아이디 체크 했는지 여부
@@ -111,7 +113,7 @@ const Register = () => {
         // 각 입력값에 맞춰 자동 업데이트됩니다.
         [id, password, mobileCarrier,
             tel1, tel2, tel3, name, birthDate,
-            idMessage, idCheckResult, resultMessage]
+            idMessage, idCheckResult, resultMessage, employeeNumber]
     );
 
     //데이터 전송 함수
@@ -124,6 +126,7 @@ const Register = () => {
             if (pwCheckResult) {
 
                 const regiData = {
+                    e_num: employeeNumber,
                     m_id: id,
                     m_pw: password,
                     e_name: name,           // 이름 추가
@@ -156,6 +159,10 @@ const Register = () => {
     return (
         <div id={styles.registerPage}>
             <form id={styles.registerForm} onSubmit={sendRegisterData}>
+                <div>
+                사원번호
+                <input type="text" placeholder="사원번호를 입력해 주세요" value={employeeNumber} onChange={(e)=>setEmployeeNumber(e.target.value)} required/>
+                </div>
                 {/* -----------------------준강 아이디, 아이디 중복 버튼 병합 -------------------*/}
                 <div id={styles.idAllBox}>
                     {/* 아이디 입력 필드 */}
@@ -209,6 +216,7 @@ const Register = () => {
                 </div>
 
                 {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
+
                 <div id={styles.numBox}>
                             전화번호
                     {/* 통신사 선택 드롭다운 */}

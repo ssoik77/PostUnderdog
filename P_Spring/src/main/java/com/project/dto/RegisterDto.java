@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterDto {
 
-	int authority = 1;
+	int authority = 0;
 	String m_id;
 	String m_pw;
 	String e_name;

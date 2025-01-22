@@ -5,18 +5,18 @@
 <mapper namespace="com.project.mapper.RegiMapper">
     <!-- 직원 정보 삽입 -->
     <insert id="setRegisterEmployee" parameterType="com.project.dto.RegisterDto" useGeneratedKeys="true" keyProperty="e_key">
-        INSERT INTO employee_info(
-            e_name,
-            e_birth,
-            e_carrier,
-            e_tel_num
-        ) VALUES (
-            #{e_name},
-            #{e_birth},
-            #{e_carrier},
-            #{e_tel_num}
-        )
+       UPDATE employee_info
+  		  SET 
+        e_name = #{e_name},
+        e_birth = #{e_birth},
+        e_carrier = #{e_carrier},
+        e_tel_num = #{e_tel_num}
+    	WHERE e_num = #{e_num}
     </insert>
+
+	<select id="pullKey" parameterType="com.project.dto.RegisterDto" resultType="int">
+	SELECT e_key FROM employee_info WHERE e_num = #{e_num}
+	</select>
 
     <!-- 회원 정보 삽입 -->
     <insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto">

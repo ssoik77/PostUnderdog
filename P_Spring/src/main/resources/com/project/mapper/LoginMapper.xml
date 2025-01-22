@@ -7,9 +7,9 @@
 
     <!-- 비밀번호와 권한 조회 -->
     <select id="getPasswordById" resultType="com.project.dto.MemberDto">
-        SELECT m.m_pw, m.authority, m.e_key
-        FROM member_info m
-        WHERE m.m_id = #{m_id};
+        SELECT m_pw, authority, e_key
+        FROM member_info 
+        WHERE m_id = #{m_id};
     </select>
 
     <!-- 사용자 이름 조회 -->

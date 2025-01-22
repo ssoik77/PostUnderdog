@@ -30,8 +30,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto, HttpSession session) {
-        log.info("로그인 요청: m_id = " + memberDto.getM_id());
+    public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto) {
         
         // 사용자 인증
         Map<String, Object> response = loginService.validateUser(memberDto.getM_id(), memberDto.getM_pw());
@@ -41,16 +40,9 @@ public class LoginController {
             String userName = loginService.getUserNameById(memberDto.getM_id());
             Object userAuthority = response.get("authority");
             
-            // 세션에 사용자 정보 저장
-            session.setAttribute("userId", memberDto.getM_id());
-            session.setAttribute("userName", userName);
-            session.setAttribute("authority", userAuthority);
-
             response.put("message", "로그인 성공");
             response.put("userName", userName);
             response.put("userAuthority", userAuthority);
-
-            log.info("로그인 성공: 사용자 ID = " + memberDto.getM_id() + ", 사용자 이름 = " + userName);
             
             return ResponseEntity.ok(response);
         } else {
