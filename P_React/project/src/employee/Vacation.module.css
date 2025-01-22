@@ -1,0 +1,138 @@
+/* 컨테이너 스타일 */
+.vacationContainer {
+  width: 628px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.vacationMainBox {
+  width: 1200px; /* 너비 조정 */
+  margin: 50px auto 0; /* 위쪽에 20px 간격 추가, 가운데 정렬 */
+  padding: 20px;
+  border: 2px solid #333; /* 더 진한 테두리 색상으로 변경 */
+  background-color: rgba(255, 255, 255, 0.95); /* 더 밝은 배경 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 음영을 더 강조 */
+  text-align: center;
+  border-radius: 8px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 레이아웃 안정성 */
+}
+
+.vacationMainBox p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* 제목 스타일 */
+.vacationTitle {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* 폼 스타일 */
+.vacationForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 폼 그룹 */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formGroup label {
+  font-size: 16px;
+  color: #555;
+}
+
+.formGroup input,
+.formGroup textarea {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+/* 버튼 스타일 */
+.submitButton, .cancelButton {
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover, .cancelButton:hover {
+  background-color: #a8ebff;
+}
+
+.scrollableList {
+  max-height: 300px; /* 목록의 최대 높이 설정 */
+  overflow-y: auto; /* 수직 스크롤 활성화 */
+  border: 1px solid #ddd; /* 경계선 추가 */
+  padding: 10px; /* 내부 여백 */
+  background-color: #f9f9f9; /* 배경색 */
+  border-radius: 5px; /* 모서리 둥글게 */
+}
+
+.scrollableList ul {
+  list-style-type: none; /* 목록 점 제거 */
+  padding: 0; /* 목록 내부 여백 제거 */
+  margin: 0; /* 목록 외부 여백 제거 */
+}
+
+.scrollableList li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* 목록 항목 구분선 */
+}
+
+.scrollableList li:last-child {
+  border-bottom: none; /* 마지막 항목에 구분선 제거 */
+}
+
+/* Modal 배경 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* 캘린더보다 높은 z-index */
+}
+
+/* Modal 내용 */
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+  z-index: 1060; /* 더 높은 z-index로 모달이 캘린더 위에 오게 설정 */
+}

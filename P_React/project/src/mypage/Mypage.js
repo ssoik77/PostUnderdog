@@ -33,10 +33,7 @@ const Mypage = () => {
       }
 
       try {
-        //axios가 완전히 처리 될 때 까지 await로 기다림
-        const response = await axios.get(`${API_URL}/mypage/userinfo`, {
-          params: { m_id }
-        });
+        const response = await axios.get(`${API_URL}/mypage/userinfo`, { params: { m_id } });
 
         if (response.data.status === 'success') {
           setUserInfo(response.data);
@@ -52,7 +49,7 @@ const Mypage = () => {
             e_birth: employee.e_birth,
             e_carrier: employee.e_carrier,
             e_tel_num: employee.e_tel_num,
-            m_key: employee.m_key,
+            e_key: employee.e_key,
           });
         } else {
           setError('사용자 정보를 불러올 수 없습니다.');
@@ -82,7 +79,7 @@ const Mypage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/underdog/mypage/updateInfo', formData);
+      const response = await axios.post(`${API_URL}/mypage/updateInfo`, formData);
 
       if (response.data.status === 'success') {
         alert('수정이 완료되었습니다.');
@@ -113,7 +110,7 @@ const Mypage = () => {
       <h2>사용자 정보</h2>
       {userInfo ? (
         editMode ? (
-          <form id={styles.editBox}onSubmit={handleSubmit}>
+          <form id={styles.editBox} onSubmit={handleSubmit}>
             <div>
               <label>비밀번호:</label>
               <input type="password" name="m_pw" value={formData.m_pw} onChange={handleInputChange} placeholder="비밀번호"/>
@@ -150,8 +147,8 @@ const Mypage = () => {
               <strong>연락처:</strong> {userInfo.employeeInfo.e_tel_num}
             </p>
             <div id={styles.myPageButtonBox}>
-            <button id={styles.infoEditButton} onClick={() => setEditMode(true)}>정보 수정</button>
-            <button id={styles.logoutButton} onClick={logout}>로그아웃</button>
+              <button id={styles.infoEditButton} onClick={() => setEditMode(true)}>정보 수정</button>
+              <button id={styles.logoutButton} onClick={logout}>로그아웃</button>
             </div>
           </div>
         )

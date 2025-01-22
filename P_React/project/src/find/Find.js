@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from './Find.module.css'; // CSS 모듈 파일
 import axios from 'axios';
 

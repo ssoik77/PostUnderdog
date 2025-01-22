@@ -19,14 +19,20 @@ public class LoginService {
         this.loginMapper = loginMapper;
     }
 
+    // 사용자 검증
     public Map<String, Object> validateUser(String m_id, String m_pw) {
-    	Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         MemberDto loginUserData = loginMapper.getPasswordById(m_id);
-        result.put("pw_check", loginUserData.getM_pw().equals(m_pw));
-        result.put("authority", loginUserData.getAuthority());
+        if (loginUserData != null && loginUserData.getM_pw().equals(m_pw)) {
+            result.put("pw_check", true);
+            result.put("authority", loginUserData.getAuthority());
+        } else {
+            result.put("pw_check", false);
+        }
         return result;
     }
 
+    // 사용자 이름 가져오기
     public String getUserNameById(String m_id) {
         return loginMapper.getUserNameById(m_id);
     }

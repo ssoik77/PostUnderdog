@@ -5,16 +5,18 @@
     
 <mapper namespace="com.project.mapper.LoginMapper">
 
+    <!-- 비밀번호와 권한 조회 -->
     <select id="getPasswordById" resultType="com.project.dto.MemberDto">
-        SELECT m_pw, authority
-        FROM member_info
-        WHERE m_id = #{m_id};
+        SELECT m.m_pw, m.authority, m.e_key
+        FROM member_info m
+        WHERE m.m_id = #{m_id};
     </select>
 
-<select id="getUserNameById" resultType="string">
-    SELECT e.e_name
-    FROM employee_info e
-    JOIN member_info m ON e.e_key = m.e_key
-    WHERE m.m_id = #{m_id};
-</select>
+    <!-- 사용자 이름 조회 -->
+    <select id="getUserNameById" resultType="string">
+        SELECT e.e_name
+        FROM employee_info e
+        JOIN member_info m ON m.e_key = e.e_key
+        WHERE m.m_id = #{m_id};
+    </select>
 </mapper>
