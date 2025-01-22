@@ -1,3 +1,18 @@
+.prevnextButton{
+  background-color: #555555;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pageNumber{
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+}
+
 #employeeAddPage {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -62,10 +77,10 @@
     color: rgb(56, 172, 255); /* 클릭 시 색상 변경 없음 */
   }
 
+  
   #mainContainer {
     padding: 20px;
     flex-grow: 1;
-    background-color: antiquewhite;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,22 +88,64 @@
   }
   
   #employeeBox {
-    background-color: aquamarine;
     width: 1300px; /* 적절한 너비 설정 */
     height: 100px; /* 전체 높이 설정 */
     padding: 10px; /* 내부 여백 설정 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     border-radius: 10px;
-}
+    border-style: solid;
+    border-width: 2px;
+    border-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-#mainBox {
+  #formBox{
+    display: flex;
+    flex-direction: row;
+  }
+
+  #inputGroup{
+    width: 1000px;
+  }
+  #addButton{
+    width: 90px;
+    height: 30px;
+    position: relative;
+    top: 25px;
+  }
+  
+  #mainBox {
     background-color: #fff;
     width: 1300px; /* 적절한 너비 설정 */
-    height: 650px; /* 전체 높이 설정 */
+    height: 550px; /* 전체 높이 설정 */
     overflow-y: auto; /* 스크롤 가능하게 설정 */
     padding: 10px;
     margin-top: 30px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #333;
   }
+
+  #pageBox{
+    gap: 15px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+  }
+
+  
+  #pageNumberBox{
+    width: 50px;
+    display: flex;
+    gap: 10px;
+  }
+  

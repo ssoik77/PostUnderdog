@@ -11,5 +11,7 @@ import com.project.dto.RegisterDto;
 @Mapper
 public interface EmployeeMapper {
 	void add(String e_num);
-	ArrayList<RegisterDto> list();
+	ArrayList<RegisterDto> allList();
+	ArrayList<RegisterDto> pageList(int no);
+	int employeeCount();
 }

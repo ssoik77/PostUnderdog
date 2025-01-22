@@ -14,7 +14,8 @@ e_carrier CHAR(10) DEFAULT NULL,
 e_tel_num CHAR(11) DEFAULT NULL
 );
 
-CREATE TABLE member_info(authority TINYINT NOT NULL DEFAULT 0,
+CREATE TABLE member_info(
+authority TINYINT NOT NULL DEFAULT 0,
 m_id CHAR(20),
 m_pw VARCHAR(20),
 e_key int,
@@ -46,6 +47,6 @@ DELETE FROM member_info;
 TRUNCATE TABLE employee_info;
 TRUNCATE TABLE member_info;
 
-INSERT INTO employee_info(e_num, e_name, e_birth, e_carrier, e_tel_num) VALUES('00000001', '홍길동', 20000101, 'SKT', 01012345678);
+INSERT INTO employee_info(e_num, e_name, e_birth, e_carrier, e_tel_num) VALUES('00000001', '홍길동', '2000-01-01', 'SKT', '01012345678');
 INSERT INTO member_info(authority, m_id, m_pw, e_key) VALUES(1, 'qqqq12!@', 'wwww12!@', 1);
 

@@ -1,26 +1,7 @@
 #employeeList {
     width: 100%;
     border-collapse: separate; /* border-spacing을 적용하려면 separate로 설정 */
-    border-spacing: 0px 8px;
-}
-
-#titlea{
-background-color: antiquewhite;
-}
-#titleb{
-background-color: aqua;
-}
-#titlec{
-background-color: bisque;
-}
-#titled{
-background-color: chocolate;
-}
-#titlee{
-background-color: blueviolet;
-}
-#titlef{
-background-color: darkorange;
+    border-spacing: 1px 8px;
 }
 
 

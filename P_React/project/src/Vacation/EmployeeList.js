@@ -16,9 +16,9 @@ const EmployeeList = ({ employees }) => {
                 </tr>
             </thead>
             <tbody>
-                {employees.map((employee) => (
+                {employees.map((employee, index) => (
                 (employee.m_id ? 
-                    <tr className={styles.employee} key={employee.e_num}>
+                    <tr className={styles.employee} key={employee.e_num || index}>
                         <td className={styles.column}>{employee.e_num}</td>
                         <td className={styles.column}>{employee.e_name}</td>
                         <td className={styles.column}>{new Date(employee.e_birth)
