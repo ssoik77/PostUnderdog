@@ -24,27 +24,36 @@ import lombok.extern.log4j.Log4j;
 public class LoginController {
 
     private final LoginService loginService;
-    
+
     public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto, HttpSession session) {
+        log.info("로그인 요청: m_id = " + memberDto.getM_id());
+        
+        // 사용자 인증
         Map<String, Object> response = loginService.validateUser(memberDto.getM_id(), memberDto.getM_pw());
-
+        
         if ((Boolean) response.get("pw_check")) {
+            // 사용자 이름 조회
             String userName = loginService.getUserNameById(memberDto.getM_id());
+            Object userAuthority = response.get("authority");
+            
+            // 세션에 사용자 정보 저장
             session.setAttribute("userId", memberDto.getM_id());
             session.setAttribute("userName", userName);
-
-            log.info("세션에 사용자 정보 저장: userId=" + memberDto.getM_id() + ", userName=" + userName);
+            session.setAttribute("authority", userAuthority);
 
             response.put("message", "로그인 성공");
             response.put("userName", userName);
+            response.put("userAuthority", userAuthority);
+
+            log.info("로그인 성공: 사용자 ID = " + memberDto.getM_id() + ", 사용자 이름 = " + userName);
+            
             return ResponseEntity.ok(response);
         } else {
-            log.warn("로그인 실패: 아이디 또는 비밀번호가 틀렸습니다. 사용자 ID: " + memberDto.getM_id());
             response.put("message", "아이디 또는 비밀번호가 틀렸습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
@@ -52,22 +61,25 @@ public class LoginController {
 
     @GetMapping("/userinfo")
     public ResponseEntity<?> getUserInfo(HttpSession session) {
-        log.info("사용자 정보 조회 요청");
-        
+        // 세션에서 사용자 정보 가져오기
         String userId = (String) session.getAttribute("userId");
         String userName = (String) session.getAttribute("userName");
+        Object userAuthority = session.getAttribute("authority");
 
+        // 세션에 정보가 없을 때 처리
         if (userId == null || userName == null) {
             log.warn("로그인된 사용자가 없습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인된 사용자가 없습니다.");
         }
 
-        log.info("세션에서 가져온 사용자 정보: 사용자 ID: " + userId + ", 이름: " + userName);
-
-        Map<String, String> userInfo = new HashMap<>();
+        // 사용자 정보 반환
+        Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("userId", userId);
         userInfo.put("userName", userName);
+        userInfo.put("userAuthority", userAuthority);
 
+        log.info("사용자 정보 반환: " + userInfo);
+        
         return ResponseEntity.ok(userInfo);
     }
 }

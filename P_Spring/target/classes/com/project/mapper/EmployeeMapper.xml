@@ -5,14 +5,14 @@
 
 <mapper namespace="com.project.mapper.EmployeeMapper">
     <select id="getAllEmployees" resultType="com.project.dto.EmployeeDto">
-        SELECT e.e_num, e.e_name, e.e_birth, e.e_level, e.e_tel_num, e.m_key, e.e_team
+        SELECT e.e_num, e.e_name, e.e_birth, e.e_level, e.e_tel_num, e.e_key, e.e_team
         FROM employee_info e
-        JOIN member_info m ON e.m_key = m.m_key;
+        JOIN member_info m ON e.e_key = m.e_key;
     </select>
 
     <insert id="addEmployee" parameterType="com.project.dto.EmployeeDto">
-        INSERT INTO employee_info (e_name, e_birth, e_level, e_tel_num, m_key, e_team)
-        VALUES (#{e_name}, #{e_birth}, #{e_level}, #{e_tel_num}, #{m_key}, #{e_team});
+        INSERT INTO employee_info (e_name, e_birth, e_level, e_tel_num, e_key, e_team)
+        VALUES (#{e_name}, #{e_birth}, #{e_level}, #{e_tel_num}, #{e_key}, #{e_team});
     </insert>
 
     <update id="updateEmployee" parameterType="com.project.dto.EmployeeDto">
