@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import styles from '../employee/Employeemain.module.css';
 import stylesVacation from './Vacation.module.css';
 
@@ -20,20 +20,35 @@ const Vacation = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // 팝업 상태 관리
   const [selectedVacation, setSelectedVacation] = useState(null); // 선택된 휴가 정보
+  const externalEventsRef = useRef(null);
+  const trashBinRef = useRef(null); // 쓰레기통 참조
+
+  const openPopup = (e) => {
+    e.preventDefault();
+    const popupFeatures =
+      "width=700,height=600,top=100,left=100,resizable=no,scrollbars=yes";
+    window.open("/Mypage", "내 정보", popupFeatures);
+  };
 
   // 로그인 정보를 기반으로 사용자 정보 가져오기 및 초기화
   useEffect(() => {
     const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
-    const e_name = sessionStorage.getItem('e_name');
+    const e_name = sessionStorage.getItem('e_name') || localStorage.getItem('e_name');
     if (m_id) {
       setFormData((prev) => ({ ...prev, m_id, e_name }));
     }
 
     const fetchVacations = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/underdog/vacations/list', {
-          withCredentials: true, // 세션 정보 포함
-        });
+        const response = await axios.post(
+          'http://localhost:8080/underdog/vacations/list',
+          { m_id: m_id, e_name: e_name },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         setVacations(response.data);
 
         // 가장 높은 vacationId를 찾아 다음 ID 설정
@@ -47,7 +62,19 @@ const Vacation = () => {
       }
     };
 
-    fetchVacations();
+    if (m_id) {
+      fetchVacations({ m_id, e_name });
+    }
+
+    // 외부 드래그 가능한 요소 초기화
+    new Draggable(externalEventsRef.current, {
+      itemSelector: '.fc-event',
+      eventData: function(eventEl) {
+        return {
+          title: eventEl.innerText,
+        };
+      },
+    });
   }, []);
 
   const handleInputChange = (e) => {
@@ -143,12 +170,12 @@ const Vacation = () => {
     const startDate = new Date(info.startStr);
     const endDate = new Date(info.endStr);
 
-    // 로컬 시간대로 변환하여 문자열로 포맷팅
-    const formattedStartDate = startDate.toISOString().slice(0, 10);
-
     // 모달에 표시할 종료 날짜를 하루 줄임
     const modalEndDate = new Date(endDate);
     modalEndDate.setDate(modalEndDate.getDate() - 1);
+
+    // 로컬 시간대로 변환하여 문자열로 포맷팅
+    const formattedStartDate = startDate.toISOString().slice(0, 10);
     const formattedModalEndDate = modalEndDate.toISOString().slice(0, 10);
 
     // 모달에 날짜 설정
@@ -160,6 +187,38 @@ const Vacation = () => {
 
     // 모달 열기
     setIsModalOpen(true);
+  };
+
+  const handleEventReceive = (info) => {
+    // 드래그 앤 드롭된 이벤트 처리
+    const newEvent = {
+      id: String(nextVacationId),
+      title: info.event.title,
+      start: info.event.startStr,
+      end: info.event.endStr,
+    };
+
+    setVacations((prev) => [...prev, newEvent]);
+    setNextVacationId((prevId) => prevId + 1);
+  };
+
+  const handleEventDragStop = (info) => {
+    const trashBin = trashBinRef.current;
+
+    if (trashBin) {
+      const trashBinRect = trashBin.getBoundingClientRect();
+
+      // 이벤트가 쓰레기통 영역에 드롭되었는지 확인
+      if (
+        info.jsEvent.clientX >= trashBinRect.left &&
+        info.jsEvent.clientX <= trashBinRect.right &&
+        info.jsEvent.clientY >= trashBinRect.top &&
+        info.jsEvent.clientY <= trashBinRect.bottom
+      ) {
+        // 이벤트 삭제
+        handleDelete(info.event.id);
+      }
+    }
   };
 
   // 휴가 데이터를 FullCalendar에 맞는 형식으로 변환
@@ -176,9 +235,13 @@ const Vacation = () => {
       return null; // 유효하지 않은 날짜 값은 무시
     }
 
+    // 종료 날짜를 하루 늘림
+    const adjustedEndDate = new Date(endDate);
+    adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
+
     // 로컬 시간대로 변환하여 FullCalendar에 맞게 형식화
     const formattedStartDate = startDate.toISOString();
-    const formattedEndDate = endDate.toISOString();
+    const formattedEndDate = adjustedEndDate.toISOString();
 
     return {
       id: String(Number(vacation.vacationId)), // vacationId를 숫자로 변환
@@ -189,7 +252,7 @@ const Vacation = () => {
   }).filter(event => event !== null); // 유효하지 않은 이벤트는 필터링
 
   return (
-    <div className={styles.main}>
+    <div className={styles.emp}>
       <header className={styles.header}>
         <div className={styles.logo}>
           <img src="/logo.png" alt="Logo" className={styles.logoImage} />
@@ -199,11 +262,25 @@ const Vacation = () => {
           <a href="/employeemain">조직도</a>
           <a href="/vacation">휴가 관리</a>
         </nav>
+        <div className={styles.info}>
+          <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>
+            내 정보
+          </a>
+        </div>
       </header>
 
       <div className={stylesVacation.vacationMainBox}>
         <div className={stylesVacation.vacationContainer}>
           <h1 className={stylesVacation.vacationTitle}>휴가 관리 캘린더</h1>
+          <div ref={externalEventsRef} className={stylesVacation.externalEvents}>
+            <div className="fc-event">휴가</div>
+          </div>
+
+          {/* 쓰레기통 영역 */}
+          <div ref={trashBinRef} className={stylesVacation.trashBin}>
+            🗑️
+          </div>
+
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
@@ -218,9 +295,11 @@ const Vacation = () => {
             }}
             events={calendarEvents}
             editable={true}
+            droppable={true} // 외부 드래그 가능
             selectable={true}
             select={handleDateSelect} // 드래그로 날짜 범위 선택 시 실행
-            eventClick={(info) => handleDelete(info.event.id)} // 일정 클릭 시 삭제
+            eventReceive={handleEventReceive} // 외부 이벤트 드래그 앤 드롭 시 실행
+            eventDragStop={handleEventDragStop} // 이벤트 드래그 종료 시 실행
             height="auto"
           />
 

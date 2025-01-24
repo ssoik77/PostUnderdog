@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import styles from "./Employeemain.module.css";
 
 const Employeemain = () => {
   const navigate = useNavigate();
   const [teams, setTeams] = useState({});
-  const [selectedTeam, setSelectedTeam] = useState(null);
-  const [selectedTeamName, setSelectedTeamName] = useState("");
+  const [vacations, setVacations] = useState([]);
+  const [selectedVacation, setSelectedVacation] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState(null); // 선택된 팀 상태 추가
 
-  useEffect(()=>{
-    const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
-    if(!loginId){
-      navigate("/"); 
+  // 로그인 확인
+  useEffect(() => {
+    const loginId = sessionStorage.getItem("m_id") || localStorage.getItem("m_id");
+    if (!loginId) {
+      navigate("/");
     }
-  },[navigate])
+  }, [navigate]);
 
-  // 백엔드에서 데이터 가져오기
+  // 팀 데이터 가져오기
   useEffect(() => {
     axios
-      .get("http://localhost:8080/underdog/employees") // API 호출 경로
+      .get("http://localhost:8080/underdog/employees")
       .then((response) => {
-        // 데이터를 적절히 가공하여 teams로 설정
         const formattedTeams = response.data.reduce((acc, employee) => {
-          const teamName = employee.e_team; // e_team을 팀 이름으로 사용
+          const teamName = employee.e_team;
           if (!acc[teamName]) {
             acc[teamName] = {
               name: `${teamName} 팀`,
@@ -34,42 +37,46 @@ const Employeemain = () => {
           acc[teamName].children.push({
             name: employee.e_name,
             position: employee.e_level,
-            tel: employee.e_tel_num, // 전화번호 추가
+            tel: employee.e_tel_num,
           });
           return acc;
         }, {});
         setTeams(formattedTeams);
-        setSelectedTeam(formattedTeams["영업팀"]); // 기본 선택 팀 설정
-        setSelectedTeamName("영업팀");
       })
-      .catch((error) => {
-        console.error("Error fetching team data:", error);
-      });
+      .catch((error) => console.error("Error fetching team data:", error));
   }, []);
 
-  // Mind Map 렌더링 함수
-  const renderMindMap = (node) => (
-    <div className={styles.mindMapNode}>
-      <div className={styles.memberCard}>
-        <div className={styles.memberName}>이름: {node.name}</div>
-        <div className={styles.memberPosition}>직급: {node.position}</div>
-        <div className={styles.memberTel}>전화번호: {node.tel}</div>
-      </div>
-      {node.children && node.children.length > 0 && (
-        <div className={styles.mindMapChildren}>
-          {node.children.map((child, index) => (
-            <div key={index}>{renderMindMap(child)}</div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  // 휴가 데이터 가져오기
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/underdog/vacations/list", { withCredentials: true })
+      .then((response) => setVacations(response.data))
+      .catch((error) => console.error("Error fetching vacations:", error));
+  }, []);
 
-  const openPopup = (e) => {
-    e.preventDefault();
-    const popupFeatures =
-      "width=700,height=600,top=100,left=100,resizable=no,scrollbars=yes";
-    window.open("/Mypage", "내 정보", popupFeatures);
+  // FullCalendar 이벤트 데이터 변환
+  const calendarEvents = vacations.map((vacation) => ({
+    id: String(vacation.vacation_id),
+    title: `${vacation.e_name}의 휴가`,
+    start: vacation.start_date,
+    end: vacation.end_date,
+  }));
+
+  // 이벤트 클릭 시 상세 내용 표시
+  const handleEventClick = (info) => {
+    const vacationId = info.event.id;
+    const vacation = vacations.find((v) => String(v.vacation_id) === vacationId);
+    setSelectedVacation(vacation);
+  };
+
+  // 팀 버튼 클릭 시 해당 팀 선택
+  const handleTeamClick = (teamName) => {
+    if (selectedTeam === teamName) {
+      // 이미 선택된 팀을 다시 클릭하면 선택 해제
+      setSelectedTeam(null);
+    } else {
+      setSelectedTeam(teamName);
+    }
   };
 
   return (
@@ -84,36 +91,70 @@ const Employeemain = () => {
           <Link to="/vacation">휴가 관리</Link>
         </nav>
         <div className={styles.info}>
-          <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>
+          <Link to="/Mypage" className={styles.popupLink}>
             내 정보
-          </a>
+          </Link>
         </div>
       </header>
+
       <main className={styles.mainContainer}>
         <div className={styles.teamBox}>
-          <h3>팀 선택</h3>
+          <h3>명단</h3>
           {Object.keys(teams).map((team) => (
-            <button
-              key={team}
-              className={styles.teamButton}
-              onClick={() => {
-                setSelectedTeam(teams[team]);
-                setSelectedTeamName(team);
-              }}
-            >
-              {team}
-            </button>
+            <div key={team} className={styles.teamSection}>
+              <button
+                className={`${styles.teamButton} ${
+                  selectedTeam === team ? styles.activeTeamButton : ""
+                }`}
+                onClick={() => handleTeamClick(team)}
+                aria-pressed={selectedTeam === team} // 버튼의 활성화 상태 표시
+              >
+                {teams[team].name}
+              </button>
+              {/* 선택된 팀일 경우 구성원 목록 표시 */}
+              {selectedTeam === team && (
+                <ul className={styles.memberList}>
+                  {teams[team].children.map((member, index) => (
+                    <li key={index} className={styles.memberItem}>
+                      <span className={styles.memberName}>{member.name}</span>
+                      <span className={styles.memberPosition}>{member.position}</span>
+                      <span className={styles.memberTel}>{member.tel}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           ))}
         </div>
-        <div className={styles.mainBox}>
-          <section className={styles.organizationChart}>
-            {/* 팀명 + 조직도 표시 */}
-            <h2>{selectedTeamName} 조직도</h2>
-            <div className={styles.mindMapContainer}>
-              {selectedTeam && renderMindMap(selectedTeam)}
-            </div>
-          </section>
+
+        <div className={styles.calendarBox}>
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            events={calendarEvents}
+            eventClick={handleEventClick}
+            height="auto"
+          />
         </div>
+
+        {selectedVacation && (
+          <div className={styles.vacationDetails}>
+            <h3>휴가 상세 정보</h3>
+            <p>
+              <strong>이름:</strong> {selectedVacation.e_name}
+            </p>
+            <p>
+              <strong>시작일:</strong> {selectedVacation.start_date}
+            </p>
+            <p>
+              <strong>종료일:</strong> {selectedVacation.end_date}
+            </p>
+            <p>
+              <strong>사유:</strong> {selectedVacation.reason || "사유 없음"}
+            </p>
+            <button onClick={() => setSelectedVacation(null)}>닫기</button>
+          </div>
+        )}
       </main>
     </div>
   );

@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dto.RegisterDto;
 import com.project.dto.VacationDto;
 import com.project.service.VacationService;
 
@@ -53,17 +53,19 @@ public class VacationController {
         return ResponseEntity.ok("휴가 신청이 완료되었습니다.");
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<VacationDto>> getMyVacations(HttpSession session) {
-        logger.info("휴가 목록 조회 요청");
+    @PostMapping("/list")
+    public ResponseEntity<List<VacationDto>> getMyVacations(@RequestBody RegisterDto registerDto) {
+        logger.info("휴가 목록 조회 요청: {}", registerDto);
 
-        String userId = (String) session.getAttribute("userId");
+        String userId = registerDto.getM_id();
 
-        if (userId == null) {
+        // 사용자 ID 검증
+        if (userId == null || userId.trim().isEmpty()) {
             logger.warn("로그인이 필요합니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
+        // 서비스 호출 및 결과 처리
         List<VacationDto> vacations = vacationService.getVacationsByMemberId(userId);
         logger.info("휴가 목록 조회 성공: 사용자 ID: {}, 조회된 휴가 수: {}", userId, vacations.size());
 

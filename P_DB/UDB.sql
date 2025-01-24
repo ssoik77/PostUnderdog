@@ -41,3 +41,24 @@ PRIMARY KEY (vacation_id)
 SELECT * FROM member_info;
 SELECT * FROM employee_info;
 SELECT * FROM vacation;
+
+
+-- 이 아래 테스트 코드
+
+INSERT INTO employee_info (e_key, e_num, e_name, e_birth, e_carrier, e_tel_num, e_level, e_team)
+VALUES
+(2, 1001, '김철수', '1985-05-15', '개발자', '01012345678', 'Senior', '개발팀'),
+(3, 1002, '이영희', '1990-07-22', '디자이너', '01087654321', 'Junior', '디자인팀'),
+(4, 1003, '박민수', '1988-03-10', '개발자', '01011223344', 'Middle', '개발팀'),
+(5, 1004, '최수진', '1992-11-05', '마케터', '01099887766', 'Junior', '마케팅팀');
+
+-- employee_info에 삽입된 e_key 확인
+SELECT e_key, e_name FROM employee_info;
+
+-- member_info에 삽입
+INSERT INTO member_info (authority, m_id, m_pw, e_key)
+VALUES
+(1, 'admin1', 'password123', 2),
+(0, 'user1', 'password456', 3),
+(0, 'user2', 'password789', 4),
+(0, 'user3', 'password012', 5);
