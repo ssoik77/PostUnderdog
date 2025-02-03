@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from './EmployeeList.module.css'; 
 
 const EmployeeList = ({ employees }) => {
@@ -40,7 +40,7 @@ const EmployeeList = ({ employees }) => {
                     </tr> :
                      <tr className={styles.employee} key={employee.e_num}>
                         <td className={styles.column}>{employee.e_num}</td>
-                        <td className={styles.column} style={{backgroundColor:"rgb(146, 146, 146)"}}></td>
+                        <td className={styles.column}>{employee.e_name}</td>
                         <td className={styles.column} style={{backgroundColor:"rgb(146, 146, 146)"}}></td>
                         <td className={styles.column} style={{backgroundColor:"rgb(146, 146, 146)"}}></td>
                         <td className={styles.column}>아직 회원가입을 하지 않았습니다.</td>

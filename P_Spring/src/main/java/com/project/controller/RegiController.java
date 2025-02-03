@@ -1,9 +1,11 @@
 package com.project.controller;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dto.RegisterDto;
@@ -13,7 +15,7 @@ import lombok.extern.log4j.Log4j;
 
 @CrossOrigin(origins = "http://localhost:3000") // React와의 CORS 허용
 @RestController
-@RequestMapping(value = "/register/*", produces = "application/text; charset=utf8")
+@RequestMapping(value = "/register/*")
 @Log4j
 public class RegiController {
 
@@ -24,13 +26,20 @@ public class RegiController {
     }
 
     @PostMapping("/set")
-    public void setRegister(@RequestBody RegisterDto registerDto) {
-        regiService.setRegister(registerDto);
+    @Transactional
+    @ResponseBody
+    public String setRegister(@RequestBody RegisterDto registerDto) {
+        String result = regiService.setRegister(registerDto);
+        return result;
     }
 
+
     @PostMapping("/id/check")
+    @ResponseBody
     public String checkId(@RequestBody RegisterDto registerDto) {
+    	log.info("진입");
         String message = regiService.checkId(registerDto.getM_id());
+        log.info(message);
         return message;
     }
 }

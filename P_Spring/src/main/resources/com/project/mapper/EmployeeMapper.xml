@@ -5,13 +5,9 @@
 
 <mapper namespace="com.project.mapper.EmployeeMapper">
 
-	<insert id="add" parameterType="String">
-	INSERT INTO employee_info(e_num) values(#{e_num});
+	<insert id="add" parameterType="com.project.dto.EmployeeDto">
+	INSERT INTO employee_info(e_num, e_name) values(#{e_num},#{e_name});
 	</insert>
-	
-	<select id="allList" resultType="com.project.dto.RegisterDto">
-	SELECT * FROM employee_info e LEFT JOIN member_info m ON e.e_key = m.e_key ORDER BY e.e_key DESC;
-	</select>
 	
 	<select id="pageList" parameterType="int" resultType="com.project.dto.RegisterDto">
 	SELECT * FROM (SELECT * FROM employee_info ORDER BY e_key DESC LIMIT #{no}, 10) e LEFT JOIN member_info m ON e.e_key = m.e_key ;

@@ -89,35 +89,8 @@
     justify-content: center;
   }
   
-  #vacationApprovalBox {
-    width: 1300px; /* 적절한 너비 설정 */
-    height: 100px; /* 전체 높이 설정 */
-    padding: 10px; /* 내부 여백 설정 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    border-radius: 10px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
-  #formBox{
-    display: flex;
-    flex-direction: row;
-  }
-
-  #inputGroup{
-    width: 1000px;
-  }
-  #addButton{
-    width: 90px;
-    height: 30px;
-    position: relative;
-    top: 25px;
-  }
-  
+ 
   #mainBox {
     background-color: #fff;
     width: 1300px; /* 적절한 너비 설정 */

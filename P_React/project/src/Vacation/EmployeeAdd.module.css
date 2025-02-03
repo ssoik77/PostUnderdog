@@ -100,20 +100,29 @@
     align-items: center;
     justify-content: center;
   }
-
+  
+  
   #formBox{
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
-
   #inputGroup{
-    width: 1000px;
+    display: flex;
+    height: 40px;
+    gap: 10px;
+    align-items: center;
+  }
+  #inputNum{
+    width: 300px;
+  }
+  #inputName{
+    width: 300px;
   }
   #addButton{
     width: 90px;
     height: 30px;
     position: relative;
-    top: 25px;
   }
   
   #mainBox {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dto.EmployeeDto;
 import com.project.dto.RegisterDto;
 import com.project.service.EmployeeService;
 
@@ -34,8 +35,8 @@ public class EmployeeController {
 
     @PostMapping("/add")
     @Transactional
-    void employeeRegistration(@RequestBody String e_num) {
-    	employeeService.add(e_num);
+    void employeeRegistration(@RequestBody EmployeeDto employeeDto) {
+    	employeeService.add(employeeDto);
     }
     
     @GetMapping("/pagecount")

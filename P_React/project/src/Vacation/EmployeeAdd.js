@@ -14,6 +14,7 @@ const EmployeeAdd = () => {
     const pageNo = parseInt(params.get('no') || 1);
 
     const employeeNumRef = useRef(null);
+    const employeeNameRef = useRef(null);
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
     const authority = sessionStorage.getItem('authority') || localStorage.getItem("authority");
 
@@ -55,6 +56,8 @@ const EmployeeAdd = () => {
 
     const handleSubmit = () => {
         const employeeNum = employeeNumRef.current.value.trim();
+        const employeeName = employeeNameRef.current.value.trim();
+        const employee = { e_num: employeeNum, e_name: employeeName };
         // some() 메서드는 배열 안에 있는 요소 중 true를 반환하면 즉시 메서드를 종료한다.
         const isRegisterd = employeeList.some((reponse) => {
             if (employeeNum === reponse.e_num) {
@@ -64,9 +67,9 @@ const EmployeeAdd = () => {
             return false;
         })
         if(!isRegisterd){
-            axios.post("http://localhost:8080/underdog/employee/add", employeeNum, {
+            axios.post("http://localhost:8080/underdog/employee/add", employee, {
                 headers: {
-                    'Content-Type': 'text/plain',
+                    'Content-Type': 'application/json',
                 }
             })
             .then(()=>{Navigate(`/employeeadd?no=${pageNo}`);})//자동으로 url이 변경되어 수동으로 설정
@@ -95,8 +98,8 @@ const EmployeeAdd = () => {
                 </div>
 
                 <nav id={styles.nav}>
-                    <Link to="/vacationapproval">휴가 승인</Link>
-                    <Link to="/vacationrequest">휴가 신청</Link>
+                    <Link to="/vacationapproval?no=1">휴가 승인</Link>
+                    <Link to="/vacationrequest?no=1 ">휴가 신청</Link>
                 </nav>
 
                 <div id={styles.info}>
@@ -112,7 +115,9 @@ const EmployeeAdd = () => {
                     <form id={styles.formBox} onSubmit={handleSubmit}>
                         <div id={styles.inputGroup}>
                             <label>사원번호:</label>
-                            <input type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다' ref={employeeNumRef} autoFocus/>
+                            <input id={styles.inputNum} type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다' ref={employeeNumRef} autoFocus/>
+                            <label>사원이름:</label>
+                            <input id={styles.inputName} type="text" placeholder="사원 이름" ref={employeeNameRef}/>
                         </div>
                         <button type="submit" id={styles.addButton}>직원 추가</button>
                     </form>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.dto.EmployeeDto;
 import com.project.dto.RegisterDto;
 import com.project.mapper.EmployeeMapper;
 import lombok.extern.log4j.Log4j;
@@ -21,9 +22,8 @@ public class EmployeeService {
 		this.employeeMapper = employeeMapper;
 	}
 
-	public void add(String e_num) {
-		log.info(e_num);
-		employeeMapper.add(e_num);
+	public void add(EmployeeDto employeeDto) {
+		employeeMapper.add(employeeDto);
 	}
 	
 	public int pageCount() {

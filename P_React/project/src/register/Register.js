@@ -42,7 +42,7 @@ const Register = () => {
             const response = await axios.post(
                 'http://localhost:8080/underdog/register/id/check',
                 sendId,
-                { headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
+                { headers: { 'Content-Type': 'application/json', 'Accept':"text/plain; charset=UTF-8" } }
             );
 
             // 서버로부터 받은 응답 메시지 설정
@@ -119,13 +119,12 @@ const Register = () => {
     //데이터 전송 함수
     // 회원가입 데이터 전송 함수
     const sendRegisterData = async (e) => {
-        console.log("진입")
         e.preventDefault();
 
         if (idCheckResult) {
             if (pwCheckResult) {
 
-                const regiData = {
+                const RegisterDto = {
                     e_num: employeeNumber,
                     m_id: id,
                     m_pw: password,
@@ -136,11 +135,16 @@ const Register = () => {
                 };
 
                 try {
-                    console.log(regiData);
-                    const response = await axios.post('http://localhost:8080/underdog/register/set', regiData);
+                    const response = await axios.post('http://localhost:8080/underdog/register/set', RegisterDto, { headers: { 'Content-Type': 'application/json', 'Accept': 'text/plain'} });
                     console.log(response.data);
-                    alert("회원가입이 완료되었습니다.");
-                    window.close();
+                    if(response.data === "succes"){
+                        alert("회원가입이 완료되었습니다.");
+                        window.close();
+                    }else if(response.data === "fail1"){
+                        alert("입력하신 사원번호와 이름이 일치하지 않습니다.");
+                    }else if(response.data === "fail2"){
+                        alert("입력하신 사원번호가 이미 등록되어 있습니다.");
+                    }
                 } catch (error) {
                     alert("회원가입에 실패했습니다.");
                 }

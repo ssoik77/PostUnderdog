@@ -11,7 +11,7 @@
 
     <insert id="insertVacation">
         INSERT INTO vacation (vacation_id, m_id, e_name, start_date, end_date, reason, created_at, updated_at)
-        VALUES (#{vacationId}, #{mId}, #{eName}, #{startDate}, #{endDate}, #{reason}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+        VALUES (#{vacationId}, #{mId}, #{eName}, #{startDate}, #{endDate}, #{reason}, CURRENT_TIMESTAMP	, CURRENT_TIMESTAMP);
     </insert>
     
     <!-- 휴가 신청 삭제 -->
@@ -40,5 +40,13 @@
     FROM vacation
     WHERE vacation_id = #{vacationId};
 </select>
+
+	<select id="vacationCount" resultType="int">
+	SELECT COUNT(*) FROM employee_info;
+	</select>
+    
+	<select id="pageList" parameterType="int" resultType="com.project.dto.VacationApprovalDto">
+	SELECT * FROM (SELECT * FROM vacation ORDER BY vacation_id DESC LIMIT #{no}, 10) v LEFT JOIN employee_info e ON v.e_key = e.e_key ;
+	</select>
     
 </mapper>

@@ -26,4 +26,11 @@ public class EmployeeDto {
         this.e_tel_num = e_tel_num;
         this.e_key = e_key;
     }
+
+	public EmployeeDto(String e_num, String e_name) {
+		this.e_num = e_num;
+		this.e_name = e_name;
+	}
+    
+    
 }

@@ -1,10 +1,13 @@
 package com.project.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.project.dto.RegisterDto;
+import com.project.dto.VacationApprovalDto;
 import com.project.dto.VacationDto;
 
 @Mapper
@@ -23,4 +26,10 @@ public interface VacationMapper {
 
     // 휴가 신청 수정
     void updateVacation(VacationDto vacationDto);
+    
+    // 휴가 신청 전체 갯 수
+    int vacationCount();
+    
+    // 휴가 신청 리스트
+    ArrayList<VacationApprovalDto> pageList(int no);
 }
