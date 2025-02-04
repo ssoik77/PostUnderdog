@@ -1,9 +1,11 @@
 package com.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.project.dto.VacationApprovalDto;
 import com.project.dto.VacationDto;
 import com.project.mapper.VacationMapper;
 
@@ -46,4 +48,21 @@ public class VacationService {
             throw new IllegalArgumentException("수정 권한이 없습니다.");
         }
     }
+    
+    //휴가 신청 전체 페이지 구하기
+    public int pageCount() {
+		int vacationCount = vacationMapper.vacationCount();
+		int allPageCount = (vacationCount / 10);
+		int allPageCountRemainder = (vacationCount % 10);
+		if(allPageCountRemainder > 0) {
+			allPageCount = (allPageCount + 1);
+		}
+		return allPageCount;
+	}
+	
+    //휴가 신청 목록 불러오기
+	public ArrayList<VacationApprovalDto> pageList(int pageNoInPage) {
+		ArrayList<VacationApprovalDto> pageList = vacationMapper.pageList(pageNoInPage);
+		return pageList;
+	}
 }

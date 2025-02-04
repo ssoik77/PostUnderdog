@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import styles from "./Employeemain.module.css";
+import styles from "./VacationConfirm.module.css";
 
 const Employeemain = () => {
   const navigate = useNavigate();
@@ -11,6 +11,13 @@ const Employeemain = () => {
   const [vacations, setVacations] = useState([]);
   const [selectedVacation, setSelectedVacation] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null); // 선택된 팀 상태 추가
+
+  const openPopup = (e) => {
+    e.preventDefault();
+    const popupFeatures =
+      "width=700,height=600,top=100,left=100,resizable=no,scrollbars=yes";
+    window.open("/Mypage", "내 정보", popupFeatures);
+  };
 
   // 로그인 확인
   useEffect(() => {
@@ -87,13 +94,13 @@ const Employeemain = () => {
           <h1>Post Underdog</h1>
         </div>
         <nav className={styles.nav}>
-          <Link to="/employeemain">조직도</Link>
-          <Link to="/vacation">휴가 관리</Link>
+          <a href="/vacationconfirm">휴가 내역</a>
+          <a href="/vacationrequest">휴가 신청</a>
         </nav>
         <div className={styles.info}>
-          <Link to="/Mypage" className={styles.popupLink}>
+          <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>
             내 정보
-          </Link>
+          </a>
         </div>
       </header>
 

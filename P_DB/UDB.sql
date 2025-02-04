@@ -53,7 +53,7 @@ VALUES
 (5, 1004, '최수진', '1992-11-05', '마케터', '01099887766', 'Junior', '마케팅팀');
 
 -- employee_info에 삽입된 e_key 확인
-SELECT e_key, e_name FROM employee_info;
+SELECT e_num FROM employee_info;
 
 -- member_info에 삽입
 INSERT INTO member_info (authority, m_id, m_pw, e_key)

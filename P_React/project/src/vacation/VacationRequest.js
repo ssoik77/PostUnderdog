@@ -4,8 +4,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
-import styles from '../employee/Employeemain.module.css';
-import stylesVacation from './Vacation.module.css';
+import styles from '../vacation/VacationConfirm.module.css';
+import stylesVacation from './VacationRequest.module.css';
 
 const Vacation = () => {
   const [formData, setFormData] = useState({
@@ -126,7 +126,7 @@ const Vacation = () => {
 
         if (selectedVacation) {
           // 수정된 휴가 목록 업데이트
-          setVacations((prev) =>
+          setVacations((prev) =>  
             prev.map((vacation) =>
               vacation.vacationId === selectedVacation.vacationId ? response.data : vacation
             )
@@ -259,8 +259,8 @@ const Vacation = () => {
           <h1>Post Underdog</h1>
         </div>
         <nav className={styles.nav}>
-          <a href="/employeemain">조직도</a>
-          <a href="/vacation">휴가 관리</a>
+          <a href="/vacationconfirm">휴가 내역</a>
+          <a href="/vacationrequest">휴가 신청</a>
         </nav>
         <div className={styles.info}>
           <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>
@@ -302,15 +302,6 @@ const Vacation = () => {
             eventDragStop={handleEventDragStop} // 이벤트 드래그 종료 시 실행
             height="auto"
           />
-
-          {/* 휴가 신청 버튼 */}
-          <button
-            className={stylesVacation.submitButton}
-            onClick={() => setIsModalOpen(true)} // 버튼 클릭 시 모달 열기
-          >
-            휴가 신청
-          </button>
-        
           {/* 팝업 모달 */}
           {isModalOpen && (
             <div className={stylesVacation.modalOverlay}>

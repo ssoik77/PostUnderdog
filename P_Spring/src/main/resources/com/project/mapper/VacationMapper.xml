@@ -30,15 +30,23 @@
         WHERE vacation_id = #{vacationId};
     </update>
     
-    <select id="getVacationById" parameterType="long" resultType="com.project.dto.VacationDto">
-    SELECT vacation_id AS vacationId, 
-           m_id AS mId, 
-           e_name AS eName, 
-           start_date AS startDate, 
-           end_date AS endDate, 
-           reason 
-    FROM vacation
-    WHERE vacation_id = #{vacationId};
-</select>
+	    <select id="getVacationById" parameterType="long" resultType="com.project.dto.VacationDto">
+	    SELECT vacation_id AS vacationId, 
+	           m_id AS mId, 
+	           e_name AS eName, 
+	           start_date AS startDate, 
+	           end_date AS endDate, 
+	           reason 
+	    FROM vacation
+	    WHERE vacation_id = #{vacationId};
+	</select>
+
+	<select id="vacationCount" resultType="int">
+	SELECT COUNT(*) FROM employee_info;
+	</select>
+    
+	<select id="pageList" parameterType="int" resultType="com.project.dto.VacationApprovalDto">
+	SELECT * FROM (SELECT * FROM vacation ORDER BY vacation_id DESC LIMIT #{no}, 10) v LEFT JOIN employee_info e ON v.e_key = e.e_key ;
+	</select>
     
 </mapper>

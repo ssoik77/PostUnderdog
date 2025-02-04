@@ -1,7 +1,8 @@
 import styles from './App.module.css';
 import './register/Register.js';
 import './find/Find.js';
-import './employee/Employeemain.js';
+import './vacation/VacationConfirm.js';
+import './vacation/VacationRequest.js';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +20,7 @@ const App = () => {
   useEffect(() => {
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
     if (loginId) {
-      navigate("/employeemain");
+      navigate("/vacationconfirm");
     }
   }, [navigate]);
 
@@ -54,7 +55,7 @@ const handleLogin = async (event) => {
       }
 
       alert(response.data.message || "로그인 성공!");
-      navigate("/employeemain");
+      navigate("/vacationconfirm");
     } else {
       alert("아이디 또는 비밀번호가 틀렸습니다.");
     }
