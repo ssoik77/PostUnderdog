@@ -67,7 +67,7 @@ const VacationApproval = () => {
 
                 <nav id={styles.nav}>
                     <Link to="/employeeadd?no=1">직원 추가</Link>
-                    <Link to="/vacationrequest">휴가 신청</Link>
+                    <Link to="/vacationconfirm">휴가 내역</Link>
                 </nav>
 
                 <div id={styles.info}>

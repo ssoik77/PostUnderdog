@@ -4,29 +4,17 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.mapper.EmployeeMapper">
-    <select id="getAllEmployees" resultType="com.project.dto.EmployeeDto">
-        SELECT e.e_num, e.e_name, e.e_birth, e.e_level, e.e_tel_num, e.e_key, e.e_team
-        FROM employee_info e
-        JOIN member_info m ON e.e_key = m.e_key;
-    </select>
 
-    <insert id="addEmployee" parameterType="com.project.dto.EmployeeDto">
-        INSERT INTO employee_info (e_name, e_birth, e_level, e_tel_num, e_key, e_team)
-        VALUES (#{e_name}, #{e_birth}, #{e_level}, #{e_tel_num}, #{e_key}, #{e_team});
-    </insert>
-
-    <update id="updateEmployee" parameterType="com.project.dto.EmployeeDto">
-        UPDATE employee_info
-        SET e_name = #{e_name},
-            e_birth = #{e_birth},
-            e_level = #{e_level},
-            e_tel_num = #{e_tel_num},
-            e_team = #{e_team}
-        WHERE e_num = #{e_num};
-    </update>
-
-    <delete id="deleteEmployee" parameterType="int">
-        DELETE FROM employee_info
-        WHERE e_num = #{id};
-    </delete>
+	<insert id="add" parameterType="com.project.dto.EmployeeDto">
+	INSERT INTO employee_info(e_num, e_name) values(#{e_num},#{e_name});
+	</insert>
+	
+	<select id="pageList" parameterType="int" resultType="com.project.dto.RegisterDto">
+	SELECT * FROM (SELECT * FROM employee_info ORDER BY e_key DESC LIMIT #{no}, 10) e LEFT JOIN member_info m ON e.e_key = m.e_key ;
+	</select>
+	
+	<select id="employeeCount" resultType="int">
+	SELECT COUNT(*) FROM employee_info;
+	</select>
+	
 </mapper>
