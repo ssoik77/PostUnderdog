@@ -11,6 +11,7 @@ const Employeemain = () => {
   const [vacations, setVacations] = useState([]);
   const [selectedVacation, setSelectedVacation] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null); // 선택된 팀 상태 추가
+  const authority = sessionStorage.getItem('authority') || localStorage.getItem('authority');
 
   const openPopup = (e) => {
     e.preventDefault();
@@ -96,6 +97,10 @@ const Employeemain = () => {
         <nav className={styles.nav}>
           <a href="/vacationconfirm">휴가 내역</a>
           <a href="/vacationrequest">휴가 신청</a>
+          {authority === "1" && (<>
+            <a href="/vacationapproval?no=1">휴가 승인</a>
+            <a href="/employeeadd?no=1">직원 추가</a></>
+          )}
         </nav>
         <div className={styles.info}>
           <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>

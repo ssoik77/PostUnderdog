@@ -25,7 +25,7 @@ FOREIGN KEY (e_key) REFERENCES employee_info(e_key)
 );
 
 CREATE TABLE vacation (
-vacation_id BIGINT NOT NULL,
+vacation_id BIGINT NOT NULL AUTO_INCREMENT,
 m_id CHAR(20), -- member_info 테이블의 m_id와 동일
 e_name CHAR(10), -- employee_ info 테이블의 e_name과 동일
 start_date DATE,

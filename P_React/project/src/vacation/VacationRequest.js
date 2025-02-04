@@ -7,7 +7,8 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import styles from '../vacation/VacationConfirm.module.css';
 import stylesVacation from './VacationRequest.module.css';
 
-const Vacation = () => {
+const VacationRequest = () => {
+  const authority = sessionStorage.getItem('authority') || localStorage.getItem('authority');
   const [formData, setFormData] = useState({
     startDate: '',
     endDate: '',
@@ -87,7 +88,6 @@ const Vacation = () => {
 
     const payload = {
       ...formData,
-      vacationId: selectedVacation ? selectedVacation.vacationId : nextVacationId, // 기존 휴가 수정 또는 새로운 휴가 생성
     };
 
     try {
@@ -261,6 +261,10 @@ const Vacation = () => {
         <nav className={styles.nav}>
           <a href="/vacationconfirm">휴가 내역</a>
           <a href="/vacationrequest">휴가 신청</a>
+            {authority === "1" && (<>
+              <a href="/vacationapproval?no=1">휴가 승인</a>
+              <a href="/employeeadd?no=1">직원 추가</a></>
+          )}
         </nav>
         <div className={styles.info}>
           <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>
@@ -363,4 +367,4 @@ const Vacation = () => {
   );
 };
 
-export default Vacation;
+export default VacationRequest;
