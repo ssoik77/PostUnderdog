@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +31,10 @@ public class LoginController {
     }
 
     @PostMapping("/login")
+    @Transactional
     public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto) {
-        
+        log.info("진입"+memberDto);
+        System.out.println("=====================");
         // 사용자 인증
         Map<String, Object> response = loginService.validateUser(memberDto.getM_id(), memberDto.getM_pw());
         

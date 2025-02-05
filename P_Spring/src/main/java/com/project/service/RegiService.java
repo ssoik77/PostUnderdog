@@ -25,12 +25,15 @@ public class RegiService {
 		String registerResult = "fail1";
 		// 입력받은 사원번호로 데이터 조회
 		EmployeeDto employee = regi_mapper.checkRegister(register_dto.getE_num());
-		
-		if(!employee.getE_tel_num().equals(null)) {
+//		String employeetest = (regi_mapper.checkRegister(register_dto.getE_num())).getE_tel_num();
+//		log.info(employeetest);
+//		log.info("++++=======" + employee);
+		String employeeName = employee.getE_name();
+		String employeeNum = employee.getE_tel_num();
+		if( employeeNum != null) {
 			registerResult = "fail2";
 		}
-		
-		if(register_dto.getE_name().equals(employee.getE_name())) {
+		if(register_dto.getE_name().equals(employeeName)) {
 			// 1. 직원 정보 업데이트 (e_key 생성)
 			regi_mapper.setRegisterEmployee(register_dto);
 			// 2. 직원 키 dto에 삽입
