@@ -4,20 +4,23 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.RegiMapper">
 
+	<select id="checkRegister" parameterType="String" resultType="com.project.dto.EmployeeDto">
+	SELECT * FROM employee_info WHERE e_num = #{num}
+	</select>
+
     <!-- 직원 정보 삽입 -->
-    <insert id="setRegisterEmployee" parameterType="com.project.dto.RegisterDto" useGeneratedKeys="true" keyProperty="e_key">
-        INSERT INTO employee_info(
-            e_name,
-            e_birth,
-            e_carrier,
-            e_tel_num
-        ) VALUES (
-            #{e_name},
-            #{e_birth},
-            #{e_carrier},
-            #{e_tel_num}
-        )
-    </insert>
+    <update id="setRegisterEmployee" parameterType="com.project.dto.RegisterDto">
+       UPDATE employee_info
+  		  SET 
+        e_birth = #{e_birth},
+        e_carrier = #{e_carrier},
+        e_tel_num = #{e_tel_num}
+    	WHERE e_num = #{e_num}
+    </update>
+
+	<select id="pullKey" parameterType="com.project.dto.RegisterDto" resultType="int">
+	SELECT e_key FROM employee_info WHERE e_num = #{e_num}
+	</select>
 
     <!-- 회원 정보 삽입 -->
     <insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto">

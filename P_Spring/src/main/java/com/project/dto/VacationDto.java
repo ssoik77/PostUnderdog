@@ -12,4 +12,5 @@ public class VacationDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private String reason;
+    private String approval;
 }

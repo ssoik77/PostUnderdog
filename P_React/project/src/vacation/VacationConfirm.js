@@ -5,13 +5,26 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import styles from "./VacationConfirm.module.css";
 
-const Employeemain = () => {
+const VacationConfirm = () => {
   const navigate = useNavigate();
   const [teams, setTeams] = useState({});
   const [vacations, setVacations] = useState([]);
   const [selectedVacation, setSelectedVacation] = useState(null);
-  const [selectedTeam, setSelectedTeam] = useState(null); // 선택된 팀 상태 추가
+  const [selectedTeam, setSelectedTeam] = useState(null);
   const authority = sessionStorage.getItem('authority') || localStorage.getItem('authority');
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:8080/underdog/vacations/listAll", { withCredentials: true })
+      .then((response) => {
+        console.log("전체 휴가 데이터:", response.data);
+        setVacations(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching vacations:", error);
+        alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
+      });
+  }, []);
 
   const openPopup = (e) => {
     e.preventDefault();
@@ -20,7 +33,6 @@ const Employeemain = () => {
     window.open("/Mypage", "내 정보", popupFeatures);
   };
 
-  // 로그인 확인
   useEffect(() => {
     const loginId = sessionStorage.getItem("m_id") || localStorage.getItem("m_id");
     if (!loginId) {
@@ -28,10 +40,9 @@ const Employeemain = () => {
     }
   }, [navigate]);
 
-  // 팀 데이터 가져오기
   useEffect(() => {
     axios
-      .get("http://localhost:8080/underdog/employees")
+      .get("http://localhost:8080/underdog/employee")
       .then((response) => {
         const formattedTeams = response.data.reduce((acc, employee) => {
           const teamName = employee.e_team;
@@ -54,33 +65,36 @@ const Employeemain = () => {
       .catch((error) => console.error("Error fetching team data:", error));
   }, []);
 
-  // 휴가 데이터 가져오기
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/underdog/vacations/list", { withCredentials: true })
-      .then((response) => setVacations(response.data))
-      .catch((error) => console.error("Error fetching vacations:", error));
-  }, []);
+  const calendarEvents = vacations.map((vacation) => {
+    const vacationTitle = vacation.ename && vacation.ename.trim() !== ""
+    ? `${vacation.ename}의 휴가`
+    : "이름 없음";
+    const startDate = new Date(vacation.startDate);
+    const endDate = new Date(vacation.endDate);
+    if (isNaN(startDate) || isNaN(endDate)) {
+      console.error('유효하지 않은 날짜 값:', vacation.startDate, vacation.endDate);
+      return null;
+    }
+    const adjustedEndDate = new Date(endDate);
+    adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
+    const formattedStartDate = startDate.toISOString();
+    const formattedEndDate = adjustedEndDate.toISOString();
+    return {
+      id: String(Number(vacation.vacationId)),
+      title: vacationTitle,
+      start: formattedStartDate,
+      end: formattedEndDate,
+    };
+  }).filter((event) => event !== null);
 
-  // FullCalendar 이벤트 데이터 변환
-  const calendarEvents = vacations.map((vacation) => ({
-    id: String(vacation.vacation_id),
-    title: `${vacation.e_name}의 휴가`,
-    start: vacation.start_date,
-    end: vacation.end_date,
-  }));
-
-  // 이벤트 클릭 시 상세 내용 표시
   const handleEventClick = (info) => {
     const vacationId = info.event.id;
     const vacation = vacations.find((v) => String(v.vacation_id) === vacationId);
     setSelectedVacation(vacation);
   };
 
-  // 팀 버튼 클릭 시 해당 팀 선택
   const handleTeamClick = (teamName) => {
     if (selectedTeam === teamName) {
-      // 이미 선택된 팀을 다시 클릭하면 선택 해제
       setSelectedTeam(null);
     } else {
       setSelectedTeam(teamName);
@@ -119,11 +133,10 @@ const Employeemain = () => {
                   selectedTeam === team ? styles.activeTeamButton : ""
                 }`}
                 onClick={() => handleTeamClick(team)}
-                aria-pressed={selectedTeam === team} // 버튼의 활성화 상태 표시
+                aria-pressed={selectedTeam === team}
               >
                 {teams[team].name}
               </button>
-              {/* 선택된 팀일 경우 구성원 목록 표시 */}
               {selectedTeam === team && (
                 <ul className={styles.memberList}>
                   {teams[team].children.map((member, index) => (
@@ -141,13 +154,13 @@ const Employeemain = () => {
 
         <div className={styles.calendarBox}>
           <FullCalendar
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            events={calendarEvents}
-            eventClick={handleEventClick}
-            height="auto"
-          />
-        </div>
+          plugins={[dayGridPlugin]}
+          initialView="dayGridMonth"
+          events={calendarEvents}
+          eventClick={handleEventClick}
+          height="auto"
+        />
+      </div>
 
         {selectedVacation && (
           <div className={styles.vacationDetails}>
@@ -172,4 +185,4 @@ const Employeemain = () => {
   );
 };
 
-export default Employeemain;
+export default VacationConfirm;

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor // 기본 생성자 추가
 public class EmployeeDto {
-    int e_num;
+    private int e_num;
     private String e_name;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate e_birth;

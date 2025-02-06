@@ -1,7 +1,7 @@
 package com.project.service;
 
-
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,19 +10,32 @@ import com.project.dto.EmployeeDto;
 import com.project.dto.RegisterDto;
 import com.project.mapper.EmployeeMapper;
 
-import lombok.extern.log4j.Log4j;
-
 @Service
-@Log4j
 public class EmployeeService {
 
-	private EmployeeMapper employeeMapper;
 
-	@Autowired
-	public EmployeeService(EmployeeMapper employeeMapper) {
-		this.employeeMapper = employeeMapper;
-	}
+    @Autowired
+    private EmployeeMapper employeeMapper;
 
+    public List<EmployeeDto> getAllEmployees() {
+        return employeeMapper.getAllEmployees();
+    }
+
+    public EmployeeDto getEmployeeById(int id) {
+        return employeeMapper.getEmployeeById(id);
+    }
+
+    public void addEmployee(EmployeeDto employee) {
+        employeeMapper.addEmployee(employee);
+    }
+
+    public void updateEmployee(EmployeeDto employee) {
+        employeeMapper.updateEmployee(employee);
+    }
+
+    public void deleteEmployee(int id) {
+        employeeMapper.deleteEmployee(id);
+    }
 	public void add(EmployeeDto employeeDto) {
 		employeeMapper.add(employeeDto);
 	}

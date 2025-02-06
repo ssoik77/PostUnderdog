@@ -31,4 +31,11 @@ public interface VacationMapper {
     
     // 휴가 신청 리스트
     ArrayList<VacationApprovalDto> pageList(int no);
+    
+    // 휴가 승인 업데이트 (approval 칼럼 업데이트)
+    int updateVacationApproval(@Param("vacationId") Long vacationId, 
+                               @Param("approval") int approval);
+    
+    List<VacationDto> selectAllVacations();
+
 }
