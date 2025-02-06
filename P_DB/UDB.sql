@@ -50,6 +50,9 @@ TRUNCATE TABLE member_info;
 
 INSERT INTO employee_info(e_num, e_name, e_birth, e_carrier, e_tel_num) VALUES('00000001', '홍길동', '2000-01-01', 'SKT', '01012345678');
 INSERT INTO member_info(authority, m_id, m_pw, e_key) VALUES(1, 'qqqq12!@', 'wwww12!@', 1);
-
+INSERT INTO employee_info(e_num, e_name) VALUES('00000002', '김말숙');
+INSERT INTO employee_info(e_num, e_name) VALUES('00000003', '고양이');
+INSERT INTO employee_info(e_num, e_name) VALUES('00000004', '맘모스');
+INSERT INTO employee_info(e_num, e_name) VALUES('00000005', '코끼리');
 
 

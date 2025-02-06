@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import styles from './Find.module.css'; // CSS 모듈 파일
+import React, { useEffect, useState } from "react";
+import { Alert, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import styles from './Find.style';
 import axios from 'axios';
 
 const Find = () => {
     // 상태 변수
     const [name, setName] = useState("");
-    const [birth, setBirth] = useState("");
     const [tel, setTel] = useState("");
+    const [birth, setBirth] = useState(new Date());
+    const [openBirthDate, setOpenBirthDate] = useState(false);
     const [message, setMessage] = useState("");
     const [id, setId] = useState("");
     const [modalContent, setModalContent] = useState(null);
@@ -15,47 +18,42 @@ const Find = () => {
     const [isPwFormOpen, setIsPwFormOpen] = useState({ display: 'none' });
 
     // ID 찾기 데이터 전송
-    const sendFindIdData = async (e) => {
-        e.preventDefault();
+    const sendFindIdData = async () => {
         const findData = {
             e_name: name,
-            e_birth: birth,
+            e_birth: birth.toISOString().split('T')[0],
             e_tel_num: tel,
         };
         try {
-            const response = await axios.post("http://localhost:8080/underdog/find/id", findData);
+            const response = await axios.post("http://192.168.0.135:8080/underdog/find/id", findData);
             const foundId = response.data?.id || "unknown";
 
             if (foundId === "unknown") {
                 setModalContent(
-                    <div className={styles.idpwFindResult}>
-                        <h1 className={styles.popupTitle}>아이디 찾기 실패</h1>
-                        <br/>
-                        <button className={styles.popupButton} onClick={() => setIsModalOpen(false)}>
-                            닫기
-                        </button>
-                    </div>
+                    <View style={styles.idpwFindResult}>
+                        <Text style={styles.popupTitle}>아이디 찾기 실패</Text>
+                        <TouchableOpacity style={styles.popupButton} onPress={()=>setIsModalOpen(false)}>
+                            <Text style={{color: 'white'}}>닫기</Text>
+                        </TouchableOpacity>
+                    </View>
                 );
                 setIsModalOpen(true);
                 setMessage("");
             } else {
                 setModalContent(
-                    <div className={styles.idpwFindResult}>
-                        <br/>
-                        <h1 className={styles.popupTitle}>아이디 찾기 성공</h1>
-                        <br/>
-                        <p>고객님의 비밀번호는 다음과 같습니다</p>
-                        <br/>
-                        <p><strong>{foundId}</strong></p>
-                        <br/>
-                        <button className={styles.popupButton} onClick={() => setIsModalOpen(false)}>닫기</button>
-                    </div>
+                    <View style={styles.idpwFindResult}>
+                        <Text style={styles.popupTitle}>아이디 찾기 성공</Text>
+                        <Text>아이디는 다음과 같습니다</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{foundId}</Text>
+                        <TouchableOpacity style={styles.popupButton} onPress={()=>setIsModalOpen(false)}>
+                            <Text style={{color: 'white'}}>닫기</Text>
+                        </TouchableOpacity>
+                    </View>
                 );
                 setIsModalOpen(true);
                 setMessage("");
             }
         } catch (error) {
-            setIsModalOpen(false);
             setMessage("입력한 정보로 ID를 찾을 수 없습니다.");
         }
     };
@@ -67,26 +65,30 @@ const Find = () => {
             e_tel_num: tel,
         };
         try {
-            const response = await axios.post("http://localhost:8080/underdog/find/pw", findData);
+            const response = await axios.post("http://192.168.0.135:8080/underdog/find/pw", findData);
             const foundPw = response.data?.pw || "unknown";
 
             if (foundPw === "unknown") {
                 setModalContent(
-                    <div className={styles.idpwFindResult}>
-                        <h1 className={styles.popupTitle}>비밀번호 찾기 실패</h1>
-                        <button className={styles.popupButton} onClick={() => setIsModalOpen(false)}>닫기</button>
-                    </div>
+                    <View style={styles.idpwFindResult}>
+                        <Text style={styles.popupTitle}>비밀번호 찾기 실패</Text>
+                        <TouchableOpacity style={styles.popupButton} onPress={()=>setIsModalOpen(false)}>
+                            <Text style={{color: 'white'}}>닫기</Text>
+                        </TouchableOpacity>
+                    </View>
                 );
                 setIsModalOpen(true);
                 setMessage("");
             } else {
                 setModalContent(
-                    <div className={styles.idpwFindResult}>
-                        <h1 className={styles.popupTitle}>비밀번호 찾기 성공</h1>
-                        <p>고객님의 비밀번호는 다음과 같습니다</p>
-                        <p><strong>{foundPw}</strong></p>
-                        <button className={styles.popupButton} onClick={() => setIsModalOpen(false)}>닫기</button>
-                    </div>
+                    <View style={styles.idpwFindResult}>
+                        <Text style={styles.popupTitle}>비밀번호 찾기 성공</Text>
+                        <Text>비밀번호는 다음과 같습니다</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{foundPw}</Text>
+                        <TouchableOpacity style={styles.popupButton} onPress={()=>setIsModalOpen(false)}>
+                            <Text  style={{color: 'white'}}>닫기</Text>
+                        </TouchableOpacity>
+                    </View>
                 );
                 setIsModalOpen(true);
                 setMessage("");
@@ -97,7 +99,7 @@ const Find = () => {
         }
     };
 
-   
+
 
     const findIdFormDisable = () => {
         setIsModalOpen(false);
@@ -110,67 +112,80 @@ const Find = () => {
         setIsIdFormOpen({ display: 'block' });
     }
 
-   
+useEffect(()=>{},[isModalOpen])
 
     return (
-        <div id={styles.idpwFindPage}>
-            <div id={styles.idpwFindBox}>
+        <View style={styles.idpwFindPage}>
+            <View style={styles.idpwFindBox}>
 
                 {/* ID 찾기 폼 */}
-                <div id={styles.findIdForm} style={isIdFormOpen}>
+                <View style={[{width:300, height:220, justifyContent:'center', alignItems:'center'}, isIdFormOpen ]}>
                     {isModalOpen && (
-                        <div>
+                        <View>
                             {modalContent}
-                        </div>
+                        </View>
                     )}
 
                     {!isModalOpen && (
-                        <form onSubmit={sendFindIdData}>
-                            <label>이름</label>
-                            <input className={styles.FindInput} type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                        <View>
+                            <Text>이름</Text>
+                            <TextInput style={styles.findInput} onChangeText={setName} />
 
-                            <label>전화번호</label>
-                            <input className={styles.FindInput} type="text" value={tel} onChange={(e) => setTel(e.target.value)} required />
+                            <Text>전화번호</Text>
+                            <TextInput style={styles.findInput} onChangeText={setTel} keyboardType="phone-pad" />
 
-                            <label>생일 (YYYY-MM-DD)</label>
-                            <input className={styles.FindInput} type="date" value={birth} onChange={(e) => setBirth(e.target.value)} required />
+                            <Text>생일</Text>
+                            <TouchableOpacity style={[styles.findInput, { justifyContent: 'center', alignItems: 'center' }]} onPress={() => setOpenBirthDate(!openBirthDate)}>
+                                <Text>{birth.toLocaleDateString().slice(0, -1)}</Text>
+                            </TouchableOpacity>
+                            {openBirthDate && (
+                                <DateTimePicker mode="date" display="spinner" value={birth}
+                                    onChange={(e, date) => { setBirth(date); setOpenBirthDate(!openBirthDate); }} />
+                            )}
 
-                            <button id={styles.idFormButton} type="submit">입력 완료</button>
-                        </form>
+                            <TouchableOpacity style={styles.idFormButton} onPress={sendFindIdData}>
+                                <Text style={{color: 'white'}}>입력 완료</Text>
+                            </TouchableOpacity>
+                        </View>
                     )}
 
-                    {message && <p className={styles.errorMessage}>{message}</p>}
-                    <button id={styles.pwFindButton} onClick={findIdFormDisable}>비밀번호 찾기</button>
-                </div>
+                    {message && <Text style={styles.errorMessage}>{message}</Text>}
+                    <TouchableOpacity style={styles.pwFindButton} onPress={findIdFormDisable}>
+                        <Text style={{color: 'white'}}>비밀번호 찾기</Text>
+                    </TouchableOpacity>
+                </View>
 
                 {/* PW 찾기 폼 */}
-                <div id={styles.findPwForm} style={isPwFormOpen}>
+                <View style={[{width:300, height:220, justifyContent:'center', alignItems:'center'},isPwFormOpen]}>
 
                     {isModalOpen && (
-                        <div>
+                        <View>
                             {modalContent}
-                        </div>
+                        </View>
                     )}
 
                     {!isModalOpen && (
-                        <form onSubmit={sendFindPwData}>
-                            <label>아이디</label>
-                            <input className={styles.FindInput} type="text" value={id} onChange={(e) => setId(e.target.value)} required />
+                        <View>
+                            <Text>아이디</Text>
+                            <TextInput style={styles.findInput} onChangeText={setId} />
 
-                            <label>전화번호</label>
-                            <input className={styles.FindInput} type="text" value={tel} onChange={(e) => setTel(e.target.value)} required />
+                            <Text>전화번호</Text>
+                            <TextInput style={styles.findInput} onChangeText={setTel} keyboardType="phone-pad" />
 
-                            <button id={styles.pwFormButton} type="submit">입력 완료</button>
-                        </form>
+                            <TouchableOpacity style={styles.pwFormButton} onPress={sendFindPwData}>
+                                <Text style={{color: 'white'}}>입력 완료</Text>
+                            </TouchableOpacity>
+                        </View>
                     )}
 
+                    {message && <Text style={styles.errorMessage}>{message}</Text>}
+                    <TouchableOpacity style={styles.idFindButton} onPress={findPwFormDisable}>
+                        <Text style={{color: 'white'}}>아이디 찾기</Text>
+                    </TouchableOpacity>
+                </View>
 
-                    {message && <p className={styles.errorMessage}>{message}</p>}
-                    <button id={styles.idFindButton} onClick={findPwFormDisable}>아이디 찾기</button>
-                </div>
-
-            </div>
-        </div>
+            </View>
+        </View>
     );
 };
 

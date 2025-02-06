@@ -98,16 +98,15 @@ const Register = () => {
                     m_id: id,
                     m_pw: password,
                     e_name: name,           // 이름 추가
-                    e_birth: birthDate,     // 생년월일 추가
+                    e_birth: birthDate.toISOString().split('T')[0],     // 생년월일 추가
                     e_carrier: carrierValue,
                     e_tel_num: tel1 + tel2 + tel3,
                 };
 
                 try {
-                    console.log(RegisterDto);
+                    console.log("회원가입 데이터======"+RegisterDto.e_birth);
                     const response = await axios.post('http://192.168.0.135:8080/underdog/register/set', RegisterDto, { headers: { 'Content-Type': 'application/json', 'Accept': 'text/plain' } });
-                    console.log(response.data);
-                    if (response.data === "succes") {
+                    if (response.data === "success") {
                         Alert.alert("회원가입이 완료되었습니다.");
                         navigation.goBack();
                     } else if (response.data === "fail1") {
@@ -136,31 +135,26 @@ const Register = () => {
 
     return (
         <View style={styles.registerPage}>
-
             <View>
                 <Text>사원번호</Text>
                 <TextInput style={[styles.enumInput, styles.registerInput]} placeholder="사원번호를 입력해 주세요" onChangeText={setEmployeeNumber} />
             </View>
 
             <View style={styles.idAllBox}>
-                { /* 아이디 입력 필드 */}
                 <View style={styles.idBox}>
                     <Text>ID</Text>
                     <TextInput style={[styles.registerInput, styles.idInput]} placeholder="아이디를 입력하세요" onChangeText={setId} />
                 </View>
-                {/* 아이디 중복 체크 버튼 */}
 
                 <TouchableOpacity style={[styles.buttonStyle, styles.idCheckButton]} onPress={checkId}>
                     <Text style={{ color: 'white', position: 'relative', left:2 }}>중복 확인</Text>
                 </TouchableOpacity>
             </View>
 
-            {/* 아이디 중복 체크 결과 메시지 */}
             <View style={[styles.idMessage]} >
-                <Text style={idCheckResult ? styles.successMessage : styles.errorMessage}>{idMessage}</Text>
+                <Text style={idCheckResult ? styles.successMessage : styles.errorMessage}>{idMessage ?? ''}</Text>
             </View>
 
-            {/* 비밀번호 입력 필드 */}
             <View style={styles.pwBox}>
                 <Text>비밀번호</Text>
                 <TextInput style={[styles.pw, styles.registerInput]} placeholder="비밀번호" onChangeText={setPassword} secureTextEntry />
@@ -168,18 +162,15 @@ const Register = () => {
                 <TextInput style={[styles.confirmPw, styles.registerInput]} placeholder="비밀번호 확인" onChangeText={setConfirmPassword} secureTextEntry />
             </View>
 
-            {/* 메시지 출력 */}
             <View >
-                <Text style={pwMessageStyle}>{pwMessage}</Text>
+                <Text style={pwMessageStyle}>{pwMessage ?? ''}</Text>
             </View>
 
-            {/* 이름 입력 */}
             <View style={styles.nameBox}>
                 <Text>이름</Text>
                 <TextInput style={[styles.name, styles.registerInput]} placeholder="이름을 입력하세요" onChangeText={setName} />
             </View>
 
-            {/* 생년월일 입력 */}
             <View >
                 <Text>생년월일</Text>
                 <View style={styles.birthBox}>
@@ -196,20 +187,18 @@ const Register = () => {
 
 
             <View>
-                <Text style={{right: 4}}> 전화번호</Text>
+                <Text style={{right: 4}}>전화번호</Text>
                 <View style={styles.numBox}>
-                    { /* 전화번호 입력 필드 */}
-                    <TextInput style={[styles.registerInput, {width: 58, textAlign: 'center', marginRight: 10}]} maxLength={3} onChangeText={setTel1} keyboardType="phone-pad" /> <Text style={{fontSize: 25}}>-</Text>
-                    <TextInput style={[styles.registerInput, {width: 58, textAlign: 'center', marginLeft: 10, marginRight: 10}]} maxLength={4} onChangeText={setTel2} keyboardType="phone-pad"/> <Text style={{fontSize: 25}}>-</Text>
+                    <TextInput style={[styles.registerInput, {width: 58, textAlign: 'center', marginRight: 10}]} maxLength={3} onChangeText={setTel1} keyboardType="phone-pad" /><Text style={{fontSize: 25}}>-</Text>
+                    <TextInput style={[styles.registerInput, {width: 58, textAlign: 'center', marginLeft: 10, marginRight: 10}]} maxLength={4} onChangeText={setTel2} keyboardType="phone-pad"/><Text style={{fontSize: 25}}>-</Text>
                     <TextInput style={[styles.registerInput, {width: 58, textAlign: 'center', marginLeft: 10}]} maxLength={4} onChangeText={setTel3} keyboardType="phone-pad" />
                 </View>
             </View>
 
             <View style={styles.carrierBox}>
                 <Text>통신사 선택</Text>
-                {/* 통신사 선택 드롭다운 */}
                 <DropDownPicker
-                    placeholder="통신사 선택"
+                  placeholder='통신사 선택'
                     items={mobileCarrier}
                     value={carrierValue}
                     open={carrierBoxOpen}
@@ -218,7 +207,7 @@ const Register = () => {
                     setValue={setCarrierValue}
                     listMode="SCROLLVIEW"
                     style={styles.carrier}
-                    textStyle={{ fontSize: 13, color: ((carrierValue != null) ? 'black' : 'gray') }}
+                    textStyle={{ fontSize: 13, color: carrierValue ? 'black' : 'gray' }}
                     dropDownContainerStyle={{
                         width: 200,
                         height: 100,
@@ -231,13 +220,10 @@ const Register = () => {
                 />
             </View>
 
-
             <View style={styles.loginMessage}>
-                {/* 아이디 체크 제대로 하지 않고 정보 제출시 메세지 출력 */}
-                <Text>{resultMessage}</Text>
+                <Text>{resultMessage ?? ''}</Text>
             </View>
 
-            {/* 회원가입 버튼 */}
             <TouchableOpacity style={styles.loginButton} onPress={sendRegisterData}>
                 <Text style={{color: 'white', fontSize: 19}}>완료</Text>
             </TouchableOpacity>

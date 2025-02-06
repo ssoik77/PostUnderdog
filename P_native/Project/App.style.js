@@ -39,6 +39,7 @@ export default StyleSheet.create({
       },
       loginUi: {
         width: '100%',
+        marginTop: 20
       },
       input: {
         width: '100%',
@@ -63,8 +64,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative',
-        top: 80,
+        marginTop:30
       },
       link: {
         color: '#007bff',
