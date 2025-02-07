@@ -1,31 +1,26 @@
 import React, { useEffect, useState } from "react";
-import * as SecureStore from "expo-secure-store";
-import { Image, Text, View, TouchableOpacity, KeyboardAvoidingView, Modal, Alert} from "react-native";
+import { Image, KeyboardAvoidingView, Text, View, Modal, ScrollView } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './VacationRequest.style'
+import Mypage from "../myPage/Mypage";
+import { TouchableOpacity } from "react-native";
 
 const VacationRequest = ({navigation}) => {
-  const [authority, setAuthority] = useState(null);
-  const [loginId, setLoginId] = useState(null);
 
   const [myPageOpen, setMyPageOpen] = useState(false);
-
-  // // SecureStore에서 데이터를 불러오는 useEffect
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const storedAuthority = await SecureStore.getItemAsync("authority");
-  //     const storedLoginId = await SecureStore.getItemAsync("m_id");
-
-  //       Alert.alert("==========c추가 페이지"+storedLoginId);
-  //     // 로그인 아이디가 없으면 홈으로 이동
-  //     if (!storedLoginId) {
-  //       navigation.reset({
-  //         index: 0,
-  //         routes: [{ name: "Home" }],
-  //       });
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+ 
+  
+  
+  useEffect(() => {
+    const fetch = async() =>{
+      const autoId = await AsyncStorage.getItem("m_id");
+      console.log("============="+autoId);
+      if (autoId == null) {
+        navigation.navigate("Home");
+      }
+    }
+    fetch();
+  }, [navigation]);
 
   return ( 
 
@@ -37,7 +32,6 @@ const VacationRequest = ({navigation}) => {
           <Image source={require("../../assets/logo.png")} style={styles.logoImage} />
 
         {/* 네비게이션 */}
-        { authority &&
           <View style={styles.nav}>
           <TouchableOpacity onPress={() => navigation.navigate("VacationApproval", { no: 1 })} style={styles.buttonBox}>
             <Text>휴가 승인</Text>
@@ -46,16 +40,20 @@ const VacationRequest = ({navigation}) => {
             <Text>직원 추가</Text>
           </TouchableOpacity>
         </View>
-        }
 
         {/* 내 정보 */}
-          <TouchableOpacity onPress={setMyPageOpen(!myPageOpen)} style={styles.buttonBox}>
+          <TouchableOpacity onPress={() => setMyPageOpen(!myPageOpen)} style={styles.buttonBox}>
             <Text>내 정보</Text>
           </TouchableOpacity>
       </View>
 
-    <Modal visible={myPageOpen} animationType="fade" onRequestClose={setMyPageOpen(!myPageOpen)}>
-
+    <Modal visible={myPageOpen} animationType="fade" onRequestClose={() => setMyPageOpen(!myPageOpen)}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: '#f9f9f9' }}>
+        <TouchableOpacity onPress={changeFindModal} style={{ alignItems: 'center', justifyContent: 'center', width: 50, height: 40, position: 'relative', left: 340, top: 10 }}>
+                      <Text style={{ fontSize: 20 }}>닫기</Text>
+                    </TouchableOpacity>
+    <Mypage navigation={navigation}/>
+      </ScrollView>
     </Modal>
 
     </View>

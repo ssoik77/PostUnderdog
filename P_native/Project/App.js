@@ -1,35 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, Modal, ScrollView, KeyboardAvoidingView, StatusBar, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, Modal, ScrollView, KeyboardAvoidingView, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './App.style';
 import VacationRequestScreen from './otherpage/vacation/VacationRequest';
 import RegisterScreen from './otherpage/register/Register';
 import FindScreen from './otherpage/find/Find';
 import axios from 'axios';
 
-
 const Stack = createStackNavigator();
 
 const HomeScreen = ({ navigation }) => {
-
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
   const [registerModal, setRegisterModal] = useState(false);
   const [findModal, setFindModal] = useState(false);
 
-  
   useEffect(() => {
-    const autoId = 
-      autoId = SecureStore.getItemAsync("m_id");
-    
-    if (autoId !== null) {
-      navigation.navigate("VacationRequest");
+    const fetch = async() =>{
+      const autoId = await AsyncStorage.getItem("m_id");
+      console.log("============="+autoId);
+      if (autoId !== null) {
+        navigation.navigate("VacationRequest");
+      }
     }
-  }, [])
-
+    fetch();
+  }, [navigation]);
 
   const handleLogin = async () => {
     if (!id || !pw) {
@@ -49,9 +47,10 @@ const HomeScreen = ({ navigation }) => {
       if (response.data.pw_check) {
         const { userName, userAuthority } = response.data;
 
-        SecureStore.setItemAsync("m_id", id);
-        SecureStore.setItemAsync("e_name", userName);
-        SecureStore.setItemAsync("authority", String(userAuthority));
+        await AsyncStorage.setItem("m_id", id);
+        await AsyncStorage.setItem("e_name", userName);
+        await AsyncStorage.setItem("authority", String(userAuthority));
+
         navigation.navigate("VacationRequest");
       }
     } catch (error) {
@@ -73,7 +72,6 @@ const HomeScreen = ({ navigation }) => {
   }
 
   return (
-
     <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={-310} style={{ flex: 1 }}>
       <View style={styles.loginPage}>
         <View style={styles.loginHeader}>
@@ -89,6 +87,7 @@ const HomeScreen = ({ navigation }) => {
               placeholder="아이디"
               autoComplete="off"
               onChangeText={setId}
+              value={id}
               adjustPan
             />
             <TextInput
@@ -96,6 +95,7 @@ const HomeScreen = ({ navigation }) => {
               placeholder="비밀번호"
               secureTextEntry
               onChangeText={setPw}
+              value={pw}
             />
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
               <Text style={styles.buttonText}>로그인</Text>
