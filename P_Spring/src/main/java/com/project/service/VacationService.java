@@ -25,6 +25,11 @@ public class VacationService {
     public List<VacationDto> getVacationsByMemberId(String mId) {
         return vacationMapper.selectVacationsByMemberId(mId);
     }
+    
+    public List<VacationDto> getAllVacations() {
+        return vacationMapper.selectAllVacations();
+    }
+
 
     public void deleteVacation(Long id, String userId) {
         VacationDto vacation = vacationMapper.getVacationById(id);
@@ -65,9 +70,4 @@ public class VacationService {
             throw new IllegalArgumentException("휴가 승인 처리 실패");
         }
     }
-    
-    public List<VacationDto> getAllVacations() {
-        return vacationMapper.selectAllVacations();
-    }
-
 }

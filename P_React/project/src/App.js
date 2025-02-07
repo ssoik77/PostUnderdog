@@ -6,7 +6,6 @@ import './vacation/VacationRequest.js';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 // 환경 변수에서 API URL 가져오기
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/underdog";
 

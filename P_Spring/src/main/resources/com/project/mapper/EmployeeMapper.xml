@@ -23,7 +23,7 @@
             e_tel_num = #{e_tel_num},
             e_team = #{e_team},
             e_num = #{e_num}
-        WHERE e_num = #{e_num};
+        WHERE e_key = #{e_key};
     </update>
 
     <delete id="deleteEmployee" parameterType="int">

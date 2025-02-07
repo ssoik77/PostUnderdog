@@ -53,7 +53,7 @@ public class VacationController {
         logger.info("휴가 신청 완료: 사용자 ID: {}, 이름: {}", userId, userName);
         return ResponseEntity.ok("휴가 신청이 완료되었습니다.");
     }
-
+    
     @PostMapping("/list")
     public ResponseEntity<List<VacationDto>> getMyVacations(@RequestBody RegisterDto registerDto) {
         logger.info("휴가 목록 조회 요청: {}", registerDto);
