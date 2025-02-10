@@ -29,7 +29,6 @@ public class RegiController {
     @Transactional
     @ResponseBody
     public String setRegister(@RequestBody RegisterDto registerDto) {
-    	log.info(registerDto);
         String result = regiService.setRegister(registerDto);
         return result;
     }

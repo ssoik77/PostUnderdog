@@ -4,8 +4,8 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.mapper.EmployeeMapper">
-
-	<insert id="add" parameterType="com.project.dto.EmployeeDto">
+    
+    	<insert id="add" parameterType="com.project.dto.EmployeeDto">
 	INSERT INTO employee_info(e_num, e_name) values(#{e_num},#{e_name});
 	</insert>
 	
@@ -16,5 +16,4 @@
 	<select id="employeeCount" resultType="int">
 	SELECT COUNT(*) FROM employee_info;
 	</select>
-	
 </mapper>

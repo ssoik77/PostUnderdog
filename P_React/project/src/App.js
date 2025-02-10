@@ -1,11 +1,11 @@
 import styles from './App.module.css';
 import './register/Register.js';
 import './find/Find.js';
+import './vacation/VacationConfirm.js';
 import './vacation/VacationRequest.js';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 // 환경 변수에서 API URL 가져오기
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/underdog";
 
@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
     if (loginId) {
-      navigate("/vacationrequest")
+      navigate("/vacationconfirm");
     }
   }, [navigate]);
 
@@ -53,7 +53,7 @@ const App = () => {
         }
 
         alert(response.data.message || "로그인 성공!");
-        navigate("/vacationrequest");
+        navigate("/vacationconfirm");
       }
     } catch (error) {
       if (error.response?.status === 401) {
@@ -124,6 +124,7 @@ const App = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };
