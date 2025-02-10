@@ -1,0 +1,125 @@
+.errorMessage {
+  color: rgb(203, 48, 48);
+}
+
+.successMessage {
+  color: rgb(11, 233, 55);
+}
+
+@media (max-width: 768px) {
+  .registerInput {
+    width: 100%;
+    height: 5vh;
+    max-width: 400px;
+  }
+
+  #registerForm {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #registerBox{
+    width: 80vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background-color: bisque;
+  }
+  #eNumBox {
+    display: flex;
+    flex-direction: column;
+    background-color: cadetblue;
+    width: 65%;
+  }
+  
+  #idAllBox {
+    display: flex;
+    position: relative;
+    align-items: center;
+    background-color: aquamarine;
+    width: 65%;
+    gap: 10px
+  }
+  
+  #idBox {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+  }
+  
+  #idCheckButton {
+    position: absolute;
+    bottom: 4%;
+    right: 0;
+    height: 60%;
+    width: 25%;
+  }
+  
+  #idMessage {
+    
+  }
+  
+  #pwBox {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    
+  }
+  
+  #pw {
+    
+  }
+  
+  #pwMessage {
+    
+  }
+  
+  #nameBox {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    
+  }
+  
+  #birthBox {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    
+  }
+  
+  #birth {
+    
+  }
+  
+  #numBox {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    
+  }
+  
+  #numBox input {
+    
+  }
+  
+  #carrier {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    
+  }
+  
+  #loginMessage {
+    
+  }
+  
+  #loginButton {
+    
+  }
+}
