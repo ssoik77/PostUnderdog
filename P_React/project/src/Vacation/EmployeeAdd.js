@@ -9,50 +9,48 @@ import EmployeeList from './EmployeeList';
 const EmployeeAdd = () => {
     const [employeeList, setEmployeeList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
-
     const params = new URLSearchParams(window.location.search);
     const pageNo = parseInt(params.get('no') || 1);
-
     const employeeNumRef = useRef(null);
     const employeeNameRef = useRef(null);
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
     const authority = sessionStorage.getItem('authority') || localStorage.getItem("authority");
-
-
+    
+    
     useEffect(() => {
         if (!loginId || !authority) {
             window.location.href = "../";
         }
     }, [loginId, authority])
-
+    
     useEffect(() => {
+        const pullParams = new URLSearchParams(window.location.search);
+        const pullPageNo = parseInt(pullParams.get('no') || 1);
+        const pullPageCount = () => {
+            axios.get("http://localhost:8080/underdog/employee/pagecount")
+            .then((response) => {
+                   setPageCount(response.data); 
+                   console.log("pageCount: "+response.data);
+                })
+                .catch((error) => console.error("Error Fetching Page Count:", error));
+        }
+    
+        const pullEmployee = () => {
+            axios.get(`http://localhost:8080/underdog/employee/list?no=${pullPageNo}`, {
+                headers: {
+                    "Content-Type": "Text/plain",
+                    "Accept": "application/json",
+                }
+            })
+                .then((response) => {
+                    setEmployeeList(response.data);
+                    console.log("pageNo: "+pullPageNo);
+                })
+                .catch((error) => console.error("Error Pull Employee:", error));
+        };
         pullPageCount();
         pullEmployee(); 
     }, []);
-
-    const pullPageCount = () => {
-        axios.get("http://localhost:8080/underdog/employee/pagecount")
-            .then((response) => {
-               setPageCount(response.data); 
-               console.log("pageCount: "+response.data);
-            })
-            .catch((error) => console.error("Error Fetching Page Count:", error));
-    }
-
-    const pullEmployee = () => {
-        axios.get(`http://localhost:8080/underdog/employee/list?no=${pageNo}`, {
-            headers: {
-                "Content-Type": "Text/plain",
-                "Accept": "application/json",
-            }
-        })
-            .then((response) => {
-                setEmployeeList(response.data);
-                console.log("pageNo: "+pageNo);
-            })
-            .catch((error) => console.error("Error Pull Employee:", error));
-    };
-
 
     const handleSubmit = () => {
         const employeeNum = employeeNumRef.current.value.trim();

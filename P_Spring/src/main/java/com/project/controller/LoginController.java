@@ -1,15 +1,12 @@
 package com.project.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,27 +51,5 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/userinfo")
-    public ResponseEntity<?> getUserInfo(HttpSession session) {
-        // 세션에서 사용자 정보 가져오기
-        String userId = (String) session.getAttribute("userId");
-        String userName = (String) session.getAttribute("userName");
-        Object userAuthority = session.getAttribute("authority");
 
-        // 세션에 정보가 없을 때 처리
-        if (userId == null || userName == null) {
-            log.warn("로그인된 사용자가 없습니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인된 사용자가 없습니다.");
-        }
-
-        // 사용자 정보 반환
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("userId", userId);
-        userInfo.put("userName", userName);
-        userInfo.put("userAuthority", userAuthority);
-
-        log.info("사용자 정보 반환: " + userInfo);
-        
-        return ResponseEntity.ok(userInfo);
-    }
 }

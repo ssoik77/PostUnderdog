@@ -3,8 +3,10 @@ package com.project.dto;
 import java.time.LocalDate;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class VacationApprovalDto {
 	private String e_num;
     private Long vacation_id;

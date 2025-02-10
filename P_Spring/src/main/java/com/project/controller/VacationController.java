@@ -40,9 +40,9 @@ public class VacationController {
 
     @PostMapping
     public ResponseEntity<String> createVacation(@RequestBody VacationDto vacationDto, HttpSession session) {
-        logger.info("휴가 신청 요청: {}", vacationDto);
-        String userId = (String) session.getAttribute("userId");
-        String userName = (String) session.getAttribute("userName");
+        String userId = (String) session.getAttribute("m_id");
+        String userName = (String) session.getAttribute("e_name");
+        logger.info("휴가 신청 요청 - 사용자 ID: {}, 이름: {}", userId, userName);
         if (userId == null || userName == null) {
             logger.warn("로그인이 필요합니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
@@ -50,7 +50,7 @@ public class VacationController {
         vacationDto.setMId(userId);
         vacationDto.setEName(userName);
         vacationService.createVacation(vacationDto);
-        logger.info("휴가 신청 완료: 사용자 ID: {}, 이름: {}", userId, userName);
+        logger.info("휴가 신청 요청: {}", vacationDto);
         return ResponseEntity.ok("휴가 신청이 완료되었습니다.");
     }
     

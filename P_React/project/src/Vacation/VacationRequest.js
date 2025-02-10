@@ -91,7 +91,9 @@ const VacationRequest = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { ...formData };
+    const payload = { ...formData, mId: formData.m_id, eName: formData.e_name };
+    delete payload.m_id;
+    delete payload.e_name;
 
     try {
       console.log('전송 데이터:', payload);
@@ -138,8 +140,12 @@ const VacationRequest = () => {
         setSelectedVacation(null);
       }
     } catch (error) {
-      console.error('휴가 신청 중 오류 발생:', error);
-      alert('휴가 신청 중 문제가 발생했습니다.');
+      if (error.response?.status === 401) {
+        alert("인증에 실패했습니다. 다시 로그인해주세요.");
+      } else {
+        console.error('휴가 신청 중 오류 발생:', error);
+        alert('휴가 신청 중 문제가 발생했습니다.');
+      }
     }
   };
 
@@ -247,7 +253,7 @@ const VacationRequest = () => {
           )}
         </nav>
         <div className={styles.info}>
-          <a herf="/Mypage" onClick={openPopup} className={styles.popupLink}>
+          <a href="/Mypage" onClick={openPopup} className={styles.popupLink}>
             내 정보
           </a>
         </div>
