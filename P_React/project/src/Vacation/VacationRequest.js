@@ -5,7 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
-import styles from '../vacation/VacationConfirm.module.css';
+import styles from './VacationConfirmBrowser.module.css';
 import stylesVacation from './VacationRequest.module.css'; // CSS Modules 파일
 
 const VacationRequest = () => {
