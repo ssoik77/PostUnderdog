@@ -18,16 +18,24 @@ import com.project.dto.EmployeeDto;
 import com.project.dto.RegisterDto;
 import com.project.service.EmployeeService;
 
+import lombok.extern.log4j.Log4j;
+
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.163:3000"})
 @RequestMapping("/employee")
+@Log4j
 public class EmployeeController {
 
-	@Autowired
-	private EmployeeService employeeService;
+    private EmployeeService employeeService;
+    
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
 
 	@GetMapping
 	public List<EmployeeDto> getAllEmployees() {
+		log.info("==============================="+employeeService.getAllEmployees());
 	    return employeeService.getAllEmployees();
 	}
 
@@ -46,9 +54,10 @@ public class EmployeeController {
     @GetMapping("/list")
     @ResponseBody
     ArrayList<RegisterDto> employeeList(@RequestParam("no") int pageNo) {
-    	int pageNoInPage = ((pageNo-1) * 10);
-    	ArrayList<RegisterDto> list = employeeService.pageList(pageNoInPage);
-    	return list;
+        int pageNoInPage = ((pageNo - 1) * 10);
+        ArrayList<RegisterDto> list = employeeService.pageList(pageNoInPage);
+        return list;
     }
+
     
 }

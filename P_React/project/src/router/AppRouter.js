@@ -4,9 +4,10 @@ import App from "../App";
 import Register from "../register/Register"
 import Find from "../find/Find"
 import Mypage from "../mypage/Mypage"
-import VacationRequest from "../vacation/VacationRequest"
-import VacationApproval from "../vacation/VacationApproval";
-import EmployeeAdd from '../vacation/EmployeeAdd'
+import VacationRequest from "../vacation/vacationRequest/VacationRequest"
+import VacationApproval from "../vacation/vacationApproval/VacationApproval"
+import EmployeeAdd from '../vacation/employeeAdd/EmployeeAdd'
+
 
 function AppRouter() {
     return (

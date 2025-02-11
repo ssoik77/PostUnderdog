@@ -1,0 +1,21 @@
+#vacationList {
+    width: 100%;
+    border-collapse: separate; /* border-spacing을 적용하려면 separate로 설정 */
+    border-spacing: 1px 8px;
+}
+
+
+.columnTitle{
+    text-align: center;
+    font-size: 1.5em;
+    border: 2px solid rgb(68, 68, 68); /* 기존 border 유지 */
+}
+
+.column { 
+    border: 1px solid rgb(68, 68, 68); /* 기존 border 유지 */
+    text-align: center;
+    position: relative;
+    font-size: 1em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }

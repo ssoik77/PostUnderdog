@@ -1,0 +1,20 @@
+#employeeList {
+  width: 100%;
+  border-collapse: separate; /* border-spacing을 적용하려면 separate로 설정 */
+  border-spacing: 5px 8px;
+}
+
+.columnTitle {    
+  font-size: 0.8em;
+  border: 2px solid rgb(68, 68, 68); /* 기존 border 유지 */
+  align-items: center;
+  text-align: center;
+}
+
+
+.column {
+  border: 1px solid rgb(68, 68, 68); /* 기존 border 유지 */
+  font-size: 0.64em;
+  text-align: center;
+  align-items: center;
+}

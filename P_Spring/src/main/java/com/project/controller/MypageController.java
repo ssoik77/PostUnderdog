@@ -20,12 +20,12 @@ import lombok.extern.log4j.Log4j;
 
 @RestController
 @RequestMapping("/mypage")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins ={"http://localhost:3000","http://192.168.0.163:3000"})
 @Log4j
 public class MypageController {
 
     private final MypageService mypageService;
-
+    
     public MypageController(MypageService mypageService) {
         this.mypageService = mypageService;
     }

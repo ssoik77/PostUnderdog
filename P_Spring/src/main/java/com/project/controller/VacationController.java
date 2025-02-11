@@ -28,7 +28,7 @@ import com.project.service.VacationService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.163:3000"}, allowCredentials = "true")
 @RequestMapping("/vacations")
 @RequiredArgsConstructor
 public class VacationController {
@@ -135,7 +135,7 @@ public class VacationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
         }
 
-        int approval = (int) body.get("approval");
+        int approval = (int) body.get("approval");	
         try {
             vacationService.approvalVacation(vacationId, approval);
             logger.info("휴가 승인 성공: 휴가 ID: {}, 승인 상태: {}", vacationId, approval);

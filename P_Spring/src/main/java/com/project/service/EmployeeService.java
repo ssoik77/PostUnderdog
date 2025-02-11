@@ -11,7 +11,10 @@ import com.project.dto.EmployeeDto;
 import com.project.dto.RegisterDto;
 import com.project.mapper.EmployeeMapper;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class EmployeeService {
 	@Autowired
     private EmployeeMapper employeeMapper;
@@ -29,13 +32,13 @@ public class EmployeeService {
 	}
 	
 	public int pageCount() {
-		int employeeCount = employeeMapper.employeeCount();
-		int allPageCount = (employeeCount / 10);
-		int allPageCountRemainder = (employeeCount % 10);
-		if(allPageCountRemainder > 0) {
-			allPageCount = (allPageCount + 1);
-		}
-		return allPageCount;
+	    int employeeCount = employeeMapper.employeeCount();
+	    int allPageCount = (employeeCount / 10);
+	    int allPageCountRemainder = (employeeCount % 10);
+	    if (allPageCountRemainder > 0) {
+	        allPageCount = (allPageCount + 1);
+	    }
+	    return allPageCount;
 	}
 	
 	public ArrayList<RegisterDto> pageList(int pageNoInPage) {

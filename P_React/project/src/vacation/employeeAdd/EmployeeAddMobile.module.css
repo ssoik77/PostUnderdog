@@ -1,0 +1,203 @@
+/* 기본 페이지 스타일 */
+.employeeAddPage {
+  font-family: Arial, sans-serif;
+  color: #333;
+  height: 100vh;
+  width: 100vw;
+  position: relative; /* 레이아웃 안정성 확보 */
+  background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 헤더 스타일 */
+.header {
+  display: flex;
+  justify-content: space-between; /* 로고, 중앙 버튼 그룹, 우측 버튼 배치 */
+  align-items: center;
+  background-color: fff; /* 반투명 헤더 배경 */
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 5%;
+  min-height: 30px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+/* 로고 스타일 */
+.logo {
+  width: 10%;
+  height: 180%;
+}
+
+.logoImage {
+  height: 100%;
+  width: 100%;
+  max-width: 40px;
+  max-height: 70px;
+}
+
+/* 내비게이션 스타일 */
+.nav {
+  display: flex;
+  gap: 10px;
+}
+
+.nav a {
+  text-decoration: none; /* 밑줄 제거 */
+  color: #333; /* 텍스트 색상 */
+  font-size: 1em;
+}
+
+.nav a:focus,
+.nav a:active {
+  outline: none; /* 클릭 시 외곽선 제거 */
+}
+
+/* 유저 정보 스타일 */
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.info button {
+  border-style: none;
+  background-color: #00000000;
+  color: #007bff; /* 파란색 텍스트 */
+  font-size: 1em;
+}
+
+/* 메인 컨테이너 */
+.mainContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 직원 추가 박스 */
+.employeeBox {
+  width: 100%;
+  max-width: 300px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 2%;
+  background-color: fff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 직원 추가 폼 */
+.formBox {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  gap: 5px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inputNum,
+.inputName {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+.inputNum:focus,
+.inputName:focus {
+  border: 1.3px solid #007bff; /* 선택되었을 때 테두리 색상 변경 */
+  outline: none; /* 기본 아웃라인 제거 */
+}
+
+.addButton {
+  width: 50%;
+  height: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: center;
+}
+
+.addButton:hover {
+  background-color: #0056b3;
+}
+
+/* 직원 목록 박스 */
+.mainBox {
+  width: 83%;
+  height: 60%;
+  background-color: fff;
+  border-radius: 10px;
+  border: 2px solid #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding: 15px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative; /* 위치를 고정 */
+}
+
+/* 페이지네이션 스타일 */
+.pageBox {
+  margin-top: 5%;
+  font-size: 1.1em;
+  gap: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#pageNumberBox {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  font-size: 1.1em;
+  gap: 15px;
+}
+
+.prevnextButton {
+  background-color: #555555;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pageNumber {
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+}
+
+#brandName {
+  position: relative;
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

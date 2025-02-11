@@ -1,0 +1,10 @@
+.fc {
+    width: 100% !important;
+    height: 100% !important;
+    font-size: 0.5rem;
+}
+
+/* 캘린더 제목 스타일 */
+.fc .fc-toolbar-title {
+      font-size: 0.6rem;
+  }

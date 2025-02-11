@@ -15,11 +15,11 @@
 	</insert>
 
 	<select id="pageList" parameterType="int" resultType="com.project.dto.RegisterDto">
-	SELECT * FROM (SELECT * FROM employee_info ORDER BY e_key DESC LIMIT #{no}, 10) e LEFT JOIN member_info m ON e.e_key = m.e_key ;
+	SELECT * FROM (SELECT * FROM employee_info ORDER BY e_key DESC LIMIT #{no}, 10
+	) e LEFT JOIN member_info m ON e.e_key = m.e_key ;
 	</select>
 	
 	<select id="employeeCount" resultType="int">
 	SELECT COUNT(*) FROM employee_info;
 	</select>
-    
 </mapper>

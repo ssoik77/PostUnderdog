@@ -1,0 +1,81 @@
+
+.FindInput{
+  width: 300px;
+  border-color: #333;
+}
+
+/* 전체 컨테이너 */
+#idpwFindPage {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  min-height: 100vh;
+  position: relative; /* 레이아웃 안정성 확보 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
+}
+
+#idpwFindBox{
+  min-width: 600px;
+  min-height: 400px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 2px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#idFormButton,#pwFormButton{
+  position: relative;
+  top: 20px;
+  left: 50px;
+  width: 200px;
+  height: 30px;
+  border-width: 1px;
+    border-radius: 3px;
+    border-color: #808080;
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+
+#pwFindButton,#idFindButton{
+  position: relative;
+  top: 35px;
+  left: 345px;
+  border-style: none;
+  background-color:#ffffff ;
+  cursor: pointer;
+}
+
+#pwFindButton:hover{
+  color: rgb(89, 109, 182);
+}
+
+#idFindButton{
+  position: relative;
+  left: 355px;
+  top: 85px;
+}
+
+.idpwFindResult{
+  padding: 20px;
+  background-color: #e8e8e8;
+  border: 1px solid #b4b4b4;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+.popupButton{
+  width: 60px;
+}
