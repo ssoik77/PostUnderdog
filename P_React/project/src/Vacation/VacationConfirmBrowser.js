@@ -109,8 +109,6 @@ const VacationConfirm = () => {
           <h1>Post Underdog</h1>
         </div>
         <nav className={styles.nav}>
-          <a href="/vacationconfirm">휴가 내역</a>
-          <a href="/vacationrequest">휴가 신청</a>
           {authority === "true" && (<>
             <a href="/vacationapproval?no=1">휴가 승인</a>
             <a href="/employeeadd?no=1">직원 추가</a></>

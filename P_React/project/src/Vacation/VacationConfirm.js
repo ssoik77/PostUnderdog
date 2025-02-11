@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {MobileView, BrowserView} from "react-device-detect"
 import VacationConfirmBrowser from "./VacationConfirmBrowser"
 import VacationConfirmMobile from "./VacationConfirmMobile"

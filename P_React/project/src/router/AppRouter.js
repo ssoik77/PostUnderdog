@@ -7,6 +7,7 @@ import Mypage from "../mypage/Mypage"
 import VacationRequest from "../vacation/VacationRequest"
 import VacationApproval from "../vacation/VacationApproval";
 import EmployeeAdd from '../vacation/EmployeeAdd'
+import VacationConfirm from "../vacation/VacationConfirm";
 
 function AppRouter() {
     return (
@@ -16,6 +17,7 @@ function AppRouter() {
           <Route path="/register" element={<Register/>} />
           <Route path="/find" element={<Find/>} />
           <Route path="/mypage" element={<Mypage/>} />
+          <Route path="/vacationconfirm" element={<VacationConfirm/>}/>
           <Route path="/vacationrequest" element={<VacationRequest/>} />
           <Route path="/vacationapproval" element={<VacationApproval/>}/>
           <Route path="/employeeadd" element={<EmployeeAdd/>} />

@@ -44,16 +44,17 @@ const App = () => {
       );
 
       if (response.data.pw_check) {
-        const { userName, userAuthority } = response.data; // 서버에서 반환된 사용자 이름
+        const { e_name, authority } = response.data; // 서버에서 반환된 사용자 이름
+        console.log(response);
 
         if (isSaveLogin) {
           localStorage.setItem("m_id", id); // 사용자 id 저장
-          localStorage.setItem("e_name", userName); // 사용자 이름 저장
-          localStorage.setItem("authority", userAuthority); // 사용자 권한 저장
+          localStorage.setItem("e_name", e_name); // 사용자 이름 저장
+          localStorage.setItem("authority", authority); // 사용자 권한 저장
         } else {
           sessionStorage.setItem("m_id", id); // 사용자 id 저장
-          sessionStorage.setItem("e_name", userName); // 사용자 이름 저장
-          sessionStorage.setItem("authority", userAuthority); // 사용자 권한 저장
+          sessionStorage.setItem("e_name", e_name); // 사용자 이름 저장
+          sessionStorage.setItem("authority", authority); // 사용자 권한 저장
         }
 
         alert(response.data.message || "로그인 성공!");

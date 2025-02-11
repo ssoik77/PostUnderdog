@@ -11,7 +11,9 @@ e_num CHAR(10),
 e_name CHAR(10) DEFAULT NULL,
 e_birth DATE DEFAULT NULL,
 e_carrier CHAR(10) DEFAULT NULL,
-e_tel_num CHAR(11) DEFAULT NULL
+e_tel_num CHAR(11) DEFAULT NULL,
+e_level CHAR(10) DEFAULT NULL,
+e_team CHAR(10) DEFAULT NULL
 );
 
 
@@ -21,7 +23,6 @@ m_id CHAR(20),
 m_pw VARCHAR(20),
 e_key int,
 FOREIGN KEY (e_key) REFERENCES employee_info(e_key)
-
 );	
 
 
