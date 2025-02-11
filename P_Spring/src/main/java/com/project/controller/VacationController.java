@@ -111,7 +111,8 @@ public class VacationController {
         if (userId == null || userId.trim().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
         }
-
+        
+        vacationDto.setApproval("0");
         try {
             vacationService.updateVacation(vacationId, vacationDto, userId);
             logger.info("휴가 수정 성공: 휴가 ID: {}, 사용자 ID: {}", vacationId, userId);

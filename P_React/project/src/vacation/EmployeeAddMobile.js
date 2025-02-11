@@ -5,7 +5,7 @@ import axios from 'axios';
 import styles from './EmployeeAdd.module.css';
 import EmployeeList from './EmployeeList';
 
-const EmployeeAdd = () => {
+const EmployeeAddMobile = () => {
     const [employeeList, setEmployeeList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const params = new URLSearchParams(window.location.search);
@@ -142,4 +142,4 @@ const EmployeeAdd = () => {
     );
 };
 
-export default EmployeeAdd;
+export default EmployeeAddMobile;

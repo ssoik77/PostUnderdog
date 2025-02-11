@@ -58,7 +58,7 @@ const VacationApproval = () => {
     try {
         const response = await axios.put(
         `http://localhost:8080/underdog/vacations/approval/${vacationId}`,
-        { approval: 1 },
+        { m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'), approval: 1 },
         {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
@@ -82,7 +82,7 @@ const VacationApproval = () => {
           <h1>Post Underdog</h1>
         </div>
         <nav id={styles.nav}>
-          <Link to="/employeeadd?no=1">직원 추가</Link>
+        <Link to="/employeeadd?no=1">직원 추가</Link>
           <Link to="/vacationrequest">휴가 내역</Link>
         </nav>
         <div id={styles.info}>

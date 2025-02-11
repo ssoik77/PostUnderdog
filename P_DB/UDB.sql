@@ -7,7 +7,7 @@ drop table employee_info;
 
 CREATE TABLE employee_info(
 e_key int auto_increment primary key,
-e_num int,
+e_num CHAR(10),
 e_name CHAR(10) DEFAULT NULL,
 e_birth DATE DEFAULT NULL,
 e_carrier CHAR(10) DEFAULT NULL,
@@ -45,14 +45,8 @@ SELECT * FROM vacation;
 
 -- 이 아래 테스트 코드
 
-INSERT INTO employee_info (e_key, e_num, e_name, e_birth, e_carrier, e_tel_num, e_level, e_team)
-VALUES
-(1, 00000000, 'qwe', '1992-11-05', '뮈시기', '01099887766', 'CEO', '뭐시기');
+INSERT INTO employee_info(e_num, e_name, e_birth, e_carrier, e_tel_num, e_level, e_team) VALUES('00000001', '홍길동', '2000-01-01', 'SKT', '01012345678','레전드','전설');
+INSERT INTO member_info(authority, m_id, m_pw, e_key) VALUES(1, 'qqqq12!@', 'wwww12!@', 1);
 
--- employee_info에 삽입된 e_key 확인
-SELECT e_num FROM employee_info;
-
--- member_info에 삽입
-INSERT INTO member_info (authority, m_id, m_pw, e_key)
-VALUES
-(1, 'qwe123', 'qwe123', 1);
+INSERT INTO employee_info(e_num, e_name, e_birth, e_carrier, e_tel_num, e_level, e_team) VALUES('00000002', 'qwe', '1992-11-05', '뮈시기', '01099887766', 'CEO', '뭐시기');
+INSERT INTO member_info(authority, m_id, m_pw, e_key) VALUES(0, 'qwe123', 'qwe123', 2);
