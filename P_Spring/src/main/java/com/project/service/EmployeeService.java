@@ -1,5 +1,6 @@
 package com.project.service;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,30 +13,17 @@ import com.project.mapper.EmployeeMapper;
 
 @Service
 public class EmployeeService {
-
-
-    @Autowired
+	@Autowired
     private EmployeeMapper employeeMapper;
 
     public List<EmployeeDto> getAllEmployees() {
         return employeeMapper.getAllEmployees();
     }
-
+    
     public EmployeeDto getEmployeeById(int id) {
         return employeeMapper.getEmployeeById(id);
     }
-
-    public void addEmployee(EmployeeDto employee) {
-        employeeMapper.addEmployee(employee);
-    }
-
-    public void updateEmployee(EmployeeDto employee) {
-        employeeMapper.updateEmployee(employee);
-    }
-
-    public void deleteEmployee(int id) {
-        employeeMapper.deleteEmployee(id);
-    }
+    
 	public void add(EmployeeDto employeeDto) {
 		employeeMapper.add(employeeDto);
 	}

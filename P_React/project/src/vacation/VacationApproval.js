@@ -83,7 +83,7 @@ const VacationApproval = () => {
         </div>
         <nav id={styles.nav}>
           <Link to="/employeeadd?no=1">직원 추가</Link>
-          <Link to="/vacationconfirm">휴가 내역</Link>
+          <Link to="/vacationrequest">휴가 내역</Link>
         </nav>
         <div id={styles.info}>
           <a href="/Mypage" onClick={openPopup} id={styles.popupLink}>
@@ -93,7 +93,6 @@ const VacationApproval = () => {
       </header>
       <main id={styles.mainContainer}>
         <div id={styles.mainBox}>
-          {/* VacationList에 onApprove prop 추가 */}
           <VacationList vacations={vacationList} onApprove={handleApproval} />
           <div id={styles.pageBox}>
             <a className={styles.prevnextButton} href="/vacationapproval?no=1">{"<<"}</a>

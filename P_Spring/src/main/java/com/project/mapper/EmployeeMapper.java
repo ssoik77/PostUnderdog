@@ -12,9 +12,6 @@ import com.project.dto.RegisterDto;
 public interface EmployeeMapper {
     List<EmployeeDto> getAllEmployees();
     EmployeeDto getEmployeeById(int id);
-    void addEmployee(EmployeeDto employee);
-    void updateEmployee(EmployeeDto employee);
-    void deleteEmployee(int id);
 	void add(EmployeeDto employeeDto);
 	ArrayList<RegisterDto> pageList(int no);
 	int employeeCount();
