@@ -10,8 +10,6 @@ import { useNavigate } from 'react-router-dom';
 
 const App = () => {
 
-  // 환경 변수에서 API URL 가져오기
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/underdog";
   const navigate = useNavigate();
   const idRef = useRef(null);
   const pwRef = useRef(null);
@@ -33,7 +31,7 @@ const App = () => {
 
     try {
       const response = await axios.post(
-        `${API_URL}/login`,
+        "http://192.168.0.135:8080/underdog/login",
         { m_id: id, m_pw: pw },
         {
           headers: { "Content-Type": "application/json" },

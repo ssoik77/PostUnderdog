@@ -17,7 +17,7 @@ const Register = () => {
     const [pwCheckResult, setPwCheckResult] = useState(false); //비밀번호 일치하는지
 
     const [name, setName] = useState(""); // 이름 입력 상태
-    const [birthDate, setBirthDate] = useState(""); // 생년월일 입력 상태
+    const [birthDate, setBirthDate] = useState(new Date().toISOString().split("T")[0].split(".")[0]); // 생년월일 입력 상태
 
     const [mobileCarrier, setMobileCarrier] = useState("SKT"); //통신사 선택 저장
 
@@ -40,7 +40,7 @@ const Register = () => {
         try {
             // 서버로 GET 요청을 보내 아이디 중복 여부를 확인
             const response = await axios.post(
-                'http://localhost:8080/underdog/register/id/check',
+                'http://192.168.0.135:8080/underdog/register/id/check',
                 sendId,
                 { headers: { 'Content-Type': 'application/json', 'Accept':"text/plain; charset=UTF-8" } }
             );
@@ -53,6 +53,7 @@ const Register = () => {
         } catch (error) {
             // 요청 중 오류가 발생한 경우, 오류 메시지를 상태에 설정
             setIdMessage('서버 오류 발생');
+            alert("오류 발생: " + error.message);
         };
     }
 
@@ -161,6 +162,7 @@ const Register = () => {
     };
 
     return (
+
             <form id={styles.registerForm} onSubmit={sendRegisterData}>
                 <div id={styles.registerBox}>
 
@@ -191,7 +193,7 @@ const Register = () => {
                     {/* 비밀번호 입력 필드 */}
                     <div id={styles.pwBox}>
                         비밀번호
-                        <input id={styles.pw} className={styles.registerInput} placeholder="비밀번호" type="password" value={password} onChange={handlePasswordChange} required />
+                        <input style={{ marginBottom: '3%'}} className={styles.registerInput} placeholder="비밀번호" type="password" value={password} onChange={handlePasswordChange} required />
                         비밀번호 확인
                         <input id={styles.confirmPw} className={styles.registerInput} placeholder="비밀번호 확인" type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
                     </div>
@@ -211,19 +213,21 @@ const Register = () => {
                     {/* 생년월일 입력 */}
                     <div id={styles.birthBox}>
                         생년월일
-                        <input type="date" id={styles.birth} className={styles.registerInput} value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
+                        <input type="date" id={styles.birth} className={styles.registerInput} value={birthDate} onChange={(e) => setBirthDate(e.target.value.split(".")[1])} required />
                     </div>
 
                 {/* -------------------------재훈 이름, 생년월일 저장 병합 ------------------*/}
 
                 <div id={styles.numBox}>
+                <div id={styles.onlyNum}>
                             전화번호
                         {/* 전화번호 입력 필드 */}
+                        <div id={styles.numBoxInput}>
                         <input type="tel" id={styles.tel_1} className={styles.registerInput} maxLength="3" value={tel1} onChange={handleTel1Change} required /> -{' '}
                         <input type="tel" id={styles.tel_2} className={styles.registerInput} maxLength="4" value={tel2} onChange={handleTel2Change} required /> -{' '}
                         <input type="tel" id={styles.tel_3} className={styles.registerInput} maxLength="4" value={tel3} onChange={handleTel3Change} required />
+                        </div>
                 </div>
-
                     {/* 통신사 선택 드롭다운 */}
                         <select id={styles.carrier} className={styles.registerInput} onChange={selectCarrier} value={mobileCarrier}>
                             <option value='SKT'>SKT</option>
@@ -231,10 +235,11 @@ const Register = () => {
                             <option value='LGU+'>LGU+</option>
                             <option value='알뜰폰'>알뜰폰</option>
                         </select>
+                </div>
 
                         <div id={styles.loginMessage}>
                     {/* 아이디 체크 제대로 하지 않고 정보 제출시 메세지 출력 */}
-                    {resultMessage}
+                    {resultMessage}  &nbsp;
                         </div>
 
                     {/* 회원가입 버튼 */}

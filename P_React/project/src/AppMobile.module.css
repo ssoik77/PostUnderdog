@@ -141,26 +141,36 @@
   gap: 10px;
 }
 
-#checkbox{
-  appearance: none; /*기본 체크박스 스타일 제거 */
+#checkbox {
+  appearance: none; /* 기본 체크박스 스타일 제거 */
   border-radius: 5px;
   border-style: solid;
-  border-width: 1px;
+  border-width: 2px;
   cursor: pointer;
-  width: 5%;
-  height: 5%;
+  width: 20px; /* 크기 조정 */
+  height: 20px; /* 크기 조정 */
+  position: relative; /* 위치를 상대적으로 설정 */
+  display: inline-block;
 }
-#checkbox:checked{
+
+#checkbox:checked {
   background-color: #cee0f4;
-  color: rgb(11, 105, 172);
   border-color: #333;
 }
 
-#checkbox:before{
-  font-size: 0.8em;
-content: '✔';
-position: relative;
-display: flex;
-justify-content: center;
-bottom: 0.7em;
+#checkbox::after {
+  content: ''; /* 기본 내용 비우기 */
+  position: absolute;
+  font-size: 1em;
+  color: #cfcece;
+  display: none; /* 기본적으로 표시되지 않음 */
+  top: 50%; /* 세로 중앙 정렬 */
+  left: 50%; /* 가로 중앙 정렬 */
+  transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
+}
+
+#checkbox:checked::after {
+  content: '✔'; /* 체크된 상태에서 ✔ 표시 */
+  color: rgb(11, 105, 172); /* 체크된 상태에서 표시되는 색상 */
+  display: block; /* 체크된 상태에서만 ✔ 표시 */
 }
