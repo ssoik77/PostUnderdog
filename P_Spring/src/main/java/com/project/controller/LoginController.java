@@ -2,7 +2,6 @@ package com.project.controller;
 
 import java.util.Map;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,26 +29,29 @@ public class LoginController {
     @PostMapping("/login")
     @Transactional
     public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto) {
-        log.info("진입"+memberDto);
-        System.out.println("=====================");
-        // 사용자 인증
+        log.info("로그인 요청: " + memberDto);
+
         Map<String, Object> response = loginService.validateUser(memberDto.getM_id(), memberDto.getM_pw());
-        
-        if ((Boolean) response.get("pw_check")) {
-            // 사용자 이름 조회
-            String userName = loginService.getUserNameById(memberDto.getM_id());
-            Object userAuthority = response.get("authority");
+        log.info("로그인 응답 데이터: " + response);
+
+        if (Boolean.TRUE.equals(response.get("pw_check"))) {  
+            String userId = memberDto.getM_id();
+            String userName = loginService.getUserNameById(userId);
+            String userAuthority = String.valueOf(response.get("authority"));
+
+            log.info("조회된 e_name (userName): " + userName);
             
             response.put("message", "로그인 성공");
-            response.put("userName", userName);
-            response.put("userAuthority", userAuthority);
-            
+            response.put("m_id", userId);
+            response.put("e_name", userName);
+            response.put("authority", userAuthority);
+
+            log.info("최종 로그인 응답 데이터: " + response);
+
             return ResponseEntity.ok(response);
         } else {
             response.put("message", "아이디 또는 비밀번호가 틀렸습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
-
-
 }

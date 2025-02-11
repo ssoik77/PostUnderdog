@@ -2,9 +2,7 @@ package com.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map; // Map 사용
-
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,53 +36,62 @@ public class VacationController {
     private static final Logger logger = LoggerFactory.getLogger(VacationController.class);
     private final VacationService vacationService;
 
+    // 휴가 신청
     @PostMapping
-    public ResponseEntity<String> createVacation(@RequestBody VacationDto vacationDto, HttpSession session) {
-        String userId = (String) session.getAttribute("m_id");
-        String userName = (String) session.getAttribute("e_name");
-        logger.info("휴가 신청 요청 - 사용자 ID: {}, 이름: {}", userId, userName);
-        if (userId == null || userName == null) {
-            logger.warn("로그인이 필요합니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-        }
-        vacationDto.setMId(userId);
-        vacationDto.setEName(userName);
-        vacationService.createVacation(vacationDto);
+    public ResponseEntity<String> createVacation(@RequestBody VacationDto vacationDto) {
         logger.info("휴가 신청 요청: {}", vacationDto);
+
+        if (vacationDto.getMId() == null || vacationDto.getEName() == null) {
+            logger.warn("사용자 정보가 필요합니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
+        }
+
+        vacationService.createVacation(vacationDto);
+        logger.info("휴가 신청 완료: 사용자 ID: {}, 이름: {}", vacationDto.getMId(), vacationDto.getEName());
         return ResponseEntity.ok("휴가 신청이 완료되었습니다.");
     }
-    
+
+    // 휴가 신청 목록
     @PostMapping("/list")
     public ResponseEntity<List<VacationDto>> getMyVacations(@RequestBody RegisterDto registerDto) {
         logger.info("휴가 목록 조회 요청: {}", registerDto);
         String userId = registerDto.getM_id();
+
         if (userId == null || userId.trim().isEmpty()) {
-            logger.warn("로그인이 필요합니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            logger.warn("사용자 정보가 필요합니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+
         List<VacationDto> vacations = vacationService.getVacationsByMemberId(userId);
         logger.info("휴가 목록 조회 성공: 사용자 ID: {}, 조회된 휴가 수: {}", userId, vacations.size());
         return ResponseEntity.ok(vacations);
     }
-    
+
+    // 휴가 전체 목록
     @PostMapping("/listAll")
     public ResponseEntity<List<VacationDto>> getAllVacations() {
         List<VacationDto> vacations = vacationService.getAllVacations();
         logger.info("전체 휴가 목록 조회 성공: 조회된 휴가 수: {}", vacations.size());
         return ResponseEntity.ok(vacations);
     }
- 
+
+    // 휴가 삭제
     @DeleteMapping("/{vacationId}")
-    public ResponseEntity<String> deleteVacation(@PathVariable Long vacationId, HttpSession session) {
-        logger.info("휴가 삭제 요청: 휴가 ID: {}", vacationId);
-        String userId = (String) session.getAttribute("userId");
-        if (userId == null) {
-            logger.warn("로그인이 필요합니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+    public ResponseEntity<String> deleteVacation(
+            @PathVariable Long vacationId, 
+            @RequestParam("m_id") String userId) {
+
+        logger.info("삭제 요청 - vacationId: {}", vacationId);
+        logger.info("요청된 사용자 ID (m_id): {}", userId);
+
+        if (userId == null || userId.trim().isEmpty()) {
+            logger.warn("사용자 정보가 필요합니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
         }
+
         try {
             vacationService.deleteVacation(vacationId, userId);
-            logger.info("휴가 삭제 성공: 휴가 ID: {}, 사용자 ID: {}", vacationId, userId);
+            logger.info("휴가 신청 삭제 성공: {}", vacationId);
             return ResponseEntity.ok("휴가 신청이 삭제되었습니다.");
         } catch (IllegalArgumentException e) {
             logger.error("휴가 삭제 실패: {}", e.getMessage());
@@ -92,63 +99,63 @@ public class VacationController {
         }
     }
 
+    // 휴가 수정
     @PutMapping("/{vacationId}")
     public ResponseEntity<String> updateVacation(
-        @PathVariable Long vacationId,
-        @RequestBody VacationDto vacationDto,
-        HttpSession session
-    ) {
+            @PathVariable Long vacationId,
+            @RequestBody VacationDto vacationDto) {
+
         logger.info("휴가 수정 요청: 휴가 ID: {}, 수정 데이터: {}", vacationId, vacationDto);
-        String userId = (String) session.getAttribute("userId");
-        if (userId == null) {
-            logger.warn("로그인이 필요합니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        String userId = vacationDto.getMId();
+
+        if (userId == null || userId.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
         }
+
         try {
             vacationService.updateVacation(vacationId, vacationDto, userId);
             logger.info("휴가 수정 성공: 휴가 ID: {}, 사용자 ID: {}", vacationId, userId);
             return ResponseEntity.ok("휴가 신청이 수정되었습니다.");
         } catch (IllegalArgumentException e) {
-            logger.error("휴가 수정 실패: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
 
+    // 휴가 승인
     @PutMapping("/approval/{vacationId}")
     public ResponseEntity<String> approveVacation(
             @PathVariable Long vacationId,
-            @RequestBody Map<String, Integer> body,
-            HttpSession session) {
+            @RequestBody Map<String, Object> body) {
+
         logger.info("휴가 승인 요청: 휴가 ID: {}, 데이터: {}", vacationId, body);
 
-        String userId = (String) session.getAttribute("userId");
-        if (userId == null) {
-            logger.warn("로그인이 필요합니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        String userId = (String) body.get("m_id");
+        if (userId == null || userId.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
         }
 
-        int approval = body.get("approval");
+        int approval = (int) body.get("approval");
         try {
             vacationService.approvalVacation(vacationId, approval);
-            logger.info("휴가 승인 성공: 휴가 ID: {}, 사용자 ID: {}", vacationId, userId);
+            logger.info("휴가 승인 성공: 휴가 ID: {}, 승인 상태: {}", vacationId, approval);
             return ResponseEntity.ok("휴가 승인 처리 완료");
         } catch (IllegalArgumentException e) {
-            logger.error("휴가 승인 실패: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
+    
+    // 휴가 승인 목록 페이징
     @GetMapping("/pagecount")
     @ResponseBody
-    int pageCount() {
+    public int pageCount() {
         return vacationService.pageCount();
     }
     
+    // 휴가 승인 목록
     @GetMapping("/approval")
     @ResponseBody
-    ArrayList<VacationApprovalDto> vacationApproval(@RequestParam("no") int pageNo) {
+    public ArrayList<VacationApprovalDto> vacationApproval(@RequestParam("no") int pageNo) {
         int pageNoInPage = ((pageNo - 1) * 10);
-        ArrayList<VacationApprovalDto> list = vacationService.pageList(pageNoInPage);
-        return list;
+        return vacationService.pageList(pageNoInPage);
     }
 }

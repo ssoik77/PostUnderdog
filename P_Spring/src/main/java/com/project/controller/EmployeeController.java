@@ -33,12 +33,17 @@ public class EmployeeController {
 		this.employeeService = employeeService;
 	}
 
+	@GetMapping
+	public List<EmployeeDto> getAllEmployees() {
+	    return employeeService.getAllEmployees();
+	}
+
     @PostMapping("/add")
     @Transactional
     void employeeRegistration(@RequestBody EmployeeDto employeeDto) {
     	employeeService.add(employeeDto);
     }
-    
+	
     @GetMapping("/pagecount")
     @ResponseBody
     int pageCount() {

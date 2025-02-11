@@ -75,4 +75,3 @@ INSERT INTO member_info (authority, m_id, m_pw, e_key)
 VALUES
 (1, 'qwe123', 'qwe123', 1);
 
-

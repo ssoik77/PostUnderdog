@@ -4,9 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
-import styles from './VacationConfirmBrowser.module.css';
-import stylesVacation from './VacationRequest.module.css'; // CSS Modules 파일
+import interactionPlugin from '@fullcalendar/interaction';
+import styles from './VacationRequest.module.css'; // CSS Modules 파일
+
+const convertDate = (dateArray) => {
+  if (!Array.isArray(dateArray) || dateArray.length < 3) return "";
+  const [year, month, day] = dateArray;
+  const mm = month < 10 ? `0${month}` : month;
+  const dd = day < 10 ? `0${day}` : day;
+  return `${year}-${mm}-${dd}`;
+};
 
 const VacationRequest = () => {
   const navigate = useNavigate();
@@ -31,8 +38,10 @@ const VacationRequest = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVacation, setSelectedVacation] = useState(null);
+  const [teams, setTeams] = useState({});
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [modalMode, setModalMode] = useState("create"); // "create" or "edit"
   const externalEventsRef = useRef(null);
-  const trashBinRef = useRef(null);
 
   const openPopup = (e) => {
     e.preventDefault();
@@ -75,13 +84,22 @@ const VacationRequest = () => {
     if (m_id) {
       fetchVacations({ m_id, e_name });
     }
+  }, []);
 
-    new Draggable(externalEventsRef.current, {
-      itemSelector: '.fc-event',
-      eventData: function(eventEl) {
-        return { title: eventEl.innerText };
-      },
-    });
+  useEffect(() => {
+    axios
+  .post("http://localhost:8080/underdog/vacations/listAll", {}, {
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
+  })
+      .then((response) => {
+        console.log("전체 휴가 데이터:", response.data);
+        setVacations(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching vacations:", error);
+        alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
+      });
   }, []);
 
   const handleInputChange = (e) => {
@@ -91,12 +109,13 @@ const VacationRequest = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { ...formData, mId: formData.m_id, eName: formData.e_name };
-    delete payload.m_id;
-    delete payload.e_name;
-
+    const payload = { 
+      ...formData,
+      m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'),
+      e_name: sessionStorage.getItem('e_name') || localStorage.getItem('e_name')
+    };
+    console.log("🚀 전송할 데이터:", payload);  // 디버깅 로그 추가
     try {
-      console.log('전송 데이터:', payload);
       let response;
       if (selectedVacation) {
         response = await axios.put(
@@ -150,24 +169,61 @@ const VacationRequest = () => {
   };
 
   const handleDelete = async (vacationId) => {
-    try {
-      const response = await axios.delete(`http://localhost:8080/underdog/vacations/${vacationId}`, {
-        withCredentials: true,
-      });
+    const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
 
-      if (response.status === 200) {
-        alert('휴가 신청이 삭제되었습니다.');
-        setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
-      }
-    } catch (error) {
-      console.error('휴가 삭제 중 오류 발생:', error);
-      alert('휴가 삭제 중 문제가 발생했습니다.');
+    if (!m_id) {
+        alert("사용자 인증 정보가 없습니다. 다시 로그인하세요.");
+        return;
     }
-  };
+    try {
+        const response = await axios.delete(
+            `http://localhost:8080/underdog/vacations/${vacationId}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                params: { m_id },
+                withCredentials: true,
+            }
+        );
 
-  if (error) {
-    return <p className={styles.error}>{error}</p>;
-  }
+        if (response.status === 200) {
+            alert('휴가 신청이 삭제되었습니다.');
+            setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
+            setIsModalOpen(false);
+            setSelectedVacation(null);
+            setModalMode("create");
+          }
+    } catch (error) {
+        console.error('휴가 삭제 중 오류 발생:', error);
+        alert('휴가 삭제 중 문제가 발생했습니다.');
+    }
+};
+
+useEffect(() => {
+  axios
+    .get("http://localhost:8080/underdog/employee")
+    .then((response) => {
+      const formattedTeams = response.data.reduce((acc, employee) => {
+        const teamName = employee.e_team;
+        if (!acc[teamName]) {
+          acc[teamName] = {
+            name: `${teamName} 팀`,
+            position: "팀장",
+            children: [],
+          };
+        }
+        acc[teamName].children.push({
+          name: employee.e_name,
+          position: employee.e_level,
+          tel: employee.e_tel_num,
+        });
+        return acc;
+      }, {});
+      setTeams(formattedTeams);
+    })
+    .catch((error) => console.error("Error fetching team data:", error));
+}, []);
 
   const handleDateSelect = (info) => {
     const startDate = new Date(info.startStr);
@@ -182,7 +238,8 @@ const VacationRequest = () => {
       startDate: formattedStartDate,
       endDate: formattedModalEndDate,
     }));
-
+    setSelectedVacation(null);
+    setModalMode("create");
     setIsModalOpen(true);
   };
 
@@ -198,18 +255,39 @@ const VacationRequest = () => {
     setNextVacationId((prevId) => prevId + 1);
   };
 
-  const handleEventDragStop = (info) => {
-    const trashBin = trashBinRef.current;
-    if (trashBin) {
-      const trashBinRect = trashBin.getBoundingClientRect();
-      if (
-        info.jsEvent.clientX >= trashBinRect.left &&
-        info.jsEvent.clientX <= trashBinRect.right &&
-        info.jsEvent.clientY >= trashBinRect.top &&
-        info.jsEvent.clientY <= trashBinRect.bottom
-      ) {
-        handleDelete(info.event.id);
+  const handleEventClick = (info) => {
+    const vacationId = info.event.id;
+    const vacation = vacations.find((v) => String(v.vacationId) === vacationId);
+    if (vacation) {
+      if (vacation.m_id !== (sessionStorage.getItem('m_id') || localStorage.getItem('m_id')) ||
+          vacation.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
+        alert("타인의 휴가 신청은 수정할 수 없습니다.");
+        return;
       }
+      setSelectedVacation(vacation);
+      setModalMode("edit");
+      setIsModalOpen(true);
+      setFormData({
+        startDate: Array.isArray(vacation.startDate)
+          ? convertDate(vacation.startDate)
+          : vacation.startDate,
+        endDate: Array.isArray(vacation.endDate)
+          ? convertDate(vacation.endDate)
+          : vacation.endDate,
+        reason: vacation.reason,
+        m_id: vacation.m_id,
+        e_name: vacation.e_name,
+      });
+
+      console.log('받아온 날짜:', vacation.startDate, vacation.endDate);
+    }
+  };
+
+  const handleTeamClick = (teamName) => {
+    if (selectedTeam === teamName) {
+      setSelectedTeam(null);
+    } else {
+      setSelectedTeam(teamName);
     }
   };
 
@@ -243,8 +321,6 @@ const VacationRequest = () => {
           <h1>Post Underdog</h1>
         </div>
         <nav className={styles.nav}>
-          <Link to="/vacationconfirm">휴가 내역</Link>
-          <Link to="/vacationrequest">휴가 신청</Link>
           {authority === "true" && (
             <>
               <Link to="/vacationapproval?no=1">휴가 승인</Link>
@@ -259,15 +335,37 @@ const VacationRequest = () => {
         </div>
       </header>
 
-      <div className={stylesVacation.vacationMainBox}>
-        <div className={stylesVacation.vacationContainer}>
-          <h1 className={stylesVacation.vacationTitle}>휴가 신청</h1>
-          <div ref={externalEventsRef} className={stylesVacation.externalEvents}>
-          </div>
+      <main className={styles.mainContainer}>
+        <div className={styles.teamBox}>
+          <h3>명단</h3>
+          {Object.keys(teams).map((team) => (
+            <div key={team} className={styles.teamSection}>
+              <button
+                className={`${styles.teamButton} ${
+                  selectedTeam === team ? styles.activeTeamButton : ""
+                }`}
+                onClick={() => handleTeamClick(team)}
+                aria-pressed={selectedTeam === team}
+              >
+                {teams[team].name}
+              </button>
+              {selectedTeam === team && (
+                <ul className={styles.memberList}>
+                  {teams[team].children.map((member, index) => (
+                    <li key={index} className={styles.memberItem}>
+                      <span className={styles.memberName}>{member.name}</span>
+                      <span className={styles.memberPosition}>{member.position}</span>
+                      <span className={styles.memberTel}>{member.tel}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
 
-          {/* 쓰레기통 영역 */}
-          <div ref={trashBinRef} className={stylesVacation.trashBin}>
-            🗑️
+        <div className={styles.vacationContainer}>
+          <div ref={externalEventsRef} className={styles.externalEvents}>
           </div>
 
           <FullCalendar
@@ -284,16 +382,15 @@ const VacationRequest = () => {
               dayGridWeek: { buttonText: '주간' }
             }}
             events={calendarEvents}
-            editable={true}
-            droppable={true}
+            editable={false}
+            droppable={false}
             selectable={true}
             select={handleDateSelect}
             eventReceive={handleEventReceive}
-            eventDragStop={handleEventDragStop}
+            eventClick={handleEventClick}
             eventContent={(arg) => {
-              // CSS Modules의 customEvent 클래스를 적용하여 스타일을 지정합니다.
               return (
-                <div className={stylesVacation.customEvent}>
+                <div className={styles.customEvent}>
                   {arg.event.title} 
                 </div>
               );
@@ -302,11 +399,11 @@ const VacationRequest = () => {
           />
 
           {isModalOpen && (
-            <div className={stylesVacation.modalOverlay}>
-              <div className={stylesVacation.modalContent}>
-                <h2>{selectedVacation ? '휴가 수정' : '휴가 신청'}</h2>
-                <form onSubmit={handleSubmit} className={stylesVacation.vacationForm}>
-                  <div className={stylesVacation.formGroup}>
+            <div className={styles.modalOverlay}>
+              <div className={styles.modalContent}>
+                <h2>{modalMode === "edit" ? '휴가 수정' : '휴가 신청'}</h2>
+                <form onSubmit={handleSubmit} className={styles.vacationForm}>
+                  <div className={styles.formGroup}>
                     <label htmlFor="startDate">시작 날짜</label>
                     <input
                       type="date"
@@ -317,7 +414,7 @@ const VacationRequest = () => {
                       required
                     />
                   </div>
-                  <div className={stylesVacation.formGroup}>
+                  <div className={styles.formGroup}>
                     <label htmlFor="endDate">종료 날짜</label>
                     <input
                       type="date"
@@ -328,7 +425,7 @@ const VacationRequest = () => {
                       required
                     />
                   </div>
-                  <div className={stylesVacation.formGroup}>
+                  <div className={styles.formGroup}>
                     <label htmlFor="reason">사유</label>
                     <textarea
                       id="reason"
@@ -340,24 +437,37 @@ const VacationRequest = () => {
                     ></textarea>
                   </div>
                   <div>
-                    <button type="submit" className={stylesVacation.submitButton}>
-                      {selectedVacation ? '휴가 수정' : '휴가 신청'}
+                    <button type="submit" className={styles.submitButton}>
+                      {modalMode === "edit" ? '휴가 수정' : '휴가 신청'}
                     </button>
                     <button
                       type="button"
-                      className={stylesVacation.cancelButton}
-                      onClick={() => setIsModalOpen(false)}
+                      className={styles.cancelButton}
+                      onClick={() => {
+                        setIsModalOpen(false);
+                        setSelectedVacation(null);
+                        setModalMode("create");
+                      }}
                     >
                       취소
                     </button>
+                    {modalMode === "edit" && (
+                      <button
+                        type="button"
+                        className={styles.deleteButton}
+                        onClick={() => handleDelete(selectedVacation.vacationId)}
+                      >
+                        휴가 삭제
+                      </button>
+                    )}
                   </div>
                 </form>
               </div>
             </div>
           )}
         </div>
+        </main>
       </div>
-    </div>
   );
 };
 

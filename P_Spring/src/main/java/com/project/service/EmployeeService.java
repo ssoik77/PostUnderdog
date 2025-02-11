@@ -14,15 +14,17 @@ import lombok.extern.log4j.Log4j;
 @Service
 @Log4j
 public class EmployeeService {
-
-	private EmployeeMapper employeeMapper;
-
 	@Autowired
-	public EmployeeService(EmployeeMapper employeeMapper) {
-		this.employeeMapper = employeeMapper;
-	}
+    private EmployeeMapper employeeMapper;
 
-
+    public List<EmployeeDto> getAllEmployees() {
+        return employeeMapper.getAllEmployees();
+    }
+    
+    public EmployeeDto getEmployeeById(int id) {
+        return employeeMapper.getEmployeeById(id);
+    }
+    
 	public void add(EmployeeDto employeeDto) {
 		employeeMapper.add(employeeDto);
 	}

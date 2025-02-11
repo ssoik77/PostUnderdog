@@ -6,7 +6,6 @@ import Find from "../find/Find"
 import Mypage from "../mypage/Mypage"
 import VacationRequest from "../vacation/VacationRequest"
 import VacationApproval from "../vacation/VacationApproval";
-import VacationConfirm from "../vacation/VacationConfirm";
 import EmployeeAdd from '../vacation/EmployeeAdd'
 
 function AppRouter() {
@@ -19,7 +18,6 @@ function AppRouter() {
           <Route path="/mypage" element={<Mypage/>} />
           <Route path="/vacationrequest" element={<VacationRequest/>} />
           <Route path="/vacationapproval" element={<VacationApproval/>}/>
-          <Route path="/vacationConfirm" element={<VacationConfirm/>}/>
           <Route path="/employeeadd" element={<EmployeeAdd/>} />
         </Routes>
       </Router>
