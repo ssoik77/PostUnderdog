@@ -9,47 +9,70 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterDto {
 
-	int a_authority = 1;
-	int p_authority = 1;
-	int e_authority = 1;
+	int authority = 0;
 	String m_id;
 	String m_pw;
-
 	String e_name;
 	Date e_birth;
 	String e_carrier;
 	String e_tel_num;
+	String e_num;
+	int e_key;
 
+
+	public RegisterDto(String m_id) {
+		this.m_id = m_id;
+	}
 	
-	int m_key;
-
-	public RegisterDto(int a_authority, int p_authority, int e_authority, String m_id, String m_pw, int m_key) {
-		this.a_authority = a_authority;
-		this.p_authority = p_authority;
-		this.e_authority = e_authority;
-		this.m_id = m_id;
-		this.m_pw = m_pw;
-	}
-
-	public RegisterDto(String e_name, Date e_birth, String e_carrier, String e_tel_num, int m_key) {
+	public RegisterDto(String e_name, Date e_birth, String e_carrier, String e_tel_num, int e_key) {
 		this.e_name = e_name;
 		this.e_birth = e_birth;
 		this.e_carrier = e_carrier;
 		this.e_tel_num = e_tel_num;
-		this.m_key = m_key;
+		this.e_key = e_key;
 	}
 
-	public RegisterDto(int a_authority, int p_authority, int e_authority, String m_id, String m_pw, String e_name,
-			Date e_birth, String e_carrier, String e_tel_num) {
-		this.a_authority = a_authority;
-		this.p_authority = p_authority;
-		this.e_authority = e_authority;
+	public RegisterDto(int authority, String m_id, String m_pw, String e_name, Date e_birth, String e_carrier,
+			String e_tel_num, String e_num) {
+		this.authority = authority;
 		this.m_id = m_id;
 		this.m_pw = m_pw;
 		this.e_name = e_name;
 		this.e_birth = e_birth;
 		this.e_carrier = e_carrier;
 		this.e_tel_num = e_tel_num;
+		this.e_num = e_num;
 	}
+
+	public RegisterDto(int authority, String m_id, String m_pw) {
+		this.authority = authority;
+		this.m_id = m_id;
+		this.m_pw = m_pw;
+	}
+
+	public RegisterDto(int authority, String m_id, String m_pw, String e_name, Date e_birth, String e_carrier,
+			String e_tel_num, String e_num, int e_key) {
+		this.authority = authority;
+		this.m_id = m_id;
+		this.m_pw = m_pw;
+		this.e_name = e_name;
+		this.e_birth = e_birth;
+		this.e_carrier = e_carrier;
+		this.e_tel_num = e_tel_num;
+		this.e_num = e_num;
+		this.e_key = e_key;
+	}
+
+	public RegisterDto(String m_id, String m_pw, String e_name, Date e_birth, String e_carrier, String e_tel_num,
+			String e_num) {
+		this.m_id = m_id;
+		this.m_pw = m_pw;
+		this.e_name = e_name;
+		this.e_birth = e_birth;
+		this.e_carrier = e_carrier;
+		this.e_tel_num = e_tel_num;
+		this.e_num = e_num;
+	}
+
 
 }

@@ -11,19 +11,19 @@
 
     <!-- 직원 정보 조회 -->
     <select id="getEmployeeInfo" parameterType="int" resultType="com.project.dto.EmployeeDto">
-        SELECT * FROM employee_info WHERE m_key = #{m_key}
+        SELECT * FROM employee_info WHERE e_key = #{e_key}
     </select>
 
 	<update id="updateMemberInfo" parameterType="com.project.dto.MemberDto">
     	UPDATE member_info
-    	SET m_pw = #{m_pw}, a_authority = #{a_authority}, p_authority = #{p_authority}, e_authority = #{e_authority}
+    	SET m_pw = #{m_pw}, authority = #{authority}
     	WHERE m_id = #{m_id}
 	</update>
 
 	<update id="updateEmployeeInfo" parameterType="com.project.dto.EmployeeDto">
     	UPDATE employee_info
     	SET e_name = #{e_name}, e_birth = #{e_birth}, e_carrier = #{e_carrier}, e_tel_num = #{e_tel_num}
-    	WHERE m_key = #{m_key}
+    	WHERE e_key = #{e_key}
 	</update>
 
 </mapper>

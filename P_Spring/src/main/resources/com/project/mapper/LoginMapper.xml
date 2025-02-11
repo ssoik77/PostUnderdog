@@ -2,12 +2,21 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
 <mapper namespace="com.project.mapper.LoginMapper">
 
+    <!-- 비밀번호와 권한 조회 -->
     <select id="getPasswordById" resultType="com.project.dto.MemberDto">
-        SELECT m_pw, a_authority, p_authority, e_authority, m_key
-        FROM member_info
+        SELECT m_pw, authority, e_key
+        FROM member_info 
         WHERE m_id = #{m_id};
     </select>
 
+    <!-- 사용자 이름 조회 -->
+    <select id="getUserNameById" resultType="string">
+        SELECT e.e_name
+        FROM employee_info e
+        JOIN member_info m ON m.e_key = e.e_key
+        WHERE m.m_id = #{m_id};
+    </select>
 </mapper>

@@ -4,7 +4,7 @@
     margin: 50px auto;
     padding: 20px;
     background-color: #ffffff;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
@@ -27,6 +27,13 @@
     border-radius: 8px;
   }
   
+  #editBox{
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+  }
+
   /* 사용자 정보 텍스트 */
   .infoBox p {
     margin: 10px 0;
@@ -50,3 +57,57 @@
     margin-bottom: 20px;
   }
   
+
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  /* 입력 폼 */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+
+#SaveButton, #EditCancleButton{
+  border-width: 1px;
+    border-radius: 3px;
+    border-color: #808080;
+    background-color: #ffffff;
+    cursor: pointer;
+  position: relative;
+  left: 150px;
+  width: 300px;
+}
+
+  #infoEditButton,#logoutButton{
+    border-width: 1px;
+    border-radius: 3px;
+    border-color: #808080;
+    width: 60px;
+    background-color: #ffffff;
+    cursor: pointer;
+  }
+  #logoutButton{
+    margin-left: 20px;
+  }
+ #myPageButtonBox{
+  position: relative;
+  top: 10px;
+  left: 420px;
+ }

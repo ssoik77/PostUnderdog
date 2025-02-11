@@ -12,21 +12,28 @@ import com.project.mapper.LoginMapper;
 @Service
 public class LoginService {
 
-    private LoginMapper loginMapper;
-    
+    private final LoginMapper loginMapper;
+
     @Autowired
     public LoginService(LoginMapper loginMapper) {
-		this.loginMapper = loginMapper;
-	}
+        this.loginMapper = loginMapper;
+    }
 
-	public Map<String, Boolean> validateUser(String m_id, String m_pw) {
-        MemberDto storedPassword = loginMapper.getPasswordById(m_id);
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("pw_check", storedPassword.getM_pw().equals(m_pw));
-        result.put("a_authority", storedPassword.getA_authority());
-        result.put("e_authority", storedPassword.getE_authority());
-        result.put("p_authority", storedPassword.getP_authority());
-        
+    // 사용자 검증
+    public Map<String, Object> validateUser(String m_id, String m_pw) {
+        Map<String, Object> result = new HashMap<>();
+        MemberDto loginUserData = loginMapper.getPasswordById(m_id);
+        if (loginUserData != null && loginUserData.getM_pw().equals(m_pw)) {
+            result.put("pw_check", true);
+            result.put("authority", loginUserData.getAuthority());
+        } else {
+            result.put("pw_check", false);
+        }
         return result;
+    }
+
+    // 사용자 이름 가져오기
+    public String getUserNameById(String m_id) {
+        return loginMapper.getUserNameById(m_id);
     }
 }

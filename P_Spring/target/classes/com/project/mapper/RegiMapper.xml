@@ -3,38 +3,44 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.RegiMapper">
-	<insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto" useGeneratedKeys="true" keyProperty="m_key">
-		insert into member_info(
-		a_authority,
-		p_authority,
-		e_authority,
-		m_id,
-		m_pw
-		)values(
-		#{a_authority},
-		#{p_authority},
-		#{e_authority},
-		#{m_id},
-		#{m_pw}
-		)
-	</insert>
-	<insert id="setRegisterEmployee" parameterType="com.project.dto.RegisterDto">
-		insert into employee_info(
-		e_name,
-		e_birth,
-		e_carrier,
-		e_tel_num,
-		m_key
-		)values(
-		#{e_name},
-		#{e_birth},
-		#{e_carrier},
-		#{e_tel_num},
-		#{m_key}
-		)
-	</insert>
-	<select id="pullId" resultType="com.project.dto.RegisterDto">
-	select m_id from member_info
-	</select>
-</mapper>
 
+	<select id="checkRegister" parameterType="String" resultType="com.project.dto.EmployeeDto">
+	SELECT * FROM employee_info WHERE e_num = #{num}
+	</select>
+
+    <!-- 직원 정보 삽입 -->
+    <update id="setRegisterEmployee" parameterType="com.project.dto.RegisterDto">
+       UPDATE employee_info
+  		  SET 
+        e_birth = #{e_birth},
+        e_carrier = #{e_carrier},
+        e_tel_num = #{e_tel_num}
+    	WHERE e_num = #{e_num}
+    </update>
+
+	<select id="pullKey" parameterType="com.project.dto.RegisterDto" resultType="int">
+	SELECT e_key FROM employee_info WHERE e_num = #{e_num}
+	</select>
+
+    <!-- 회원 정보 삽입 -->
+    <insert id="setRegisterMember" parameterType="com.project.dto.RegisterDto">
+        INSERT INTO member_info(
+            authority,
+            m_id,
+            m_pw,
+            e_key
+        ) VALUES (
+            #{authority},
+            #{m_id},
+            #{m_pw},
+            #{e_key}
+        )
+    </insert>
+
+    <!-- 회원 ID 목록 조회 -->
+    <select id="pullId" resultType="com.project.dto.RegisterDto">
+        SELECT m_id
+        FROM member_info
+    </select>
+
+</mapper>

@@ -1,6 +1,6 @@
 package com.project.controller;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 
 @RestController
 @RequestMapping("/mypage")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins ={"http://localhost:3000","http://192.168.0.135:3000"})
 @Log4j
 public class MypageController {
 
@@ -33,7 +33,6 @@ public class MypageController {
     @GetMapping("/userinfo")
     public Map<String, Object> getUserInfo(@RequestParam String m_id) {
         Map<String, Object> response = new HashMap<>();
-        log.info("wlsdlq: " + m_id);
 
         try {
             MemberDto memberInfo = mypageService.getMemberInfo(m_id);
@@ -43,7 +42,14 @@ public class MypageController {
                 return response;
             }
 
-            EmployeeDto employeeInfo = mypageService.getEmployeeInfo(memberInfo.getM_key());
+            Integer eKey = memberInfo.getE_key();
+            if (eKey == null) {
+                response.put("status", "failure");
+                response.put("message", "회원의 직원 정보가 존재하지 않습니다.");
+                return response;
+            }
+
+            EmployeeDto employeeInfo = mypageService.getEmployeeInfo(eKey);
             if (employeeInfo == null) {
                 response.put("status", "failure");
                 response.put("message", "직원 정보를 찾을 수 없습니다.");
@@ -69,17 +75,24 @@ public class MypageController {
             MemberDto member = new MemberDto();
             member.setM_id((String) updateData.get("m_id"));
             member.setM_pw((String) updateData.get("m_pw"));
-            member.setA_authority((Boolean) updateData.get("a_authority"));
-            member.setP_authority((Boolean) updateData.get("p_authority"));
-            member.setE_authority((Boolean) updateData.get("e_authority"));
+            member.setAuthority((Boolean) updateData.get("authority"));
 
             EmployeeDto employee = new EmployeeDto();
             employee.setE_name((String) updateData.get("e_name"));
-            employee.setE_birth(Date.valueOf((String) updateData.get("e_birth")));
+
+            // 문자열로 전달된 생년월일 처리
+            String e_birthStr = (String) updateData.get("e_birth");
+            try {
+                employee.setE_birth(LocalDate.parse(e_birthStr)); // 문자열 -> LocalDate 변환
+            } catch (Exception e) {
+                throw new IllegalArgumentException("유효하지 않은 생년월일 형식: " + e_birthStr, e);
+            }
+
             employee.setE_carrier((String) updateData.get("e_carrier"));
             employee.setE_tel_num((String) updateData.get("e_tel_num"));
-            employee.setM_key((Integer) updateData.get("m_key"));
+            employee.setE_key((Integer) updateData.get("e_key"));
 
+            // 서비스 호출
             mypageService.updateMemberInfo(member);
             mypageService.updateEmployeeInfo(employee);
 
