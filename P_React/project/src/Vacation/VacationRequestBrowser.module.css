@@ -19,6 +19,7 @@
   position: relative; /* 내부 요소 정렬 기준 */
 }
 
+
 .logo {
   display: flex;
   align-items: center;

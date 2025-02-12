@@ -5,6 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import './clarender.css';
 import styles from './VacationRequestMobile.module.css'; // CSS Modules 파일
 
 const convertDate = (dateArray) => {
@@ -36,12 +37,12 @@ const VacationRequest = () => {
   const [modalMode, setModalMode] = useState("create"); // "create" or "edit"
   const externalEventsRef = useRef(null);
   const [employeeList, setEmployeeList] = useState([]);
-  useEffect(()=>{
+  useEffect(() => {
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
-    if(!loginId){
-      navigate("/"); 
+    if (!loginId) {
+      navigate("/");
     }
-  },[navigate])
+  }, [navigate])
 
   // 로그인 정보를 기반으로 사용자 정보 가져오기 및 초기화
   useEffect(() => {
@@ -81,10 +82,10 @@ const VacationRequest = () => {
 
   useEffect(() => {
     axios
-  .post("http://192.168.0.135:8080/underdog/vacations/listAll", {}, {
-    headers: { "Content-Type": "application/json" },
-    withCredentials: true,
-  })
+      .post("http://192.168.0.135:8080/underdog/vacations/listAll", {}, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
       .then((response) => {
         console.log("전체 휴가 데이터:", response.data);
         setVacations(response.data);
@@ -102,7 +103,7 @@ const VacationRequest = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { 
+    const payload = {
       ...formData,
       m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'),
       e_name: sessionStorage.getItem('e_name') || localStorage.getItem('e_name')
@@ -165,58 +166,58 @@ const VacationRequest = () => {
     const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
 
     if (!m_id) {
-        alert("사용자 인증 정보가 없습니다. 다시 로그인하세요.");
-        return;
+      alert("사용자 인증 정보가 없습니다. 다시 로그인하세요.");
+      return;
     }
     try {
-        const response = await axios.delete(
-            `http://192.168.0.135:8080/underdog/vacations/${vacationId}`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                params: { m_id },
-                withCredentials: true,
-            }
-        );
-
-        if (response.status === 200) {
-            alert('휴가 신청이 삭제되었습니다.');
-            setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
-            setIsModalOpen(false);
-            setSelectedVacation(null);
-            setModalMode("create");
-          }
-    } catch (error) {
-        console.error('휴가 삭제 중 오류 발생:', error);
-        alert('휴가 삭제 중 문제가 발생했습니다.');
-    }
-};
-
-useEffect(() => {
-  axios
-    .get("http://192.168.0.135:8080/underdog/employee")
-    .then((response) => {
-      const formattedTeams = response.data.reduce((acc, employee) => {
-        const teamName = employee.e_team;
-        if (!acc[teamName]) {
-          acc[teamName] = {
-            name: `${teamName} 팀`,
-            position: "팀장",
-            children: [],
-          };
+      const response = await axios.delete(
+        `http://192.168.0.135:8080/underdog/vacations/${vacationId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          params: { m_id },
+          withCredentials: true,
         }
-        acc[teamName].children.push({
-          name: employee.e_name,
-          position: employee.e_level,
-          tel: employee.e_tel_num,
-        });
-        return acc;
-      }, {});
-      setTeams(formattedTeams);
-    })
-    .catch((error) => console.error("Error fetching team data:", error));
-}, []);
+      );
+
+      if (response.status === 200) {
+        alert('휴가 신청이 삭제되었습니다.');
+        setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
+        setIsModalOpen(false);
+        setSelectedVacation(null);
+        setModalMode("create");
+      }
+    } catch (error) {
+      console.error('휴가 삭제 중 오류 발생:', error);
+      alert('휴가 삭제 중 문제가 발생했습니다.');
+    }
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://192.168.0.135:8080/underdog/employee")
+      .then((response) => {
+        const formattedTeams = response.data.reduce((acc, employee) => {
+          const teamName = employee.e_team;
+          if (!acc[teamName]) {
+            acc[teamName] = {
+              name: `${teamName} 팀`,
+              position: "팀장",
+              children: [],
+            };
+          }
+          acc[teamName].children.push({
+            name: employee.e_name,
+            position: employee.e_level,
+            tel: employee.e_tel_num,
+          });
+          return acc;
+        }, {});
+        setTeams(formattedTeams);
+      })
+      .catch((error) => console.error("Error fetching team data:", error));
+  }, []);
 
   const handleDateSelect = (info) => {
     const startDate = new Date(info.startStr);
@@ -253,7 +254,7 @@ useEffect(() => {
     const vacation = vacations.find((v) => String(v.vacationId) === vacationId);
     if (vacation) {
       if (vacation.m_id !== (sessionStorage.getItem('m_id') || localStorage.getItem('m_id')) ||
-          vacation.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
+        vacation.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
         alert("타인의 휴가 신청은 수정할 수 없습니다.");
         return;
       }
@@ -300,6 +301,8 @@ useEffect(() => {
   }).filter((event) => event !== null);
 
   const handleTeamClick = (e) => {
+
+
     const teamName = e.target.value;
     setSelectedTeam(teamName);
 
@@ -323,7 +326,7 @@ useEffect(() => {
           )}
         </nav>
         <div className={styles.info}>
-          <button onClick={()=>navigate("/mypage")} className={styles.popupLink}>
+          <button onClick={() => navigate("/mypage")} className={styles.popupLink}>
             내 정보
           </button>
         </div>
@@ -333,30 +336,33 @@ useEffect(() => {
 
         <div className={styles.teamBox}>
           <text>명단</text>
-          <select onChange={handleTeamClick} value={selectedTeam}>
-            {Object.keys(teams).map((team)=>{
+          <div className={styles.teamSelectBox}>
+          <select className={styles.teamSelect} onChange={handleTeamClick} value={selectedTeam}>
+            {!selectedTeam && <option value="">팀 선택</option>}
+            {Object.keys(teams).map((team) => {
               console.log("팀 데이터:", teams);
-              return(
-                 <option key={team} value={team}>{teams[team].name}</option>
-            );
+              return (
+                <option key={team} value={team}>{teams[team].name}</option>
+              );
             })}
           </select>
 
-          <div id="employeeList">
- 
-        {employeeList.length > 0 ? (
-          <ul>
-            {employeeList.map((employee, index) => (
-              <li key={index}>
-                {employee.name} - {employee.position} - {employee.tel}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>선택된 팀의 직원이 없습니다.</p>
-        )}
+          <div className={styles.employeeList}>
 
-      </div>
+            {employeeList.length > 0 ? (
+              <ul>
+                {employeeList.map((employee, index) => (
+                  <li key={index}>
+                    [{employee.name}] - {employee.position} - {employee.tel}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>선택된 팀의 직원이 없습니다.</p>
+            )}
+
+          </div>
+            </div>
 
         </div>
 
@@ -365,7 +371,6 @@ useEffect(() => {
           </div>
 
           <FullCalendar
-        
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             dayMaxEvents={2}
@@ -388,11 +393,10 @@ useEffect(() => {
             eventContent={(arg) => {
               return (
                 <div className={styles.customEvent}>
-                  {arg.event.title} 
+                  {arg.event.title}
                 </div>
               );
             }}
-            contentHeight={'auto'}
           />
 
           {isModalOpen && (
@@ -463,8 +467,8 @@ useEffect(() => {
             </div>
           )}
         </div>
-        </main>
-      </div>
+      </main>
+    </div>
   );
 };
 
