@@ -46,8 +46,6 @@ SELECT * FROM member_info;
 SELECT * FROM employee_info;
 SELECT * FROM vacation;
 
-
-
 DELETE FROM employee_info;
 DELETE FROM member_info;
 
@@ -90,4 +88,5 @@ SELECT e_num FROM employee_info;
 INSERT INTO member_info (authority, m_id, m_pw, e_key)
 VALUES
 (2, 'qwe123', 'qwe123', 1);
+
 

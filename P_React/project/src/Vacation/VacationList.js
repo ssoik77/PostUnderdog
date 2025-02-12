@@ -7,7 +7,6 @@ const VacationList = ({ vacations, onApprove }) => {
             <thead>
                 <tr>
                     <th className={styles.columnTitle}>Vacation Number</th>
-                    <th className={styles.columnTitle}>Employee Number</th>
                     <th className={styles.columnTitle}>Name</th>
                     <th className={styles.columnTitle}>Start Date</th>
                     <th className={styles.columnTitle}>End Date</th>
@@ -19,7 +18,6 @@ const VacationList = ({ vacations, onApprove }) => {
                 {vacations.map((vacation, index) => (
                     <tr className={styles.vacation} key={vacation.vacation_id || index}>
                         <td className={styles.column}>{vacation.vacation_id}</td>
-                        <td className={styles.column}>{vacation.e_num}</td>
                         <td className={styles.column}>{vacation.e_name}</td>
                         <td className={styles.column}>
                             {new Date(vacation.start_date).toLocaleDateString('ko-KR', {

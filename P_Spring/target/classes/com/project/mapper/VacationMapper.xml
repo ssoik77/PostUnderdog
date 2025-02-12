@@ -26,8 +26,7 @@
     	FROM vacation
     	ORDER BY start_date DESC;
 	</select>
-    
-
+   
     <insert id="insertVacation" useGeneratedKeys="true" keyProperty="vacationId">
         INSERT INTO vacation (m_id, e_name, start_date, end_date, reason, created_at, updated_at)
         VALUES (#{mId}, #{eName}, #{startDate}, #{endDate}, #{reason}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
@@ -40,7 +39,8 @@
 
     <update id="updateVacation" parameterType="com.project.dto.VacationDto">
         UPDATE vacation
-        SET start_date = #{startDate},
+        SET approval = #{approval},
+        	start_date = #{startDate},
             end_date = #{endDate},
             reason = #{reason},
             updated_at = CURRENT_TIMESTAMP

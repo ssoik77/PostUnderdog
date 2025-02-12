@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react';
@@ -42,6 +43,12 @@ const VacationRequest = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [modalMode, setModalMode] = useState("create"); // "create" or "edit"
   const externalEventsRef = useRef(null);
+
+  const loginId = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
+  if (!loginId) {
+    // 로그인 정보가 없으면 루트("/")로 이동합니다.
+    navigate("/");
+  }
 
   const openPopup = (e) => {
     e.preventDefault();
@@ -133,8 +140,6 @@ const VacationRequest = () => {
         });
       }
 
-      console.log('응답 데이터:', response.data);
-
       if (response.status === 200) {
         alert('휴가 신청이 완료되었습니다.');
         setFormData({
@@ -188,7 +193,7 @@ const VacationRequest = () => {
         );
 
         if (response.status === 200) {
-            alert('휴가 신청이 삭제되었습니다.');
+            alert('신청된 휴가가 삭제되었습니다.');
             setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
             setIsModalOpen(false);
             setSelectedVacation(null);
@@ -221,6 +226,8 @@ useEffect(() => {
         return acc;
       }, {});
       setTeams(formattedTeams);
+      
+      console.log("팀:", response.data);
     })
     .catch((error) => console.error("Error fetching team data:", error));
 }, []);
@@ -277,9 +284,8 @@ useEffect(() => {
         reason: vacation.reason,
         m_id: vacation.m_id,
         e_name: vacation.e_name,
+        approval: 0
       });
-
-      console.log('받아온 날짜:', vacation.startDate, vacation.endDate);
     }
   };
 
@@ -310,8 +316,18 @@ useEffect(() => {
       title: vacationTitle,
       start: formattedStartDate,
       end: formattedEndDate,
+      approval: vacation.approval,
     };
   }).filter((event) => event !== null);
+
+  const renderEventContent = (arg) => {
+    const isApproved = Number(arg.event.extendedProps.approval) === 1;
+    return (
+      <div className={isApproved ? styles.approvedEvent : styles.customEvent}>
+        {arg.event.title}
+      </div>
+    );
+  };
 
   return (
     <div className={styles.emp}>
@@ -388,13 +404,7 @@ useEffect(() => {
             select={handleDateSelect}
             eventReceive={handleEventReceive}
             eventClick={handleEventClick}
-            eventContent={(arg) => {
-              return (
-                <div className={styles.customEvent}>
-                  {arg.event.title} 
-                </div>
-              );
-            }}
+            eventContent={renderEventContent}
             height="auto"
           />
 
