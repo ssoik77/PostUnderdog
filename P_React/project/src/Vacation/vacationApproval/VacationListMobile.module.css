@@ -13,8 +13,8 @@
 }
 
 .tbodyScroll {
-    max-height: 300px; /* tbody 높이 제한 */
-    overflow-y: auto;
+    max-height: 500px; /* tbody 높이 제한 */
+    overflow: scroll;
     display: block;
     width: 100%;
 }
@@ -58,4 +58,13 @@
     background-color: #dfeefe;
     border: 1px solid #333;
     padding: 2px;
+}
+
+@media (min-width: 769px) {
+    .tbodyScroll {
+        max-height: 90px; /* tbody 높이 제한 */
+        overflow: scroll;
+        display: block;
+        width: 100%;
+    }
 }
