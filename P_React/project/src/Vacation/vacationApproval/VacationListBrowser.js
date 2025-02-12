@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './VacationList.module.css'; 
+import styles from './VacationListBrowser.module.css'; 
 
 const VacationList = ({ vacations, onApprove }) => {
     return (

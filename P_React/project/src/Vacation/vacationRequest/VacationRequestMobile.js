@@ -337,32 +337,32 @@ const VacationRequest = () => {
         <div className={styles.teamBox}>
           <text>명단</text>
           <div className={styles.teamSelectBox}>
-          <select className={styles.teamSelect} onChange={handleTeamClick} value={selectedTeam}>
-            {!selectedTeam && <option value="">팀 선택</option>}
-            {Object.keys(teams).map((team) => {
-              console.log("팀 데이터:", teams);
-              return (
-                <option key={team} value={team}>{teams[team].name}</option>
-              );
-            })}
-          </select>
+            <select className={styles.teamSelect} onChange={handleTeamClick} value={selectedTeam}>
+              {!selectedTeam && <option value="">팀 선택</option>}
+              {Object.keys(teams).map((team) => {
+                console.log("팀 데이터:", teams);
+                return (
+                  <option key={team} value={team}>{teams[team].name}</option>
+                );
+              })}
+            </select>
 
-          <div className={styles.employeeList}>
+            <div className={styles.employeeList}>
 
-            {employeeList.length > 0 ? (
-              <div>
-                {employeeList.map((employee, index) => (
-                  <div className={styles.employee} key={index}>
-                    [{employee.name}] - {employee.position} - {employee.tel}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>선택된 팀의 직원이 없습니다.</p>
-            )}
+              {employeeList.length > 0 ? (
+                <div>
+                  {employeeList.map((employee, index) => (
+                    <div className={styles.employee} key={index}>
+                      [{employee.name}] - {employee.position} - {employee.tel}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>선택된 팀의 직원이 없습니다.</p>
+              )}
 
-          </div>
             </div>
+          </div>
 
         </div>
 
@@ -467,6 +467,10 @@ const VacationRequest = () => {
             </div>
           )}
         </div>
+      <div id={styles.brandName}>
+        <h4 id={styles.brandNameone}>E.V.M</h4>
+        <h6 id={styles.brandNametwo}>Employee Vacation Manager</h6>
+      </div>
       </main>
     </div>
   );
