@@ -1,7 +1,7 @@
 import styles from './AppBrowser.module.css';
 import './register/Register.js';
 import './find/Find.js';
-import './vacation/VacationRequest.js';
+import './vacation/vacationRequest/VacationRequest.js';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
