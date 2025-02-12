@@ -284,6 +284,7 @@
 		<!-- ////////////////// 내가 추가 (끝) ////////////////////// -->
 	</dependencies>
 	<build>
+	 <finalName>myapp.war</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -305,7 +306,6 @@
 				<version>2.5.1</version>
 				<configuration>
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
-					<warName>sample</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<!-- <source>1.6</source> -->
 					<!-- <target>1.6</target> -->
@@ -323,7 +323,6 @@
 				<version>2.4</version>
 				<configuration>
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
-					<warName>sample</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
