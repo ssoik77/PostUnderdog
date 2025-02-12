@@ -350,13 +350,13 @@ const VacationRequest = () => {
           <div className={styles.employeeList}>
 
             {employeeList.length > 0 ? (
-              <ul>
+              <div>
                 {employeeList.map((employee, index) => (
-                  <li key={index}>
+                  <div className={styles.employee} key={index}>
                     [{employee.name}] - {employee.position} - {employee.tel}
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p>선택된 팀의 직원이 없습니다.</p>
             )}
