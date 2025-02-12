@@ -35,6 +35,7 @@ public class EmployeeController {
 
 	@GetMapping
 	public List<EmployeeDto> getAllEmployees() {
+		log.info("==============================="+employeeService.getAllEmployees());
 	    return employeeService.getAllEmployees();
 	}
 

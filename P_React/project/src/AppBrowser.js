@@ -1,7 +1,6 @@
 import styles from './AppBrowser.module.css';
 import './register/Register.js';
 import './find/Find.js';
-import './vacation/VacationConfirm.js';
 import './vacation/VacationRequest.js';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
@@ -23,7 +22,7 @@ const App = () => {
   useEffect(() => {
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
     if (loginId) {
-      navigate("/vacationconfirm");
+      navigate("/vacationrequest");
     }
   }, [navigate]);
 
@@ -58,7 +57,7 @@ const App = () => {
         }
 
         alert(response.data.message || "로그인 성공!");
-        navigate("/vacationconfirm");
+        navigate("/vacationrequest");
       }
     } catch (error) {
       if (error.response?.status === 401) {
