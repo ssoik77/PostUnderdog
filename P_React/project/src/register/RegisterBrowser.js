@@ -163,9 +163,9 @@ const Register = () => {
     return (
         <div id={styles.registerPage}>
             <form id={styles.registerForm} onSubmit={sendRegisterData}>
-                <div>
+                <div id={styles.enumBox}>
                 사원번호
-                <input type="text" placeholder="사원번호를 입력해 주세요" value={employeeNumber} onChange={(e)=>setEmployeeNumber(e.target.value)} required/>
+                <input style={{fontSize:15}} className={styles.registerInput} type="text" placeholder="사원번호를 입력해 주세요" value={employeeNumber} onChange={(e)=>setEmployeeNumber(e.target.value)} required/>
                 </div>
                 {/* -----------------------준강 아이디, 아이디 중복 버튼 병합 -------------------*/}
                 <div id={styles.idAllBox}>

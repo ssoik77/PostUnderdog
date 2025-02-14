@@ -47,11 +47,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-
+  
     <!-- 인코딩 필터 설정 -->
     <filter>
         <filter-name>encodingFilter</filter-name>
