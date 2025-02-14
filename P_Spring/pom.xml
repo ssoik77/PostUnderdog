@@ -236,6 +236,13 @@
     <artifactId>jackson-datatype-jsr310</artifactId>
     <version>2.15.2</version> <!-- 현재 사용 중인 Jackson 버전에 맞게 설정 -->
 </dependency>
+
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.4</version>
+</dependency>
+
 		<!-- ////////////////// 내가 추가 (끝) ////////////////////// -->
 
 	</dependencies>
