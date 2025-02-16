@@ -308,7 +308,7 @@ const VacationRequest = () => {
     const isApproved = Number(arg.event.extendedProps.approval) === 1;
     return (
       <div className={isApproved ? styles.approvedEvent : styles.customEvent}>
-        {arg.event.title}
+        {arg.event.title}  [{isApproved? ' 승인됨':' 승인 대기중중'}]
       </div>
     );
   };

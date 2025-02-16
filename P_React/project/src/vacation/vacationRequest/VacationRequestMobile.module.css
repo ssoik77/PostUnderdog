@@ -242,6 +242,11 @@ textarea {
   align-items: center;
 }
 
+.approvedEvent{
+  font-size: 0.6rem;
+  padding: 0.5px 2px;
+}
+
 :global(.fc-daygrid-day-frame) {
   height: 100%;
 }
