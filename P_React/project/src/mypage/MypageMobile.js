@@ -4,7 +4,7 @@ import styles from './MypageMobile.module.css';
 import { useNavigate } from "react-router-dom";
 
 // 환경 변수에서 API URL 가져오기
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.163:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.2:8080/underdog";
 
 const MypageMobile = () => {
   const navigate = useNavigate();

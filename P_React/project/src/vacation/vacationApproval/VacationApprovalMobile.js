@@ -4,7 +4,7 @@ import axios from 'axios';
 import styles from './VacationApprovalMobile.module.css';
 import VacationListMobile from './VacationListMobile';
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.163:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.2:8080/underdog";
 
 const VacationApproval = () => {
   const navigate = useNavigate();

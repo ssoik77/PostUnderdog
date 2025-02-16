@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.163:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.2:8080/underdog";
 
 const App = () => {
 
@@ -70,6 +70,11 @@ const App = () => {
     
     <div id={styles.loginPage}>
 
+     <div id={styles.loginHeader}>
+      <img src="/logo.png" alt="Logo" id={styles.logo} />
+        <h1 id={styles.brandNameone}>E.V.M</h1>
+        <h1 id={styles.brandNametwo}>Employee Vacation Manager</h1>
+     </div>
         <div id={styles.login}>
           {/* 로그인 폼 */}
           <form id={styles.loginUi} onSubmit={handleLogin}>
@@ -101,11 +106,6 @@ const App = () => {
 
         </div>
       
-     <div id={styles.loginHeader}>
-      <img src="/logo.png" alt="Logo" id={styles.logo} />
-        <h1 id={styles.brandNameone}>E.V.M</h1>
-     </div>
-        <h1 id={styles.brandNametwo}>Employee Vacation Manager</h1>
 
     </div>
   );

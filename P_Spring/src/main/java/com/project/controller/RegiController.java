@@ -13,7 +13,7 @@ import com.project.service.RegiService;
 
 import lombok.extern.log4j.Log4j;
 
-@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.163:3000"}) // React와의 CORS 허용
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.2:3000"}) // React와의 CORS 허용
 @RestController
 @RequestMapping(value = "/register/*")
 @Log4j

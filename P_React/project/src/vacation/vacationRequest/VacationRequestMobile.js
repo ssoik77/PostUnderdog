@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import './clarender.css';
 import styles from './VacationRequestMobile.module.css'; // CSS Modules 파일
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.163:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.2:8080/underdog";
 
 const convertDate = (dateArray) => {
   if (!Array.isArray(dateArray) || dateArray.length < 3) return "";
@@ -390,7 +390,6 @@ const VacationRequest = () => {
               center: 'title',
               right: 'dayGridMonth,dayGridWeek'
             }}
-            height="auto"
             views={{
               dayGridMonth: { buttonText: '월간' },
               dayGridWeek: { buttonText: '주간' }

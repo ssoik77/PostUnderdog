@@ -5,7 +5,7 @@ import axios from 'axios';
 import styles from './EmployeeAddMobile.module.css';
 import EmployeeList from './EmployeeListMobile';
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.163:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.2:8080/underdog";
 
 const EmployeeAddMobile = () => {
   const navigate = useNavigate();
