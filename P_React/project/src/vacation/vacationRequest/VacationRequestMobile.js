@@ -28,6 +28,13 @@ const VacationRequest = () => {
     m_id: '',
     e_name: '',
   });
+  
+  useEffect(() => {
+    const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
+    if (!loginId) {
+      navigate("/");
+    }
+  }, [navigate])
 
   const [vacations, setVacations] = useState([]);
   const [nextVacationId, setNextVacationId] = useState(1);
@@ -39,64 +46,77 @@ const VacationRequest = () => {
   const [modalMode, setModalMode] = useState("create"); // "create" or "edit"
   const externalEventsRef = useRef(null);
   const [employeeList, setEmployeeList] = useState([]);
-  useEffect(() => {
-    const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
-    if (!loginId) {
-      navigate("/");
-    }
-  }, [navigate])
+  
+ // 로그인 정보를 기반으로 사용자 정보 가져오기 및 초기화
+ const myVacation = () => {
+  setSelectedTeam(null);
+const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
+const e_name = sessionStorage.getItem('e_name') || localStorage.getItem('e_name');
+if (m_id) {
+  setFormData((prev) => ({ ...prev, m_id, e_name }));
+}
 
-  // 로그인 정보를 기반으로 사용자 정보 가져오기 및 초기화
-  useEffect(() => {
-    const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
-    const e_name = sessionStorage.getItem('e_name') || localStorage.getItem('e_name');
-    if (m_id) {
-      setFormData((prev) => ({ ...prev, m_id, e_name }));
-    }
-
-    const fetchVacations = async () => {
-      try {
-        const response = await axios.post(
-          `${API_URL}/vacations/list`,
-          { m_id: m_id, e_name: e_name },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        setVacations(response.data);
-
-        if (response.data.length > 0) {
-          const maxId = Math.max(...response.data.map((vacation) => vacation.vacationId));
-          setNextVacationId(maxId + 1);
-        }
-      } catch (err) {
-        console.error(err);
-        setError('휴가 신청 목록을 불러오는 중 문제가 발생했습니다.');
+const fetchVacations = async () => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/vacations/list`,
+      { m_id: m_id, e_name: e_name },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
-    };
+    );
+    setVacations(response.data);
 
-    if (m_id) {
-      fetchVacations({ m_id, e_name });
+    if (response.data.length > 0) {
+      const maxId = Math.max(...response.data.map((vacation) => vacation.vacationId));
+      setNextVacationId(maxId + 1);
     }
-  }, []);
+  } catch (err) {
+    console.error(err);
+    setError('휴가 신청 목록을 불러오는 중 문제가 발생했습니다.');
+  }
+};
 
-  useEffect(() => {
-    axios
-      .post(`${API_URL}/vacations/listAll`, {}, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log("전체 휴가 데이터:", response.data);
-        setVacations(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching vacations:", error);
-        alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
-      });
-  }, []);
+if (m_id) {
+  fetchVacations({ m_id, e_name });
+}
+};
+
+const selectTeamvacation = (teamName) => {
+  console.log(teamName);
+  axios
+    .post( `${API_URL}/vacations/select/list`, teamName, {
+      headers: { "Content-Type": "text/plain; charset=UTF-8" },
+      withCredentials: true,
+    })
+    .then((response) => {
+      console.log("전체 휴가 데이터:", response.data);
+      setVacations(response.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching vacations:", error);
+      alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
+    });
+};
+
+const allVacation = () => {
+  setSelectedTeam(null);
+axios
+  .post( `${API_URL}/vacations/listAll`, {
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
+  })
+  .then((response) => {
+    console.log("전체 휴가 데이터:", response.data);
+    setVacations(response.data);
+  })
+  .catch((error) => {
+    console.error("Error fetching vacations:", error);
+    alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
+  });
+};
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -201,19 +221,24 @@ const VacationRequest = () => {
       .get(`${API_URL}/employee`)
       .then((response) => {
         const formattedTeams = response.data.reduce((acc, employee) => {
+          const eName = employee.e_name;
+          const vacationId = employee.vacation_id;
           const teamName = employee.e_team;
-          if (!acc[teamName]) {
-            acc[teamName] = {
-              name: `${teamName} 팀`,
-              position: "팀장",
-              children: [],
-            };
+          if (!vacationId) {
+            if (!acc[teamName]) {
+              acc[teamName] = {
+                name: `${teamName} 팀`,
+                children: [],
+              };
+            }
+            if (!acc[teamName].children.some(member => member.name === eName)) {
+              acc[teamName].children.push({
+                name: employee.e_name,
+                position: employee.e_level,
+                tel: employee.e_tel_num,
+              });
+            }
           }
-          acc[teamName].children.push({
-            name: employee.e_name,
-            position: employee.e_level,
-            tel: employee.e_tel_num,
-          });
           return acc;
         }, {});
         setTeams(formattedTeams);
@@ -275,8 +300,6 @@ const VacationRequest = () => {
         e_name: vacation.e_name,
         approval: 0
       });
-
-      console.log('받아온 날짜:', vacation.startDate, vacation.endDate);
     }
   };
 
@@ -319,6 +342,15 @@ const VacationRequest = () => {
 
     const selectedEmployees = teams[teamName]?.children || [];
     setEmployeeList(selectedEmployees);
+
+    if(teamName === 'myVacation'){
+      myVacation();
+   }else if(teamName === 'allVacation'){
+    allVacation();
+   }else{
+     selectTeamvacation(teamName);
+   }
+
   };
 
 
@@ -350,12 +382,14 @@ const VacationRequest = () => {
           <div className={styles.teamSelectBox}>
           <select className={styles.teamSelect} onChange={handleTeamClick} value={selectedTeam}>
             {!selectedTeam && <option value="">팀 선택</option>}
+            <option value="myVacation">내 휴가</option>
             {Object.keys(teams).map((team) => {
               console.log("팀 데이터:", teams);
               return (
                 <option key={team} value={team}>{teams[team].name}</option>
               );
             })}
+            <option value="allVacation">전체 휴가</option>
           </select>
 
           <div className={styles.employeeList}>
@@ -369,7 +403,7 @@ const VacationRequest = () => {
                 ))}
               </div>
             ) : (
-              <p>선택된 팀의 직원이 없습니다.</p>
+              <p>선택된 휴가</p>
             )}
 
           </div>

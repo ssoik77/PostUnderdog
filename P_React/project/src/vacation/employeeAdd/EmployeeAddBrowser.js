@@ -8,6 +8,8 @@ import EmployeeList from './EmployeeListBrowser';
 const EmployeeAddBrowser = () => {
     const [employeeList, setEmployeeList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [deleteCart, setDeleteCart] = useState();
     const params = new URLSearchParams(window.location.search);
     const pageNo = parseInt(params.get('no') || 1);
     const employeeNumRef = useRef(null);
@@ -16,26 +18,25 @@ const EmployeeAddBrowser = () => {
     const employeeLevelRef = useRef(null);
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
     const authority = sessionStorage.getItem('authority') || localStorage.getItem("authority");
-    
-    
+
     useEffect(() => {
         if (!loginId || !authority) {
             window.location.href = "../";
         }
     }, [loginId, authority])
-    
+
     useEffect(() => {
         const pullParams = new URLSearchParams(window.location.search);
         const pullPageNo = parseInt(pullParams.get('no') || 1);
         const pullPageCount = () => {
             axios.get("http://localhost:8080/underdog/employee/pagecount")
-            .then((response) => {
-                   setPageCount(response.data); 
-                   console.log("pageCount: "+response.data);
+                .then((response) => {
+                    setPageCount(response.data);
+                    console.log("pageCount: " + response.data);
                 })
                 .catch((error) => console.error("Error Fetching Page Count:", error));
         }
-    
+
         const pullEmployee = () => {
             axios.get(`http://localhost:8080/underdog/employee/list?no=${pullPageNo}`, {
                 headers: {
@@ -49,7 +50,7 @@ const EmployeeAddBrowser = () => {
                 .catch((error) => console.error("Error Pull Employee:", error));
         };
         pullPageCount();
-        pullEmployee(); 
+        pullEmployee();
     }, []);
 
     const handleSubmit = () => {
@@ -57,7 +58,7 @@ const EmployeeAddBrowser = () => {
         const employeeName = employeeNameRef.current.value.trim();
         const employeeTeam = employeeTeamRef.current.value.trim();
         const employeeLevel = employeeLevelRef.current.value.trim();
-        const employee = { e_num: employeeNum, e_name: employeeName, e_team:employeeTeam, e_level:employeeLevel };
+        const employee = { e_num: employeeNum, e_name: employeeName, e_team: employeeTeam, e_level: employeeLevel };
         // some() 메서드는 배열 안에 있는 요소 중 true를 반환하면 즉시 메서드를 종료한다.
         const isRegisterd = employeeList.some((reponse) => {
             if (employeeNum === reponse.e_num) {
@@ -66,19 +67,43 @@ const EmployeeAddBrowser = () => {
             }
             return false;
         })
-        if(!isRegisterd){
+        if (!isRegisterd) {
             axios.post("http://localhost:8080/underdog/employee/add", employee, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             })
-            .then(()=>{Navigate(`/employeeadd?no=${pageNo}`);})//자동으로 url이 변경되어 수동으로 설정
-            .catch((error) => {
-                console.error("There was an error adding the employee:", error);
-            })
+                .then(() => { Navigate(`/employeeadd?no=${pageNo}`); })//자동으로 url이 변경되어 수동으로 설정
+                .catch((error) => {
+                    console.error("There was an error adding the employee:", error);
+                })
         }
     };
 
+    const deleteModal = () => {
+        setIsModalOpen(!isModalOpen)
+    }
+
+    const addDelteCart = (e) => {
+        setDeleteCart((prev) => {
+            if (!prev.includes(e.target.value)) {
+                return [...prev, e.target.value];
+            }
+            return prev;
+        });
+    }
+    const deleteEmployee = () => {
+        console.log(deleteCart);
+        axios.post("http://localhost:8080/underdog/employee/delete", deleteCart, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(() => { Navigate(`/employeeadd?no=${pageNo}`); })//자동으로 url이 변경되어 수동으로 설정
+            .catch((error) => {
+                console.error("There was an error adding the employee:", error);
+            })
+    }
 
     const openPopup = (e) => {
         e.preventDefault();
@@ -114,20 +139,20 @@ const EmployeeAddBrowser = () => {
                     <form id={styles.formBox} onSubmit={handleSubmit}>
                         <div id={styles.inputGroup}>
                             <div>
-                            <label>사원번호</label>
-                            <input id={styles.inputNum} type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다' ref={employeeNumRef} autoFocus/>
+                                <label>사원번호</label>
+                                <input id={styles.inputNum} type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다' ref={employeeNumRef} autoFocus />
                             </div>
                             <div>
-                            <label>사원이름</label>
-                            <input id={styles.inputName} type="text" placeholder="사원 이름" ref={employeeNameRef}/>
+                                <label>사원이름</label>
+                                <input id={styles.inputName} type="text" placeholder="사원 이름" ref={employeeNameRef} />
                             </div>
                             <div>
-                            <label>부서</label>
-                            <input id={styles.inputName} type="text" placeholder="사원 부서" ref={employeeTeamRef}/>
+                                <label>부서</label>
+                                <input id={styles.inputName} type="text" placeholder="사원 부서" ref={employeeTeamRef} />
                             </div>
                             <div>
-                            <label>직책</label>
-                            <input id={styles.inputName} type="text" placeholder="사원 직책" ref={employeeLevelRef}/>
+                                <label>직책</label>
+                                <input id={styles.inputName} type="text" placeholder="사원 직책" ref={employeeLevelRef} />
                             </div>
                         </div>
                         <button type="submit" id={styles.addButton}>직원 추가</button>
@@ -136,22 +161,36 @@ const EmployeeAddBrowser = () => {
 
                 <div id={styles.mainBox}>
                     <EmployeeList employees={employeeList} />
+                    <button onClick={deleteModal}>직원 삭제</button>
                     <div id={styles.pageBox}>
-                    <a className={styles.prevnextButton} href="/employeeadd?no=1">{"<<"}</a>
+                        <a className={styles.prevnextButton} href="/employeeadd?no=1">{"<<"}</a>
 
-                    <div id={styles.pageNumberBox}>
-                    {pageNo > 2 && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo-2}`}>{pageNo-2}</a> }
-                    {pageNo > 1 && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo-1}`}>{pageNo-1}</a> }
-                    <div style={{cursor:"default"}}>{pageNo}</div>
-                    {pageCount >= (pageNo + 1) && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo+1}`}>{pageNo+1}</a> }
-                    {pageCount >= (pageNo + 2) && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo+2}`}>{pageNo+2}</a> }
-                    </div>
-
-                  <a className={styles.prevnextButton} href={`/employeeadd?no=${pageCount}`}>{">>"}</a>
+                        <div id={styles.pageNumberBox}>
+                            {pageNo > 2 && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo - 2}`}>{pageNo - 2}</a>}
+                            {pageNo > 1 && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo - 1}`}>{pageNo - 1}</a>}
+                            <div style={{ cursor: "default" }}>{pageNo}</div>
+                            {pageCount >= (pageNo + 1) && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo + 1}`}>{pageNo + 1}</a>}
+                            {pageCount >= (pageNo + 2) && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo + 2}`}>{pageNo + 2}</a>}
+                        </div>
+                        <a className={styles.prevnextButton} href={`/employeeadd?no=${pageCount}`}>{">>"}</a>
                     </div>
                 </div>
             </main>
-
+            {isModalOpen &&
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        {employeeList.map((employee, index) => {
+                            return (
+                                <button key={index} onClick={addDelteCart} value={employee.e_num}>
+                                    {employee.e_num} | {employee.e_name}
+                                </button>
+                            )
+                        })}
+                    </div>
+                    <button onClick={deleteModal}>닫기</button>
+                    <button onClick={deleteEmployee}>삭제</button>
+                </div>
+            }
         </div>
     );
 };

@@ -2,7 +2,6 @@ import React from "react";
 import styles from './EmployeeListBrowser.module.css'; 
 
 const EmployeeList = ({ employees }) => {
-
     return (
         <table id={styles.employeeList}>
             <thead>

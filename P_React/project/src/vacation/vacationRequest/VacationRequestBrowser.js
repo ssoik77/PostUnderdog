@@ -43,12 +43,6 @@ const VacationRequest = () => {
   const [modalMode, setModalMode] = useState("create"); // "create" or "edit"
   const externalEventsRef = useRef(null);
 
-  const loginId = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
-  if (!loginId) {
-    // 로그인 정보가 없으면 루트("/")로 이동합니다.
-    navigate("/");
-  }
-
   const openPopup = (e) => {
     e.preventDefault();
     const popupFeatures =

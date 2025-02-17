@@ -111,7 +111,7 @@ background-color: #ffffff;
 }
 .employeeList{
   flex-direction: column;
-  font-size: 0.7em;
+  font-size: 0.8em;
   overflow: scroll;
   display: flex;
 width: 60%;
