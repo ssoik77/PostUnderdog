@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from './RegisterMobile.module.css';
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.163:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
 
 const Register = () => {
 

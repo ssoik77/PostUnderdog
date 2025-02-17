@@ -102,6 +102,13 @@
       padding-top: 3%;
     padding-bottom: 3%;
   }
+
+  @media (max-width:375px) {
+    #mainBox {
+      margin-top: 2%;
+      height: 90%;
+    }
+  }
   
   #pageBox{
     margin-top: 5%;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from './FindMobile.module.css'; // CSS 모듈 파일
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.163:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
 
 const Find = () => {
     // 상태 변수

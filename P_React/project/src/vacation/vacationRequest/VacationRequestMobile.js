@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import './clarender.css';
 import styles from './VacationRequestMobile.module.css'; // CSS Modules 파일
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.2:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
 
 const convertDate = (dateArray) => {
   if (!Array.isArray(dateArray) || dateArray.length < 3) return "";
@@ -308,7 +308,7 @@ const VacationRequest = () => {
     const isApproved = Number(arg.event.extendedProps.approval) === 1;
     return (
       <div className={isApproved ? styles.approvedEvent : styles.customEvent}>
-        {arg.event.title}  [{isApproved? ' 승인됨':' 승인 대기중중'}]
+        {arg.event.title}  [{isApproved? '승인됨':' 승인 대기중'}]
       </div>
     );
   };

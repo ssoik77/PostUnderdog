@@ -28,7 +28,7 @@ import com.project.service.VacationService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.2:3000"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.135:3000"}, allowCredentials = "true")
 @RequestMapping("/vacations")
 @RequiredArgsConstructor
 public class VacationController {

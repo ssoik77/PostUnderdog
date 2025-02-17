@@ -4,7 +4,7 @@ import axios from 'axios';
 import styles from './VacationApprovalMobile.module.css';
 import VacationListMobile from './VacationListMobile';
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.2:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
 
 const VacationApproval = () => {
   const navigate = useNavigate();
@@ -104,10 +104,6 @@ const VacationApproval = () => {
           </div>
         </div>
       </main>
-      <div id={styles.brandName}>
-      <h4 id={styles.brandNameone}>E.V.M</h4>
-        <h6 id={styles.brandNametwo}>Employee Vacation Manager</h6>
-      </div>
     </div>
   );
 };

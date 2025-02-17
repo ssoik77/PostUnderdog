@@ -17,7 +17,7 @@ import lombok.extern.log4j.Log4j;
 
 @RestController
 @RequestMapping("/find")
-@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.2:3000"})
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.135:3000"})
 @Log4j
 public class FindController {
 

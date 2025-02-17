@@ -330,8 +330,8 @@ textarea {
 }
 
 .customEvent {
-  background-color: #a8ffa8;
-  border: 1px solid #000000;
+  background-color: #cbcbcb;
+  border-style: none;
   color: rgb(0, 0, 0);
   font-size: 0.7rem;
   padding: 2px 2px;
