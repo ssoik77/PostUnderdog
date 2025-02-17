@@ -90,12 +90,12 @@ const App = () => {
               <tbody>
                 <tr>
                   <td>
-                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' required />
+                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' value='qqqq12!@' required />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" required />
+                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" value='wwww12!@' required />
                   </td>
                 </tr>
                 <tr>

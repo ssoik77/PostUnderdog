@@ -26,13 +26,13 @@ const VacationRequest = () => {
     e_name: '',
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
-    if(!loginId){
-      navigate("/"); 
+    if (!loginId) {
+      navigate("/");
     }
-  },[navigate])
-  
+  }, [navigate])
+
   const [vacations, setVacations] = useState([]);
   const [nextVacationId, setNextVacationId] = useState(1);
   const [error, setError] = useState(null);
@@ -57,7 +57,8 @@ const VacationRequest = () => {
   };
 
   // 로그인 정보를 기반으로 사용자 정보 가져오기 및 초기화
-  useEffect(() => {
+  const myVacation = () => {
+      setSelectedTeam(null);
     const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
     const e_name = sessionStorage.getItem('e_name') || localStorage.getItem('e_name');
     if (m_id) {
@@ -90,14 +91,15 @@ const VacationRequest = () => {
     if (m_id) {
       fetchVacations({ m_id, e_name });
     }
-  }, []);
+  };
 
-  useEffect(() => {
+  const selectTeamvacation = (teamName) => {
+    console.log(teamName);
     axios
-  .post("http://localhost:8080/underdog/vacations/listAll", {}, {
-    headers: { "Content-Type": "application/json" },
-    withCredentials: true,
-  })
+      .post("http://localhost:8080/underdog/vacations/select/list", teamName, {
+        headers: { "Content-Type": "text/plain; charset=UTF-8" },
+        withCredentials: true,
+      })
       .then((response) => {
         console.log("전체 휴가 데이터:", response.data);
         setVacations(response.data);
@@ -106,7 +108,24 @@ const VacationRequest = () => {
         console.error("Error fetching vacations:", error);
         alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
       });
-  }, []);
+  };
+
+  const allVacation = () => {
+      setSelectedTeam(null);
+    axios
+      .post("http://localhost:8080/underdog/vacations/listAll", {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log("전체 휴가 데이터:", response.data);
+        setVacations(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching vacations:", error);
+        alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
+      });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -115,7 +134,7 @@ const VacationRequest = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { 
+    const payload = {
       ...formData,
       m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'),
       e_name: sessionStorage.getItem('e_name') || localStorage.getItem('e_name')
@@ -176,60 +195,65 @@ const VacationRequest = () => {
     const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
 
     if (!m_id) {
-        alert("사용자 인증 정보가 없습니다. 다시 로그인하세요.");
-        return;
+      alert("사용자 인증 정보가 없습니다. 다시 로그인하세요.");
+      return;
     }
     try {
-        const response = await axios.delete(
-            `http://localhost:8080/underdog/vacations/${vacationId}`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                params: { m_id },
-                withCredentials: true,
-            }
-        );
-
-        if (response.status === 200) {
-            alert('신청된 휴가가 삭제되었습니다.');
-            setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
-            setIsModalOpen(false);
-            setSelectedVacation(null);
-            setModalMode("create");
-          }
-    } catch (error) {
-        console.error('휴가 삭제 중 오류 발생:', error);
-        alert('휴가 삭제 중 문제가 발생했습니다.');
-    }
-};
-
-useEffect(() => {
-  axios
-    .get("http://localhost:8080/underdog/employee")
-    .then((response) => {
-      const formattedTeams = response.data.reduce((acc, employee) => {
-        const teamName = employee.e_team;
-        if (!acc[teamName]) {
-          acc[teamName] = {
-            name: `${teamName} 팀`,
-            position: "팀장",
-            children: [],
-          };
+      const response = await axios.delete(
+        `http://localhost:8080/underdog/vacations/${vacationId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          params: { m_id },
+          withCredentials: true,
         }
-        acc[teamName].children.push({
-          name: employee.e_name,
-          position: employee.e_level,
-          tel: employee.e_tel_num,
-        });
-        return acc;
-      }, {});
-      setTeams(formattedTeams);
-      
-      console.log("팀:", response.data);
-    })
-    .catch((error) => console.error("Error fetching team data:", error));
-}, []);
+      );
+
+      if (response.status === 200) {
+        alert('신청된 휴가가 삭제되었습니다.');
+        setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
+        setIsModalOpen(false);
+        setSelectedVacation(null);
+        setModalMode("create");
+      }
+    } catch (error) {
+      console.error('휴가 삭제 중 오류 발생:', error);
+      alert('휴가 삭제 중 문제가 발생했습니다.');
+    }
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/underdog/employee")
+      .then((response) => {
+        const formattedTeams = response.data.reduce((acc, employee) => {
+          const eName = employee.e_name;
+          const vacationId = employee.vacation_id;
+          const teamName = employee.e_team;
+          if (!vacationId) {
+            if (!acc[teamName]) {
+              acc[teamName] = {
+                name: `${teamName} 팀`,
+                children: [],
+              };
+            }
+            if (!acc[teamName].children.some(member => member.name === eName)) {
+              acc[teamName].children.push({
+                name: employee.e_name,
+                position: employee.e_level,
+                tel: employee.e_tel_num,
+              });
+            }
+          }
+          return acc;
+        }, {});
+        setTeams(formattedTeams);
+
+        console.log("팀:", response.data);
+      })
+      .catch((error) => console.error("Error fetching team data:", error));
+  }, []);
 
   const handleDateSelect = (info) => {
     const startDate = new Date(info.startStr);
@@ -266,7 +290,7 @@ useEffect(() => {
     const vacation = vacations.find((v) => String(v.vacationId) === vacationId);
     if (vacation) {
       if (vacation.m_id !== (sessionStorage.getItem('m_id') || localStorage.getItem('m_id')) ||
-          vacation.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
+        vacation.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
         alert("타인의 휴가 신청은 수정할 수 없습니다.");
         return;
       }
@@ -293,6 +317,7 @@ useEffect(() => {
       setSelectedTeam(null);
     } else {
       setSelectedTeam(teamName);
+      selectTeamvacation(teamName);
     }
   };
 
@@ -323,7 +348,7 @@ useEffect(() => {
     const isApproved = Number(arg.event.extendedProps.approval) === 1;
     return (
       <div className={isApproved ? styles.approvedEvent : styles.customEvent}>
-        {arg.event.title} [{isApproved? ' 승인됨':'승인 대기중'}]
+        {arg.event.title} [{isApproved ? ' 승인됨' : '승인 대기중'}]
       </div>
     );
   };
@@ -353,12 +378,12 @@ useEffect(() => {
       <main className={styles.mainContainer}>
         <div className={styles.teamBox}>
           <h3>명단</h3>
+          <button onClick={myVacation} className={styles.teamButton}>내 휴가</button>
           {Object.keys(teams).map((team) => (
             <div key={team} className={styles.teamSection}>
               <button
-                className={`${styles.teamButton} ${
-                  selectedTeam === team ? styles.activeTeamButton : ""
-                }`}
+                className={`${styles.teamButton} ${selectedTeam === team ? styles.activeTeamButton : ""
+                  }`}
                 onClick={() => handleTeamClick(team)}
                 aria-pressed={selectedTeam === team}
               >
@@ -377,6 +402,7 @@ useEffect(() => {
               )}
             </div>
           ))}
+          <button onClick={allVacation} className={styles.teamButton}>전체 휴가</button>
         </div>
 
         <div className={styles.vacationContainer}>
@@ -475,8 +501,8 @@ useEffect(() => {
             </div>
           )}
         </div>
-        </main>
-      </div>
+      </main>
+    </div>
   );
 };
 

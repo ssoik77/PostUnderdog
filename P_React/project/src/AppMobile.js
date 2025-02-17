@@ -78,8 +78,8 @@ const App = () => {
         <div id={styles.login}>
           {/* 로그인 폼 */}
           <form id={styles.loginUi} onSubmit={handleLogin}>
-                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' required />
-                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" required />
+                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' value='qqqq12!@' required />
+                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" value='wwww12!@' required />
                     <button id={styles.loginButton} className={styles.button} type="submit">로그인</button>
           {/* 자동 로그인 체크박스 */}
           <div id={styles.loginSaveCheck}>

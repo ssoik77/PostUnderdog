@@ -26,6 +26,10 @@ public class VacationService {
         return vacationMapper.selectVacationsByMemberId(mId);
     }
     
+    public List<VacationDto> getSelectVacations(String teamName) {
+    	return vacationMapper.selectTeamVacations(teamName);
+    }
+    
     public List<VacationDto> getAllVacations() {
         return vacationMapper.selectAllVacations();
     }

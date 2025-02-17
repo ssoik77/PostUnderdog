@@ -14,9 +14,11 @@ const EmployeeAddMobile = () => {
 
   const params = new URLSearchParams(window.location.search);
   const pageNo = parseInt(params.get('no') || 1);
-  
+
   const employeeNumRef = useRef(null);
   const employeeNameRef = useRef(null);
+  const employeeTeamRef = useRef(null);
+  const employeeLevelRef = useRef(null);
   const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
   const authority = sessionStorage.getItem('authority') || localStorage.getItem("authority");
 
@@ -44,7 +46,6 @@ const EmployeeAddMobile = () => {
     })
       .then((response) => {
         setEmployeeList(response.data);
-        console.log("pageNo: " + pageNo);
       })
       .catch((error) => console.error("Error Pull Employee:", error));
   }, [pageNo]);
@@ -57,7 +58,9 @@ const EmployeeAddMobile = () => {
   const handleSubmit = () => {
     const employeeNum = employeeNumRef.current.value.trim();
     const employeeName = employeeNameRef.current.value.trim();
-    const employee = { e_num: employeeNum, e_name: employeeName };
+    const employeeTeam = employeeTeamRef.current.value.trim();
+    const employeeLevel = employeeLevelRef.current.value.trim();
+    const employee = { e_num: employeeNum, e_name: employeeName, e_team: employeeTeam, e_level: employeeLevel };
     // some() 메서드는 배열 안에 있는 요소 중 true를 반환하면 즉시 메서드를 종료한다.
     const isRegisterd = employeeList.some((reponse) => {
       if (employeeNum === reponse.e_num) {
@@ -72,8 +75,9 @@ const EmployeeAddMobile = () => {
           'Content-Type': 'application/json',
         }
       })
-        .then(() => { 
-          navigate(`/employeeadd?no=${pageNo}`); }) //자동으로 url이 변경되어 수동으로 설정
+        .then(() => {
+          navigate(`/employeeadd?no=${pageNo}`);
+        }) //자동으로 url이 변경되어 수동으로 설정
         .catch((error) => {
           console.error("There was an error adding the employee:", error);
         });
@@ -105,10 +109,26 @@ const EmployeeAddMobile = () => {
         <div className={styles.employeeBox}>
           <form className={styles.formBox} onSubmit={handleSubmit}>
             <div className={styles.inputGroup}>
-              <label>사원번호:</label>
-              <input className={styles.inputNum} type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다.' ref={employeeNumRef} autoFocus />
-              <label>사원이름:</label>
-              <input className={styles.inputName} type="text" placeholder="사원 이름" ref={employeeNameRef} />
+              <div style={{display:'flex', gap:'5%', justifyContent:'center'}}>
+              <div style={{display:'flex', flexDirection:'column'}}>
+                <label>사원번호</label>
+                <input id={styles.inputNum} type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다' ref={employeeNumRef} autoFocus />
+              </div>
+              <div style={{display:'flex', flexDirection:'column'}}>
+                <label>사원이름</label>
+                <input id={styles.inputName} type="text" placeholder="사원 이름" ref={employeeNameRef} />
+              </div>
+              </div>
+              <div style={{display:'flex', gap:'5%', justifyContent:'center'}}>
+              <div style={{display:'flex', flexDirection:'column'}}>
+                <label>부서</label>
+                <input id={styles.inputName} type="text" placeholder="사원 부서" ref={employeeTeamRef} />
+              </div>
+              <div style={{display:'flex', flexDirection:'column'}}>
+                <label>직책</label>
+                <input id={styles.inputName} type="text" placeholder="사원 직책" ref={employeeLevelRef} />
+              </div>
+              </div>
             </div>
             <button type="submit" className={styles.addButton}>직원 추가</button>
           </form>
@@ -118,15 +138,15 @@ const EmployeeAddMobile = () => {
           <EmployeeList employees={employeeList} />
           <div className={styles.pageBox}>
             <a className={styles.prevnextButton} href="/employeeadd?no=1">{"<<"}</a>
-                    <div id={styles.pageNumberBox}>
-                    {pageNo > 2 && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo-2}`}>{pageNo-2}</a> }
-                    {pageNo > 1 && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo-1}`}>{pageNo-1}</a> }
-                    <div style={{cursor:"default"}}>{pageNo}</div>
-                    {pageCount >= (pageNo + 1) && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo+1}`}>{pageNo+1}</a> }
-                    {pageCount >= (pageNo + 2) && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo+2}`}>{pageNo+2}</a> }
-                    </div>
-                  <a className={styles.prevnextButton} href={`/employeeadd?no=${pageCount}`}>{">>"}</a>
-                    </div>
+            <div id={styles.pageNumberBox}>
+              {pageNo > 2 && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo - 2}`}>{pageNo - 2}</a>}
+              {pageNo > 1 && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo - 1}`}>{pageNo - 1}</a>}
+              <div style={{ cursor: "default" }}>{pageNo}</div>
+              {pageCount >= (pageNo + 1) && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo + 1}`}>{pageNo + 1}</a>}
+              {pageCount >= (pageNo + 2) && <a className={styles.pageNumber} href={`/employeeadd?no=${pageNo + 2}`}>{pageNo + 2}</a>}
+            </div>
+            <a className={styles.prevnextButton} href={`/employeeadd?no=${pageCount}`}>{">>"}</a>
+          </div>
         </div>
       </main>
     </div>

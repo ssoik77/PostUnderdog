@@ -18,6 +18,7 @@ public class EmployeeDto {
     private String e_level;
     private String e_carrier;
     private String e_tel_num;
+    private int vacation_id;
     private int e_key;
 
     public EmployeeDto(String e_num, String e_name, String e_team, String e_level, LocalDate e_birth, String e_carrier, String e_tel_num, int e_key) {
@@ -45,6 +46,25 @@ public class EmployeeDto {
 		this.e_tel_num = e_tel_num;
 		this.e_level = e_level;
 		this.e_team = e_team;
+	}
+
+	public EmployeeDto(String e_num, String e_name, String e_team, String e_level) {
+		this.e_num = e_num;
+		this.e_name = e_name;
+		this.e_team = e_team;
+		this.e_level = e_level;
+	}
+
+	public EmployeeDto(String e_num, String e_name, LocalDate e_birth, String e_team, String e_level,
+			String e_tel_num, int vacation_id, int e_key) {
+		this.e_num = e_num;
+		this.e_name = e_name;
+		this.e_birth = e_birth;
+		this.e_team = e_team;
+		this.e_level = e_level;
+		this.e_tel_num = e_tel_num;
+		this.vacation_id = vacation_id;
+		this.e_key = e_key;
 	}
     
     

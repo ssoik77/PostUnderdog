@@ -36,6 +36,8 @@ public interface VacationMapper {
     int updateVacationApproval(@Param("vacationId") Long vacationId, 
                                @Param("approval") int approval);
     
+    List<VacationDto> selectTeamVacations(String teamName);
+    
     List<VacationDto> selectAllVacations();
 
 }

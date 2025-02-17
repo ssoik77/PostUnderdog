@@ -2,11 +2,13 @@ package com.project.dto;
 
 import java.sql.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class RegisterDto {
 
 	int authority = 0;
@@ -17,6 +19,8 @@ public class RegisterDto {
 	String e_carrier;
 	String e_tel_num;
 	String e_num;
+	String e_team;
+	String e_level;
 	int e_key;
 
 

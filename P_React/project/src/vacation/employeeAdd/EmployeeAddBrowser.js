@@ -12,6 +12,8 @@ const EmployeeAddBrowser = () => {
     const pageNo = parseInt(params.get('no') || 1);
     const employeeNumRef = useRef(null);
     const employeeNameRef = useRef(null);
+    const employeeTeamRef = useRef(null);
+    const employeeLevelRef = useRef(null);
     const loginId = sessionStorage.getItem('m_id') || localStorage.getItem("m_id");
     const authority = sessionStorage.getItem('authority') || localStorage.getItem("authority");
     
@@ -43,7 +45,6 @@ const EmployeeAddBrowser = () => {
             })
                 .then((response) => {
                     setEmployeeList(response.data);
-                    console.log("pageNo: "+pullPageNo);
                 })
                 .catch((error) => console.error("Error Pull Employee:", error));
         };
@@ -54,7 +55,9 @@ const EmployeeAddBrowser = () => {
     const handleSubmit = () => {
         const employeeNum = employeeNumRef.current.value.trim();
         const employeeName = employeeNameRef.current.value.trim();
-        const employee = { e_num: employeeNum, e_name: employeeName };
+        const employeeTeam = employeeTeamRef.current.value.trim();
+        const employeeLevel = employeeLevelRef.current.value.trim();
+        const employee = { e_num: employeeNum, e_name: employeeName, e_team:employeeTeam, e_level:employeeLevel };
         // some() 메서드는 배열 안에 있는 요소 중 true를 반환하면 즉시 메서드를 종료한다.
         const isRegisterd = employeeList.some((reponse) => {
             if (employeeNum === reponse.e_num) {
@@ -110,10 +113,22 @@ const EmployeeAddBrowser = () => {
                 <div id={styles.employeeBox}>
                     <form id={styles.formBox} onSubmit={handleSubmit}>
                         <div id={styles.inputGroup}>
-                            <label>사원번호:</label>
+                            <div>
+                            <label>사원번호</label>
                             <input id={styles.inputNum} type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다' ref={employeeNumRef} autoFocus/>
-                            <label>사원이름:</label>
+                            </div>
+                            <div>
+                            <label>사원이름</label>
                             <input id={styles.inputName} type="text" placeholder="사원 이름" ref={employeeNameRef}/>
+                            </div>
+                            <div>
+                            <label>부서</label>
+                            <input id={styles.inputName} type="text" placeholder="사원 부서" ref={employeeTeamRef}/>
+                            </div>
+                            <div>
+                            <label>직책</label>
+                            <input id={styles.inputName} type="text" placeholder="사원 직책" ref={employeeLevelRef}/>
+                            </div>
                         </div>
                         <button type="submit" id={styles.addButton}>직원 추가</button>
                     </form>

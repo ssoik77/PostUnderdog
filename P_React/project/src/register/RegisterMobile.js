@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from './RegisterMobile.module.css';
 import axios from 'axios';
+import { Navigate, useNavigate } from "react-router";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
 
 const Register = () => {
-
+    const navigate = useNavigate();
    const [employeeNumber, setEmployeeNumber] = useState(""); // 사원번호 입력값
 
     const [id, setId] = useState(""); // 아이디 입력값
@@ -149,6 +150,7 @@ const Register = () => {
                 } catch (error) {
                     alert("회원가입에 실패했습니다.");
                 }
+                navigate('/')
             } else {
                 setResultMessage("비밀번호 확인이 일치하지 않습니다.");
             }

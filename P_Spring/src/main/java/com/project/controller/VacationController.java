@@ -28,7 +28,7 @@ import com.project.service.VacationService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.135:3000"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.135:3000"}, allowCredentials = "true" )
 @RequestMapping("/vacations")
 @RequiredArgsConstructor
 public class VacationController {
@@ -67,6 +67,15 @@ public class VacationController {
         return ResponseEntity.ok(vacations);
     }
 
+    // 휴가 전체 목록
+    @PostMapping("/select/list")
+    public ResponseEntity<List<VacationDto>> getSelectVacations(@RequestBody String teamName) {
+    	logger.info(teamName);	
+    	List<VacationDto> vacations = vacationService.getSelectVacations(teamName);
+    	logger.info("선택 휴가 목록 조회 성공: 조회된 휴가 수: {}", vacations.size());	
+    	return ResponseEntity.ok(vacations);
+    }
+    
     // 휴가 전체 목록
     @PostMapping("/listAll")
     public ResponseEntity<List<VacationDto>> getAllVacations() {
