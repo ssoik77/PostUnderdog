@@ -74,6 +74,26 @@ const VacationApproval = () => {
     }
   };
 
+    const handleApprovalRejection = async (vacationId) => {
+    try {
+        const response = await axios.put(
+        `http://localhost:8080/underdog/vacations/rejection/${vacationId}`,
+        { m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'), approval: 2 },
+        {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        }
+        );
+        if (response.status === 200) {
+        alert("반려 처리 완료");
+        pullEmployee();
+      }
+    } catch (error) {
+      console.error("반려 처리 중 오류 발생:", error);
+      alert("반려 처리 중 문제가 발생했습니다.");
+    }
+  };
+
   return (
     <div id={styles.vacationApprovalPage}>
       <header id={styles.header}>
@@ -93,7 +113,7 @@ const VacationApproval = () => {
       </header>
       <main id={styles.mainContainer}>
         <div id={styles.mainBox}>
-          <VacationListBrowser vacations={vacationList} onApprove={handleApproval} />
+          <VacationListBrowser vacations={vacationList} onApprove={handleApproval} onRejection={handleApprovalRejection}/>
           <div id={styles.pageBox}>
             <a className={styles.prevnextButton} href="/vacationapproval?no=1">{"<<"}</a>
             <div id={styles.pageNumberBox}>

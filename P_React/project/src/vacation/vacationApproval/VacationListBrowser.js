@@ -1,7 +1,7 @@
 import React from "react";
-import styles from './VacationListBrowser.module.css'; 
+import styles from './VacationListBrowser.module.css';
 
-const VacationList = ({ vacations, onApprove }) => {
+const VacationList = ({ vacations, onApprove, onRejection }) => {
     return (
         <table id={styles.vacationList}>
             <thead>
@@ -38,15 +38,13 @@ const VacationList = ({ vacations, onApprove }) => {
                         <td className={styles.column}>{vacation.reason}</td>
                         <td className={styles.column}>
                             {vacation.approval.trim() === "0" ? (
-                                <button 
-                                  className={styles.approveButton}
-                                  onClick={() => onApprove(vacation.vacation_id)}
-                                >
-                                    승인하기
-                                </button>
-                            ) : (
-                                <span>승인됨</span>
-                            )}
+                                <div className={styles.buttonBox}>
+                                <button className={styles.approveButton} style={{color:'green'}} onClick={() => onApprove(vacation.vacation_id)}> 승인 </button>
+                                <button className={styles.approveButton} style={{color:'red'}} onClick={() => onRejection(vacation.vacation_id)}> 반려 </button>
+                                </div>
+                            ): (vacation.approval.trim() === "1" ? 
+                                (<span>승인됨</span>) : (<span>반려됨</span>))
+                            }
                         </td>
                     </tr>
                 ))}

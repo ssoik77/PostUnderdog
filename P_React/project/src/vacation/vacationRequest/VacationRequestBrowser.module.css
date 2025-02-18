@@ -336,6 +336,15 @@ textarea {
   font-size: 0.7rem;
   padding: 2px 2px;
 }
+
+.rejectionEvent{
+  background-color: hsl(0, 86%, 40%);
+  border-style: none;
+  color: rgb(255, 255, 255);
+  font-size: 0.7rem;
+  padding: 2px 2px;
+}
+
 :global(.fc-daygrid-day-frame) {
   height: 80px;
 }

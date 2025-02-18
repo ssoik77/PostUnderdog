@@ -27,7 +27,13 @@
 /* 버튼 스타일 */
 .approveButton {
     font-size: 0.9em;
-    background-color: #dfeefe;
-    border: 1px solid #333;
-    padding: 2px;
+    border-style: none;
+    background: none;
+    font-weight: bold;
 }
+
+.buttonBox{
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+  }

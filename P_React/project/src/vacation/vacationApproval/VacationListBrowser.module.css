@@ -19,3 +19,15 @@
     padding-top: 5px;
     padding-bottom: 5px;
   }
+
+  .approveButton{
+    border-style: none;
+    background: none;
+    font-weight: bold;
+  }
+
+  .buttonBox{
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+  }

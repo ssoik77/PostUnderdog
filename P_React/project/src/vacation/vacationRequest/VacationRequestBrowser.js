@@ -336,10 +336,10 @@ const VacationRequest = () => {
   }).filter((event) => event !== null);
 
   const renderEventContent = (arg) => {
-    const isApproved = Number(arg.event.extendedProps.approval) === 1;
+    const isApproved = Number(arg.event.extendedProps.approval);
     return (
-      <div className={isApproved ? styles.approvedEvent : styles.customEvent}>
-        {arg.event.title} [{isApproved ? ' 승인됨' : '승인 대기중'}]
+      <div className={isApproved === 0 ? styles.customEvent : (isApproved === 1 ? styles.approvedEvent : styles.rejectionEvent)}>
+        {arg.event.title} [{isApproved === 0 ? '승인 대기중' : (isApproved === 1 ? '승인 완료' : '반려 됨')}]
       </div>
     );
   };

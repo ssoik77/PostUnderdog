@@ -222,9 +222,7 @@ axios
       .then((response) => {
         const formattedTeams = response.data.reduce((acc, employee) => {
           const eName = employee.e_name;
-          const vacationId = employee.vacation_id;
           const teamName = employee.e_team;
-          if (!vacationId) {
             if (!acc[teamName]) {
               acc[teamName] = {
                 name: `${teamName} 팀`,
@@ -238,7 +236,6 @@ axios
                 tel: employee.e_tel_num,
               });
             }
-          }
           return acc;
         }, {});
         setTeams(formattedTeams);
@@ -328,11 +325,11 @@ axios
   }).filter((event) => event !== null);
 
   const renderEventContent = (arg) => {
-    const isApproved = Number(arg.event.extendedProps.approval) === 1;
+    const isApproved = Number(arg.event.extendedProps.approval);
     return (
-      <div className={isApproved ? styles.approvedEvent : styles.customEvent}>
-        {arg.event.title}  [{isApproved? '승인됨':' 승인 대기중'}]
-      </div>
+      <div className={isApproved === 0 ? styles.customEvent : (isApproved === 1 ? styles.approvedEvent : styles.rejectionEvent)}>
+      {arg.event.title} [{isApproved === 0 ? '승인 대기중' : (isApproved === 1 ? '승인 완료' : '반려 됨')}]
+    </div>
     );
   };
 

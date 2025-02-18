@@ -10,6 +10,8 @@ const VacationApproval = () => {
   const navigate = useNavigate();
   const [vacationList, setVacationList] = useState([]);
   const [pageCount, setPageCount] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [saveVacationId, setSaveVacationId] = useState();
 
   const params = new URLSearchParams(window.location.search);
   const pageNo = parseInt(params.get('no') || 1);
@@ -63,6 +65,7 @@ const VacationApproval = () => {
         }
         );
         if (response.status === 200) {
+          setIsModalOpen(!isModalOpen)
         alert("승인 처리 완료");
         pullEmployee();
       }
@@ -71,6 +74,32 @@ const VacationApproval = () => {
       alert("승인 처리 중 문제가 발생했습니다.");
     }
   };
+
+  const handleApprovalRejection = async (vacationId) => {
+    try {
+        const response = await axios.put(
+         `${API_URL}/vacations/rejection/${vacationId}`,
+        { m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'), approval: 2 },
+        {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          }
+        );
+        if (response.status === 200) {
+          setIsModalOpen(!isModalOpen)
+          alert("반려 처리 완료");
+          pullEmployee();
+        }
+      } catch (error) {
+        console.error("반려 처리 중 오류 발생:", error);
+      alert("반려 처리 중 문제가 발생했습니다.");
+    }
+  };
+
+  const approvalModal = (vacationId) => {
+    setSaveVacationId(vacationId);
+    setIsModalOpen(!isModalOpen)
+  }
 
   return (
     <div id={styles.vacationApprovalPage}>
@@ -90,7 +119,7 @@ const VacationApproval = () => {
       </header>
       <main id={styles.mainContainer}>
         <div id={styles.mainBox}>
-          <VacationListMobile vacations={vacationList} onApprove={handleApproval} />
+        <VacationListMobile vacations={vacationList} onApproveModal={approvalModal}/>
           <div id={styles.pageBox}>
             <a className={styles.prevnextButton} href="/vacationapproval?no=1">{"<<"}</a>
             <div id={styles.pageNumberBox}>
@@ -104,6 +133,17 @@ const VacationApproval = () => {
           </div>
         </div>
       </main>
+      {isModalOpen &&
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.buttonBox}>
+          <button className={styles.approveButton} style={{color:'green'}} onClick={() => handleApproval(saveVacationId)}> 승인 </button>
+          <button className={styles.approveButton} style={{color:'red'}} onClick={() => handleApprovalRejection(saveVacationId)}> 반려 </button>
+            </div>
+            <button id={styles.closeModal} onClick={approvalModal}>닫기</button>
+          </div>
+        </div>
+      }
     </div>
   );
 };

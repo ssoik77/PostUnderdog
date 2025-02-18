@@ -154,6 +154,27 @@ public class VacationController {
         }
     }
     
+    // 휴가 반려
+    @PutMapping("/rejection/{vacationId}")
+    public ResponseEntity<String> rejectionVacation(@PathVariable Long vacationId, @RequestBody Map<String, Object> body) {
+    	
+    	logger.info("휴가 승인 요청: 휴가 ID: {}, 데이터: {}", vacationId, body);
+    	
+    	String userId = (String) body.get("m_id");
+    	if (userId == null || userId.trim().isEmpty()) {
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
+    	}
+    	
+    	int approval = (int) body.get("approval");	
+    	try {
+    		vacationService.approvalVacation(vacationId, approval);
+    		logger.info("휴가 승인 성공: 휴가 ID: {}, 승인 상태: {}", vacationId, approval);
+    		return ResponseEntity.ok("휴가 승인 처리 완료");
+    	} catch (IllegalArgumentException e) {
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    	}
+    }
+    
     // 휴가 승인 목록 페이징
     @GetMapping("/pagecount")
     @ResponseBody

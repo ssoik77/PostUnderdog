@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './VacationListMobile.module.css'; 
 
-const VacationList = ({ vacations, onApprove }) => {
+const VacationList = ({ vacations, onApproveModal}) => {
     return (
         <div className={styles.tableContainer}>  
             <table id={styles.vacationList}>
@@ -38,16 +38,11 @@ const VacationList = ({ vacations, onApprove }) => {
                                 </td>
                                 <td className={styles.column}>{vacation.reason}</td>
                                 <td className={styles.column}>
-                                    {vacation.approval.trim() === "0" ? (
-                                        <button 
-                                            className={styles.approveButton}
-                                            onClick={() => onApprove(vacation.vacation_id)}
-                                        >
-                                            승인하기
-                                        </button>
-                                    ) : (
-                                        <span>승인됨</span>
-                                    )}
+                                {vacation.approval.trim() === "0" ? (
+                                <button className={styles.approveButton} onClick={() => onApproveModal(vacation.vacation_id)}> 승인 / 반려 </button>
+                            ): (vacation.approval.trim() === "1" ? 
+                                (<span>승인됨</span>) : (<span>반려됨</span>))
+                            }
                                 </td>
                             </tr>
                         ))
