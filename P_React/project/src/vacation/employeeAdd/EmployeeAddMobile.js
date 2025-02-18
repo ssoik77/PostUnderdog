@@ -11,7 +11,9 @@ const EmployeeAddMobile = () => {
   const navigate = useNavigate();
   const [employeeList, setEmployeeList] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-
+  const [employeeDeleteList, setEmployeeDeleteList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteCart, setDeleteCart] = useState([]);
   const params = new URLSearchParams(window.location.search);
   const pageNo = parseInt(params.get('no') || 1);
 
@@ -46,6 +48,7 @@ const EmployeeAddMobile = () => {
     })
       .then((response) => {
         setEmployeeList(response.data);
+        setEmployeeDeleteList(response.data);
       })
       .catch((error) => console.error("Error Pull Employee:", error));
   }, [pageNo]);
@@ -83,6 +86,53 @@ const EmployeeAddMobile = () => {
         });
     }
   };
+  const deleteModal = () => {
+    setIsModalOpen(!isModalOpen)
+  }
+  const addDelteCart = (e) => {
+    const e_num = e.target.getAttribute('date-e-num');
+    const e_name = e.target.getAttribute('date-e-name');
+    setDeleteCart((prev) => {
+      if (!prev.some((item) => item.e_num === e_num)) {
+        return [...prev, { e_num, e_name }];
+      }
+      return prev;
+    });
+    setEmployeeDeleteList((prev) => prev.filter(item => item.e_num !== e_num));
+  };
+
+  const removeDelteCart = (e) => {
+    const e_num = e.target.getAttribute('date-e-num');
+    const e_name = e.target.getAttribute('date-e-name');
+    setEmployeeDeleteList((prev) => {
+      if (!prev.some((item) => item.e_num === e_num)) {
+        return [...prev, { e_num, e_name }];
+      }
+      return prev;
+    });
+    setDeleteCart((prev) => prev.filter(item => item.e_num !== e_num));
+  }
+
+  const deleteEmployee = () => {
+    if (deleteCart === null) {
+      alert('선택된 직원이 없습니다.')
+    } else {
+      const deleteNum = deleteCart.map(item => item.e_num);
+      axios.post(`${API_URL}/employee/delete`, deleteNum, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(() => {
+          pullEmployee(pageNo)
+          setIsModalOpen(false);
+          navigate(`/employeeadd?no=${pageNo}`);
+        })//자동으로 url이 변경되어 수동으로 설정
+        .catch((error) => {
+          console.error("There was an error adding the employee:", error);
+        })
+    }
+  }
 
   return (
     <div className={styles.employeeAddPage}>
@@ -109,25 +159,25 @@ const EmployeeAddMobile = () => {
         <div className={styles.employeeBox}>
           <form className={styles.formBox} onSubmit={handleSubmit}>
             <div className={styles.inputGroup}>
-              <div style={{display:'flex', gap:'5%', justifyContent:'center'}}>
-              <div style={{display:'flex', flexDirection:'column'}}>
-                <label>사원번호</label>
-                <input id={styles.inputNum} type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다' ref={employeeNumRef} autoFocus />
+              <div style={{ display: 'flex', gap: '5%', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label>사원번호</label>
+                  <input id={styles.inputNum} type="text" name="position" pattern="\d{8}" maxLength="8" placeholder='8자리 숫자만 입력 가능 합니다' ref={employeeNumRef} autoFocus />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label>사원이름</label>
+                  <input id={styles.inputName} type="text" placeholder="사원 이름" ref={employeeNameRef} />
+                </div>
               </div>
-              <div style={{display:'flex', flexDirection:'column'}}>
-                <label>사원이름</label>
-                <input id={styles.inputName} type="text" placeholder="사원 이름" ref={employeeNameRef} />
-              </div>
-              </div>
-              <div style={{display:'flex', gap:'5%', justifyContent:'center'}}>
-              <div style={{display:'flex', flexDirection:'column'}}>
-                <label>부서</label>
-                <input id={styles.inputName} type="text" placeholder="사원 부서" ref={employeeTeamRef} />
-              </div>
-              <div style={{display:'flex', flexDirection:'column'}}>
-                <label>직책</label>
-                <input id={styles.inputName} type="text" placeholder="사원 직책" ref={employeeLevelRef} />
-              </div>
+              <div style={{ display: 'flex', gap: '5%', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label>부서</label>
+                  <input id={styles.inputName} type="text" placeholder="사원 부서" ref={employeeTeamRef} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label>직책</label>
+                  <input id={styles.inputName} type="text" placeholder="사원 직책" ref={employeeLevelRef} />
+                </div>
               </div>
             </div>
             <button type="submit" className={styles.addButton}>직원 추가</button>
@@ -136,6 +186,7 @@ const EmployeeAddMobile = () => {
 
         <div className={styles.mainBox}>
           <EmployeeList employees={employeeList} />
+          <button onClick={deleteModal} id={styles.deleteButton}>직원 삭제</button>
           <div className={styles.pageBox}>
             <a className={styles.prevnextButton} href="/employeeadd?no=1">{"<<"}</a>
             <div id={styles.pageNumberBox}>
@@ -149,6 +200,38 @@ const EmployeeAddMobile = () => {
           </div>
         </div>
       </main>
+      {isModalOpen &&
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            삭제할 직원 선택
+            <br />
+            <br />
+            {employeeDeleteList.sort((a, b) => b.e_num - a.e_num).map((employee, index) => {
+              return (
+                <button className={styles.deleteModalButton} key={index} onClick={addDelteCart} date-e-num={employee.e_num} date-e-name={employee.e_name}>
+                  사원번호 : {employee.e_num} &nbsp; 사원이름 : {employee.e_name}
+                </button>
+              )
+            })}
+          </div>
+          <div className={styles.modalContent}>
+            선택된 직원
+            <br />
+            <br />
+            {deleteCart.sort((a, b) => b.e_num - a.e_num).map((employee, index) => {
+              return (
+                <button className={styles.deleteModalButton} key={index} onClick={removeDelteCart} date-e-num={employee.e_num} date-e-name={employee.e_name}>
+                  사원번호 : {employee.e_num} &nbsp; 사원이름 : {employee.e_name}
+                </button>
+              )
+            })}
+          </div>
+          <div id={styles.deleteButtonBox}>
+            <button className={styles.deleteModalButton} onClick={deleteEmployee}>삭제</button>
+            <button className={styles.deleteModalButton} onClick={deleteModal}>닫기</button>
+          </div>
+        </div>
+      }
     </div>
   );
 };

@@ -126,8 +126,21 @@
     border-style: solid;
     border-width: 2px;
     border-color: #333;
+    position: relative;
   }
 
+  #deleteButton{
+    width: 90px;
+    height: 30px;
+    position: absolute;
+    right: 2%;
+    bottom: 4%;
+    border-style: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: rgb(56, 172, 255);
+  }
+  
   #pageBox{
     gap: 15px;
     width: 300px;
@@ -136,7 +149,7 @@
     align-items: center;
     margin-top: 60px;
   }
-
+  
   
   #pageNumberBox{
     display: flex;
@@ -157,27 +170,72 @@
     color: #333;
     cursor: pointer;
   }
-
+  
   /* Modal 배경 */
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1050; /* 캘린더보다 높은 z-index */
-}
-
-/* Modal 내용 */
-.modalContent {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 300px;
-  text-align: center;
-  z-index: 1060; /* 더 높은 z-index로 모달이 캘린더 위에 오게 설정 */
-}
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* 캘린더보다 높은 z-index */
+  }
+  
+  /* Modal 내용 */
+  .modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    margin: 5%;
+    z-index: 1060; /* 더 높은 z-index로 모달이 캘린더 위에 오게 설정 */
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .deleteModalButton{
+    width: 90%;
+    background: white;
+    border-style: none;
+    margin: 1%;
+    font-size: 0.8rem;
+    text-align: start;
+  }
+  
+  #deleteButtonBox{
+    width: 10%;
+    position: absolute; 
+    bottom: 10%;
+    right: 10%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #deleteButtonBox button{
+    width: 40%;
+    border-style: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: rgb(56, 172, 255);
+    text-align: center;
+    font-size: 1.5rem;
+    
+  }
+  .modalContent div{
+    width: 90%;
+    background: white;
+    border-style: none;
+    margin: 1%;
+    font-size: 0.8rem;
+    text-align: start;
+    font-weight: normal;
+  }

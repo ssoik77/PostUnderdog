@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import styles from './EmployeeAddBrowser.module.css';
 import EmployeeList from './EmployeeListBrowser';
@@ -9,6 +9,7 @@ const EmployeeAddBrowser = () => {
     const navigate = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
+    const [employeeDeleteList, setEmployeeDeleteList] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteCart, setDeleteCart] = useState([]);
     const params = new URLSearchParams(window.location.search);
@@ -26,17 +27,17 @@ const EmployeeAddBrowser = () => {
         }
     }, [loginId, authority])
 
-    const pullPageCount = () => {
+    const pullPageCount = useCallback(() => {
         axios.get("http://localhost:8080/underdog/employee/pagecount")
             .then((response) => {
                 setPageCount(response.data);
                 console.log("pageCount: " + response.data);
             })
             .catch((error) => console.error("Error Fetching Page Count:", error));
-    }
+    }, [])
 
-    const pullEmployee = (pullPageNo) => {
-        axios.get(`http://localhost:8080/underdog/employee/list?no=${pullPageNo}`, {
+    const pullEmployee = useCallback(() => {
+        axios.get(`http://localhost:8080/underdog/employee/list?no=${pageNo}`, {
             headers: {
                 "Content-Type": "Text/plain",
                 "Accept": "application/json",
@@ -44,16 +45,15 @@ const EmployeeAddBrowser = () => {
         })
             .then((response) => {
                 setEmployeeList(response.data);
+                setEmployeeDeleteList(response.data);
             })
             .catch((error) => console.error("Error Pull Employee:", error));
-    };
+    }, [pageNo]);
 
     useEffect(() => {
-        const pullParams = new URLSearchParams(window.location.search);
-        const pullPageNo = parseInt(pullParams.get('no') || 1);
-            pullPageCount();
-            pullEmployee(pullPageNo);
-    }, []);
+        pullPageCount();
+        pullEmployee();
+    }, [pullPageCount, pullEmployee]);
 
     const handleSubmit = () => {
         const employeeNum = employeeNumRef.current.value.trim();
@@ -79,36 +79,57 @@ const EmployeeAddBrowser = () => {
                 .catch((error) => {
                     console.error("There was an error adding the employee:", error);
                 })
-            }
-        };
-        
-        const deleteModal = () => {
-            setIsModalOpen(!isModalOpen)
+        }
+    };
+
+    const deleteModal = () => {
+        setIsModalOpen(!isModalOpen)
     }
-    
+
     const addDelteCart = (e) => {
+        const e_num = e.target.getAttribute('date-e-num');
+        const e_name = e.target.getAttribute('date-e-name');
         setDeleteCart((prev) => {
-            if (!prev.includes(e.target.value)) {
-                return [...prev, e.target.value];
+            if (!prev.some((item) => item.e_num === e_num)) {
+                return [...prev, { e_num, e_name }];
             }
             return prev;
         });
-    }
-    const deleteEmployee = () => {
-        console.log(deleteCart);
-        axios.post("http://localhost:8080/underdog/employee/delete", deleteCart, {
-            headers: {
-                'Content-Type': 'application/json',
+        setEmployeeDeleteList((prev) => prev.filter(item => item.e_num !== e_num));
+    };
+
+    const removeDelteCart = (e) => {
+        const e_num = e.target.getAttribute('date-e-num');
+        const e_name = e.target.getAttribute('date-e-name');
+        setEmployeeDeleteList((prev) => {
+            if (!prev.some((item) => item.e_num === e_num)) {
+                return [...prev, { e_num, e_name }];
             }
-        })
-            .then(() => { 
-                pullEmployee(pageNo)
-                setIsModalOpen(false);
-                navigate(`/employeeadd?no=${pageNo}`); 
-            })//자동으로 url이 변경되어 수동으로 설정
-            .catch((error) => {
-                console.error("There was an error adding the employee:", error);
+            return prev;
+        });
+        setDeleteCart((prev) => prev.filter(item => item.e_num !== e_num));
+    }
+
+
+    const deleteEmployee = () => {
+        if (deleteCart === null) {
+            alert('선택된 직원이 없습니다.')
+        } else {
+            const deleteNum = deleteCart.map(item => item.e_num);
+            axios.post("http://localhost:8080/underdog/employee/delete", deleteNum, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             })
+                .then(() => {
+                    pullEmployee(pageNo)
+                    setIsModalOpen(false);
+                    navigate(`/employeeadd?no=${pageNo}`);
+                })//자동으로 url이 변경되어 수동으로 설정
+                .catch((error) => {
+                    console.error("There was an error adding the employee:", error);
+                })
+        }
     }
 
     const openPopup = (e) => {
@@ -167,7 +188,7 @@ const EmployeeAddBrowser = () => {
 
                 <div id={styles.mainBox}>
                     <EmployeeList employees={employeeList} />
-                    <button onClick={deleteModal}>직원 삭제</button>
+                    <button onClick={deleteModal} id={styles.deleteButton}>직원 삭제</button>
                     <div id={styles.pageBox}>
                         <a className={styles.prevnextButton} href="/employeeadd?no=1">{"<<"}</a>
 
@@ -185,16 +206,32 @@ const EmployeeAddBrowser = () => {
             {isModalOpen &&
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
-                        {employeeList.map((employee, index) => {
+                        삭제할 직원 선택
+                        <br />
+                        <br />
+                        {employeeDeleteList.sort((a, b) => b.e_num - a.e_num).map((employee, index) => {
                             return (
-                                <button className={styles.deleteModalButton} key={index} onClick={addDelteCart} value={employee.e_num}>
-                                    {employee.e_num} | {employee.e_name}
+                                <button className={styles.deleteModalButton} key={index} onClick={addDelteCart} date-e-num={employee.e_num} date-e-name={employee.e_name}>
+                                    사원번호 : {employee.e_num} &nbsp; 사원이름 : {employee.e_name}
                                 </button>
                             )
                         })}
-                        {deleteCart}
-                    <button className={styles.deleteModalButton} onClick={deleteModal}>닫기</button>
-                    <button className={styles.deleteModalButton} onClick={deleteEmployee}>삭제</button>
+                    </div>
+                    <div className={styles.modalContent}>
+                        선택된 직원
+                        <br />
+                        <br />
+                        {deleteCart.sort((a, b) => b.e_num - a.e_num).map((employee, index) => {
+                            return (
+                                <button className={styles.deleteModalButton} key={index} onClick={removeDelteCart} date-e-num={employee.e_num} date-e-name={employee.e_name}>
+                                    사원번호 : {employee.e_num} &nbsp; 사원이름 : {employee.e_name}
+                                </button>
+                            )
+                        })}
+                    </div>
+                    <div id={styles.deleteButtonBox}>
+                        <button className={styles.deleteModalButton} onClick={deleteEmployee}>삭제</button>
+                        <button className={styles.deleteModalButton} onClick={deleteModal}>닫기</button>
                     </div>
                 </div>
             }

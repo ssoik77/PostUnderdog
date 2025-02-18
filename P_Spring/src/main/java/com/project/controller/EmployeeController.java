@@ -61,6 +61,7 @@ public class EmployeeController {
     @PostMapping("/delete")
     @Transactional
     void employeeDelete(@RequestBody List<String> eNums) {
+    	log.info(eNums);
     	employeeService.deleteEmployee(eNums);
     }
 }
