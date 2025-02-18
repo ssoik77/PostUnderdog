@@ -223,15 +223,13 @@ const VacationRequest = () => {
       .then((response) => {
         const formattedTeams = response.data.reduce((acc, employee) => {
           const eName = employee.e_name;
-          const vacationId = employee.vacation_id;
           const teamName = employee.e_team;
-          if (!vacationId) {
-            if (!acc[teamName]) {
-              acc[teamName] = {
-                name: `${teamName} 팀`,
-                children: [],
-              };
-            }
+          if (!acc[teamName]) {
+            acc[teamName] = {
+              name: `${teamName} 팀`,
+              children: [],
+            };
+          }
             if (!acc[teamName].children.some(member => member.name === eName)) {
               acc[teamName].children.push({
                 name: employee.e_name,
@@ -239,7 +237,6 @@ const VacationRequest = () => {
                 tel: employee.e_tel_num,
               });
             }
-          }
           return acc;
         }, {});
         setTeams(formattedTeams);

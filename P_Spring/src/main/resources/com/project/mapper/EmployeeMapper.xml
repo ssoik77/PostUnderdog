@@ -22,4 +22,30 @@
 	<select id="employeeCount" resultType="int">
 	SELECT COUNT(*) FROM employee_info;
 	</select>
+	
+	<delete id="deleteEmployee" parameterType="list">
+	    DELETE FROM member_info 
+    WHERE e_key IN (
+        SELECT e_key FROM employee_info 
+        WHERE e_num IN
+        <foreach collection="list" item="eNums" open="(" separator="," close=")">
+            #{eNums}
+        </foreach>
+    );
+    
+    DELETE FROM vacation 
+    WHERE e_key IN (
+        SELECT e_key FROM employee_info 
+        WHERE e_num IN
+        <foreach collection="list" item="eNums" open="(" separator="," close=")">
+            #{eNums}
+        </foreach>
+    );
+    
+	   DELETE FROM employee_info 
+    WHERE e_num IN
+    <foreach collection="list" item="eNums" open="(" separator="," close=")">
+        #{eNums}
+    </foreach>
+	</delete>
 </mapper>

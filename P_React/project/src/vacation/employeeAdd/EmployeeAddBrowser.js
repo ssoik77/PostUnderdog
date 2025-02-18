@@ -1,15 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { useEffect } from 'react';
-import { Link, Navigate } from 'react-router';
+import { Link, Navigate, useNavigate } from 'react-router';
 import axios from 'axios';
 import styles from './EmployeeAddBrowser.module.css';
 import EmployeeList from './EmployeeListBrowser';
 
 const EmployeeAddBrowser = () => {
+    const navigate = useNavigate();
     const [employeeList, setEmployeeList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [deleteCart, setDeleteCart] = useState();
+    const [deleteCart, setDeleteCart] = useState([]);
     const params = new URLSearchParams(window.location.search);
     const pageNo = parseInt(params.get('no') || 1);
     const employeeNumRef = useRef(null);
@@ -25,32 +26,33 @@ const EmployeeAddBrowser = () => {
         }
     }, [loginId, authority])
 
+    const pullPageCount = () => {
+        axios.get("http://localhost:8080/underdog/employee/pagecount")
+            .then((response) => {
+                setPageCount(response.data);
+                console.log("pageCount: " + response.data);
+            })
+            .catch((error) => console.error("Error Fetching Page Count:", error));
+    }
+
+    const pullEmployee = (pullPageNo) => {
+        axios.get(`http://localhost:8080/underdog/employee/list?no=${pullPageNo}`, {
+            headers: {
+                "Content-Type": "Text/plain",
+                "Accept": "application/json",
+            }
+        })
+            .then((response) => {
+                setEmployeeList(response.data);
+            })
+            .catch((error) => console.error("Error Pull Employee:", error));
+    };
+
     useEffect(() => {
         const pullParams = new URLSearchParams(window.location.search);
         const pullPageNo = parseInt(pullParams.get('no') || 1);
-        const pullPageCount = () => {
-            axios.get("http://localhost:8080/underdog/employee/pagecount")
-                .then((response) => {
-                    setPageCount(response.data);
-                    console.log("pageCount: " + response.data);
-                })
-                .catch((error) => console.error("Error Fetching Page Count:", error));
-        }
-
-        const pullEmployee = () => {
-            axios.get(`http://localhost:8080/underdog/employee/list?no=${pullPageNo}`, {
-                headers: {
-                    "Content-Type": "Text/plain",
-                    "Accept": "application/json",
-                }
-            })
-                .then((response) => {
-                    setEmployeeList(response.data);
-                })
-                .catch((error) => console.error("Error Pull Employee:", error));
-        };
-        pullPageCount();
-        pullEmployee();
+            pullPageCount();
+            pullEmployee(pullPageNo);
     }, []);
 
     const handleSubmit = () => {
@@ -73,17 +75,17 @@ const EmployeeAddBrowser = () => {
                     'Content-Type': 'application/json',
                 }
             })
-                .then(() => { Navigate(`/employeeadd?no=${pageNo}`); })//자동으로 url이 변경되어 수동으로 설정
+                .then(() => { navigate(`/employeeadd?no=${pageNo}`); })//자동으로 url이 변경되어 수동으로 설정
                 .catch((error) => {
                     console.error("There was an error adding the employee:", error);
                 })
-        }
-    };
-
-    const deleteModal = () => {
-        setIsModalOpen(!isModalOpen)
+            }
+        };
+        
+        const deleteModal = () => {
+            setIsModalOpen(!isModalOpen)
     }
-
+    
     const addDelteCart = (e) => {
         setDeleteCart((prev) => {
             if (!prev.includes(e.target.value)) {
@@ -99,7 +101,11 @@ const EmployeeAddBrowser = () => {
                 'Content-Type': 'application/json',
             }
         })
-            .then(() => { Navigate(`/employeeadd?no=${pageNo}`); })//자동으로 url이 변경되어 수동으로 설정
+            .then(() => { 
+                pullEmployee(pageNo)
+                setIsModalOpen(false);
+                navigate(`/employeeadd?no=${pageNo}`); 
+            })//자동으로 url이 변경되어 수동으로 설정
             .catch((error) => {
                 console.error("There was an error adding the employee:", error);
             })
@@ -181,14 +187,15 @@ const EmployeeAddBrowser = () => {
                     <div className={styles.modalContent}>
                         {employeeList.map((employee, index) => {
                             return (
-                                <button key={index} onClick={addDelteCart} value={employee.e_num}>
+                                <button className={styles.deleteModalButton} key={index} onClick={addDelteCart} value={employee.e_num}>
                                     {employee.e_num} | {employee.e_name}
                                 </button>
                             )
                         })}
+                        {deleteCart}
+                    <button className={styles.deleteModalButton} onClick={deleteModal}>닫기</button>
+                    <button className={styles.deleteModalButton} onClick={deleteEmployee}>삭제</button>
                     </div>
-                    <button onClick={deleteModal}>닫기</button>
-                    <button onClick={deleteEmployee}>삭제</button>
                 </div>
             }
         </div>

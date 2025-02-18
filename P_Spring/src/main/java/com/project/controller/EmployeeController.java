@@ -35,7 +35,6 @@ public class EmployeeController {
 
 	@GetMapping
 	public List<EmployeeDto> getAllEmployees() {
-		log.info("==============================="+employeeService.getAllEmployees());
 	    return employeeService.getAllEmployees();
 	}
 
@@ -59,5 +58,9 @@ public class EmployeeController {
         return list;
     }
 
-    
+    @PostMapping("/delete")
+    @Transactional
+    void employeeDelete(@RequestBody List<String> eNums) {
+    	employeeService.deleteEmployee(eNums);
+    }
 }

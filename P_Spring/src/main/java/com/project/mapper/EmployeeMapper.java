@@ -15,4 +15,5 @@ public interface EmployeeMapper {
 	void add(EmployeeDto employeeDto);
 	ArrayList<RegisterDto> pageList(int no);
 	int employeeCount();
+	void deleteEmployee(List<String> eNums);
 }
