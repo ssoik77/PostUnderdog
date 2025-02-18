@@ -129,8 +129,9 @@ const EmployeeAddBrowser = () => {
                 .catch((error) => {
                     console.error("There was an error adding the employee:", error);
                 })
+            }
         }
-    }
+        
 
     const openPopup = (e) => {
         e.preventDefault();
@@ -187,7 +188,7 @@ const EmployeeAddBrowser = () => {
                 </div>
 
                 <div id={styles.mainBox}>
-                    <EmployeeList employees={employeeList} />
+                    <EmployeeList employees={employeeList}/>
                     <button onClick={deleteModal} id={styles.deleteButton}>직원 삭제</button>
                     <div id={styles.pageBox}>
                         <a className={styles.prevnextButton} href="/employeeadd?no=1">{"<<"}</a>

@@ -24,13 +24,6 @@
     align-items: center;
 }
 
-/* 버튼 스타일 */
-.approveButton {
-    font-size: 0.9em;
-    border-style: none;
-    background: none;
-    font-weight: bold;
-}
 
 .buttonBox{
     display: flex;

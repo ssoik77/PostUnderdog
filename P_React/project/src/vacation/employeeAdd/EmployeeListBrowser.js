@@ -35,8 +35,9 @@ const EmployeeList = ({ employees }) => {
                         <td className={styles.column}>{employee.e_tel_num}</td>
                         <td className={styles.column}>회원 가입 완료</td>
                         <td className={styles.column}>
-                        <button style=
-                        {employee.authority ? {backgroundColor:'green', pointerEvents: 'none' }:{backgroundColor:'red'}}>
+                        <button 
+                        style= {employee.authority ? {backgroundColor:'green', pointerEvents: 'none'}:{backgroundColor:'red'}}
+                        >
                             {employee.authority ? '있음' : '없음'}     
                             </button>
                             </td>

@@ -12,8 +12,8 @@ const App = () => {
   // 환경 변수에서 API URL 가져오기
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/underdog";
   const navigate = useNavigate();
-  const idRef = useRef(null);
-  const pwRef = useRef(null);
+  const idRef = useRef("qqqq12!@");
+  const pwRef = useRef("wwww12!@");
 
   const [isSaveLogin, setIsSaveLogin] = useState(false);
 
@@ -90,12 +90,12 @@ const App = () => {
               <tbody>
                 <tr>
                   <td>
-                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' value='qqqq12!@' required />
+                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' required />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" value='wwww12!@' required />
+                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" required />
                   </td>
                 </tr>
                 <tr>
