@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dto.EmployeeDto;
 import com.project.dto.MemberDto;
 import com.project.service.LoginService;
 
@@ -36,15 +37,18 @@ public class LoginController {
 
         if (Boolean.TRUE.equals(response.get("pw_check"))) {  
             String userId = memberDto.getM_id();
-            String userName = loginService.getUserNameById(userId);
+            EmployeeDto keyName = loginService.getUserData(userId);
             String userAuthority = String.valueOf(response.get("authority"));
+            int userKey = keyName.getE_key();
 
-            log.info("조회된 e_name (userName): " + userName);
+            log.info("조회된 e_name (userName): " + keyName.getE_name());
             
             response.put("message", "로그인 성공");
+            
             response.put("m_id", userId);
-            response.put("e_name", userName);
+            response.put("e_name", keyName.getE_name());
             response.put("authority", userAuthority);
+            response.put("e_key", userKey);
 
             log.info("최종 로그인 응답 데이터: " + response);
 

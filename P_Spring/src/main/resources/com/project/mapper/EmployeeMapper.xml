@@ -19,6 +19,10 @@
 	) e LEFT JOIN member_info m ON e.e_key = m.e_key ;
 	</select>
 	
+	<select id="pageAllList" resultType="com.project.dto.RegisterDto">
+	SELECT * FROM employee_info e LEFT JOIN member_info m ON e.e_key = m.e_key ;
+	</select>
+	
 	<select id="employeeCount" resultType="int">
 	SELECT COUNT(*) FROM employee_info;
 	</select>

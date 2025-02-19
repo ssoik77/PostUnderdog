@@ -4,13 +4,14 @@ import './find/Find.js';
 import './vacation/vacationRequest/VacationRequest.js';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
 
 const App = () => {
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
   const idRef = useRef(null);
   const pwRef = useRef(null);
 
@@ -40,16 +41,18 @@ const App = () => {
       );
 
       if (response.data.pw_check) {
-        const { e_name, authority } = response.data; // 서버에서 반환된 사용자 이름
+        const { e_name, authority, e_key } = response.data; // 서버에서 반환된 사용자 이름
 
         if (isSaveLogin) {
           localStorage.setItem("m_id", id); // 사용자 id 저장
           localStorage.setItem("e_name", e_name); // 사용자 이름 저장
           localStorage.setItem("authority", authority); // 사용자 권한 저장
+          localStorage.setItem("e_key", e_key);
         } else {
           sessionStorage.setItem("m_id", id); // 사용자 id 저장
           sessionStorage.setItem("e_name", e_name); // 사용자 이름 저장
           sessionStorage.setItem("authority", authority); // 사용자 권한 저장
+          sessionStorage.setItem("e_key", e_key);
         }
 
         alert(response.data.message || "로그인 성공!");
@@ -78,8 +81,8 @@ const App = () => {
         <div id={styles.login}>
           {/* 로그인 폼 */}
           <form id={styles.loginUi} onSubmit={handleLogin}>
-                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' value='qqqq12!@' required />
-                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" value='wwww12!@' required />
+                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' defaultValue={"admin"} required/>
+                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" defaultValue={"admin1!"}  required/>
                     <button id={styles.loginButton} className={styles.button} type="submit">로그인</button>
           {/* 자동 로그인 체크박스 */}
           <div id={styles.loginSaveCheck}>

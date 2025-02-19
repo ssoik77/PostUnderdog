@@ -45,6 +45,15 @@ const EmployeeAddBrowser = () => {
         })
             .then((response) => {
                 setEmployeeList(response.data);
+            })
+            .catch((error) => console.error("Error Pull Employee:", error));
+        axios.get("http://localhost:8080/underdog/employee/alllist", {
+            headers: {
+                "Content-Type": "Text/plain",
+                "Accept": "application/json",
+            }
+        })
+            .then((response) => {
                 setEmployeeDeleteList(response.data);
             })
             .catch((error) => console.error("Error Pull Employee:", error));
@@ -89,21 +98,23 @@ const EmployeeAddBrowser = () => {
     const addDelteCart = (e) => {
         const e_num = e.target.getAttribute('date-e-num');
         const e_name = e.target.getAttribute('date-e-name');
+        const e_team = e.target.getAttribute('date-e-team');
         setDeleteCart((prev) => {
             if (!prev.some((item) => item.e_num === e_num)) {
-                return [...prev, { e_num, e_name }];
+                return [...prev, { e_num, e_name, e_team }];
             }
             return prev;
         });
         setEmployeeDeleteList((prev) => prev.filter(item => item.e_num !== e_num));
     };
-
+    
     const removeDelteCart = (e) => {
         const e_num = e.target.getAttribute('date-e-num');
         const e_name = e.target.getAttribute('date-e-name');
+        const e_team = e.target.getAttribute('date-e-team');
         setEmployeeDeleteList((prev) => {
             if (!prev.some((item) => item.e_num === e_num)) {
-                return [...prev, { e_num, e_name }];
+                return [...prev, { e_num, e_name, e_team }];
             }
             return prev;
         });
@@ -212,8 +223,8 @@ const EmployeeAddBrowser = () => {
                         <br />
                         {employeeDeleteList.sort((a, b) => b.e_num - a.e_num).map((employee, index) => {
                             return (
-                                <button className={styles.deleteModalButton} key={index} onClick={addDelteCart} date-e-num={employee.e_num} date-e-name={employee.e_name}>
-                                    사원번호 : {employee.e_num} &nbsp; 사원이름 : {employee.e_name}
+                                <button className={styles.deleteModalButton} key={index} onClick={addDelteCart} date-e-num={employee.e_num} date-e-name={employee.e_name} date-e-team={employee.e_team}>
+                                    [사원번호] : {employee.e_num} &nbsp; [사원이름] : {employee.e_name}&nbsp; [부서] : {employee.e_team}
                                 </button>
                             )
                         })}
@@ -224,8 +235,8 @@ const EmployeeAddBrowser = () => {
                         <br />
                         {deleteCart.sort((a, b) => b.e_num - a.e_num).map((employee, index) => {
                             return (
-                                <button className={styles.deleteModalButton} key={index} onClick={removeDelteCart} date-e-num={employee.e_num} date-e-name={employee.e_name}>
-                                    사원번호 : {employee.e_num} &nbsp; 사원이름 : {employee.e_name}
+                                <button className={styles.deleteModalButton} key={index} onClick={removeDelteCart} date-e-num={employee.e_num} date-e-name={employee.e_name} date-e-team={employee.e_team}>
+                                    [사원번호] : {employee.e_num} &nbsp; [사원이름] : {employee.e_name}&nbsp; [부서] : {employee.e_team}
                                 </button>
                             )
                         })}

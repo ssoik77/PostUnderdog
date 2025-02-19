@@ -13,8 +13,8 @@
     </select>
 
     <!-- 사용자 이름 조회 -->
-    <select id="getUserNameById" resultType="string">
-        SELECT e.e_name
+    <select id="getUserData" resultType="com.project.dto.EmployeeDto">
+        SELECT e.e_name, e.e_key
         FROM employee_info e
         JOIN member_info m ON m.e_key = e.e_key
         WHERE m.m_id = #{m_id};

@@ -45,6 +45,7 @@ public class VacationController {
             logger.warn("사용자 정보가 필요합니다.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
         }
+        	logger.info("eKey"+ vacationDto.getEKey());
 
         vacationService.createVacation(vacationDto);
         logger.info("휴가 신청 완료: 사용자 ID: {}, 이름: {}", vacationDto.getMId(), vacationDto.getEName());
@@ -67,7 +68,7 @@ public class VacationController {
         return ResponseEntity.ok(vacations);
     }
 
-    // 휴가 전체 목록
+    // 휴가 팀 목록
     @PostMapping("/select/list")
     public ResponseEntity<List<VacationDto>> getSelectVacations(@RequestBody String teamName) {
     	logger.info(teamName);	

@@ -94,9 +94,18 @@ const MypageBrowser = () => {
           employeeInfo: updatedEmployeeInfo,
         }));
         setEditMode(false);
+        const localEKey = localStorage.getItem("e_name");
+        if(localEKey === null){
+          window.opener.sessionStorage.setItem("e_name", formData.e_name); // 사용자 이름 저장
+          sessionStorage.setItem("e_name", formData.e_name); // 사용자 이름 저장
+        }else{
+          window.opener.localStorage.setItem("e_name", formData.e_name); // 사용자 이름 저장
+          localStorage.setItem("e_name", formData.e_name); // 사용자 이름 저장
+        }
       } else {
         alert('수정 실패: ' + response.data.message);
       }
+      window.opener.location.reload();
     } catch (error) {
       console.error(error);
       alert('저장 중 오류가 발생했습니다.');

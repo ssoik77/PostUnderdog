@@ -45,6 +45,10 @@ public class EmployeeService {
 		ArrayList<RegisterDto> pageList = employeeMapper.pageList(pageNoInPage);
 		return pageList;
 	}
+	public ArrayList<RegisterDto> pageAllList() {
+		ArrayList<RegisterDto> pageList = employeeMapper.pageAllList();
+		return pageList;
+	}
 	
 	public void deleteEmployee (List<String> eNums) {
 		employeeMapper.deleteEmployee(eNums);

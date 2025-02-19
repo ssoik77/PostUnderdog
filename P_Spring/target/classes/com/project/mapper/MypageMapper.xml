@@ -23,7 +23,11 @@
 	<update id="updateEmployeeInfo" parameterType="com.project.dto.EmployeeDto">
     	UPDATE employee_info
     	SET e_name = #{e_name}, e_birth = #{e_birth}, e_carrier = #{e_carrier}, e_tel_num = #{e_tel_num}
-    	WHERE e_key = #{e_key}
+    	WHERE e_key = #{e_key};
+    	
+    	UPDATE vacation
+    	SET e_name = #{e_name}
+    	WHERE e_key = #{e_key};
 	</update>
 
 </mapper>

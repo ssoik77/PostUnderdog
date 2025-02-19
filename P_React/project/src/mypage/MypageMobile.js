@@ -93,6 +93,12 @@ const MypageMobile = () => {
           employeeInfo: updatedEmployeeInfo,
         }));
         setEditMode(false);
+        const localEKey = localStorage.getItem("e_name");
+        if(localEKey === null){
+          sessionStorage.setItem("e_name", formData.e_name); // 사용자 이름 저장
+        }else{
+          localStorage.setItem("e_name", formData.e_name); // 사용자 이름 저장
+        }
       } else {
         alert('수정 실패: ' + response.data.message);
       }

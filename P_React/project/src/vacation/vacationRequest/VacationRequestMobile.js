@@ -27,6 +27,7 @@ const VacationRequest = () => {
     reason: '',
     m_id: '',
     e_name: '',
+    e_key:''
   });
   
   useEffect(() => {
@@ -47,20 +48,26 @@ const VacationRequest = () => {
   const externalEventsRef = useRef(null);
   const [employeeList, setEmployeeList] = useState([]);
   
+  useEffect(()=>{
+    myVacation();
+  },[])
+
+
  // 로그인 정보를 기반으로 사용자 정보 가져오기 및 초기화
  const myVacation = () => {
   setSelectedTeam(null);
 const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
 const e_name = sessionStorage.getItem('e_name') || localStorage.getItem('e_name');
+const e_key = sessionStorage.getItem('e_key') || localStorage.getItem('e_key');
 if (m_id) {
-  setFormData((prev) => ({ ...prev, m_id, e_name }));
+  setFormData((prev) => ({ ...prev, m_id, e_name, e_key }));
 }
 
 const fetchVacations = async () => {
   try {
     const response = await axios.post(
       `${API_URL}/vacations/list`,
-      { m_id: m_id, e_name: e_name },
+      { m_id: m_id, e_name: e_name, e_key: e_key },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +87,7 @@ const fetchVacations = async () => {
 };
 
 if (m_id) {
-  fetchVacations({ m_id, e_name });
+  fetchVacations({ m_id, e_name, e_key });
 }
 };
 
@@ -128,7 +135,8 @@ axios
     const payload = {
       ...formData,
       m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'),
-      e_name: sessionStorage.getItem('e_name') || localStorage.getItem('e_name')
+      e_name: sessionStorage.getItem('e_name') || localStorage.getItem('e_name'),
+      e_key: sessionStorage.getItem('e_key') || localStorage.getItem('e_key')
     };
     console.log("🚀 전송할 데이터:", payload);  // 디버깅 로그 추가
     try {
@@ -159,6 +167,7 @@ axios
           reason: '',
           m_id: formData.m_id,
           e_name: formData.e_name,
+          e_key: formData.e_key
         });
 
         if (selectedVacation) {
@@ -173,6 +182,7 @@ axios
         }
         setIsModalOpen(false);
         setSelectedVacation(null);
+        window.location.reload();   
       }
     } catch (error) {
       if (error.response?.status === 401) {
@@ -209,6 +219,7 @@ axios
         setIsModalOpen(false);
         setSelectedVacation(null);
         setModalMode("create");
+        window.location.reload();
       }
     } catch (error) {
       console.error('휴가 삭제 중 오류 발생:', error);
@@ -377,8 +388,8 @@ axios
         <div className={styles.teamBox}>
           <text>명단</text>
           <div className={styles.teamSelectBox}>
+
           <select className={styles.teamSelect} onChange={handleTeamClick} value={selectedTeam}>
-            {!selectedTeam && <option value="">팀 선택</option>}
             <option value="myVacation">내 휴가</option>
             {Object.keys(teams).map((team) => {
               console.log("팀 데이터:", teams);

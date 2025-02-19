@@ -58,6 +58,18 @@ TRUNCATE TABLE member_info;
     SET authority = 1
     WHERE e_key IN (SELECT e_key FROM employee_info WHERE e_num = 00000011);
 
+  SELECT b.vacation_id AS vacationId, 
+           b.m_id AS mId, 
+           b.e_name AS eName, 
+           b.start_date AS startDate, 
+           b.end_date AS endDate, 
+           b.reason,
+           b.approval
+    	FROM employee_info a
+    	JOIN vacation b ON a.e_key = b.e_key
+    	WHERE e_team = "떼돈 벌어주기"
+    	ORDER BY start_date DESC;
+
 INSERT INTO employee_info (e_key, e_num, e_name, e_birth, e_carrier, e_tel_num, e_level, e_team) 
 VALUES
 (1, '00000001', 'qwe', '2000-01-01', 'SKT', '01012245678', '사장', '떼돈 벌기'),
@@ -77,16 +89,16 @@ INSERT INTO member_info (authority, m_id, m_pw, e_key)
 VALUES
 (1, 'qwe123', 'qwe123!!', 1),
 (1, 'qqqq12!@', 'wwww12!@', 2),
-(1, 'mmmm001', 'pass1234', 3),
-(0, 'mmmm002', 'pass2345', 4),
-(0, 'mmmm003', 'pass3456', 5),
-(0, 'mmmm004', 'pass4567', 6),
+(1, 'mmmm001', 'pass1234!', 3),
+(0, 'mmmm002', 'pass2345!', 4),
+(0, 'mmmm003', 'pass3456!', 5),
+(0, 'mmmm004', 'pass4567!', 6),
 (1, 'mmmm005', 'pass5678', 7),
-(1, 'mmmm006', 'pass1234', 8),
-(0, 'mmmm007', 'pass2345', 9),
-(0, 'mmmm008', 'pass3456', 10),
-(0, 'mmmm009', 'pass4567', 11),
-(1, 'mmmm010', 'pass5678', 12);
+(1, 'mmmm006', 'pass1234!', 8),
+(0, 'mmmm007', 'pass2345!', 9),
+(0, 'mmmm008', 'pass3456!', 10),
+(0, 'mmmm009', 'pass4567!', 11),
+(1, 'mmmm010', 'pass5678!', 12);
 
 INSERT INTO vacation (vacation_id, m_id, e_name, start_date, end_date, reason, created_at, updated_at, e_key, approval) 
 VALUES

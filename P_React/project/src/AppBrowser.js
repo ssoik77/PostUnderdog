@@ -12,8 +12,8 @@ const App = () => {
   // 환경 변수에서 API URL 가져오기
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/underdog";
   const navigate = useNavigate();
-  const idRef = useRef("qqqq12!@");
-  const pwRef = useRef("wwww12!@");
+  const idRef = useRef(null);
+  const pwRef = useRef(null);
 
   const [isSaveLogin, setIsSaveLogin] = useState(false);
 
@@ -41,17 +41,19 @@ const App = () => {
       );
 
       if (response.data.pw_check) {
-        const { e_name, authority } = response.data; // 서버에서 반환된 사용자 이름
+        const { e_name, authority, e_key } = response.data; // 서버에서 반환된 사용자 이름
         console.log(response);
 
         if (isSaveLogin) {
           localStorage.setItem("m_id", id); // 사용자 id 저장
           localStorage.setItem("e_name", e_name); // 사용자 이름 저장
           localStorage.setItem("authority", authority); // 사용자 권한 저장
+          localStorage.setItem("e_key", e_key); // 사용자 키 저장
         } else {
           sessionStorage.setItem("m_id", id); // 사용자 id 저장
           sessionStorage.setItem("e_name", e_name); // 사용자 이름 저장
           sessionStorage.setItem("authority", authority); // 사용자 권한 저장
+          sessionStorage.setItem("e_key", e_key); // 사용자 키 저장
         }
 
         alert(response.data.message || "로그인 성공!");
@@ -90,12 +92,12 @@ const App = () => {
               <tbody>
                 <tr>
                   <td>
-                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' required />
+                    <input ref={idRef} id={styles.id} placeholder="아이디" size="10" autoComplete='off' defaultValue={"admin"} required />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" required />
+                    <input ref={pwRef} id={styles.pw} placeholder="비밀번호" size="10" type="password" defaultValue={"admin1!"} required />
                   </td>
                 </tr>
                 <tr>

@@ -24,6 +24,7 @@ const VacationRequest = () => {
     reason: '',
     m_id: '',
     e_name: '',
+    e_key: ''
   });
 
   useEffect(() => {
@@ -50,20 +51,27 @@ const VacationRequest = () => {
     window.open("/Mypage", "내 정보", popupFeatures);
   };
 
+  useEffect(()=>{
+    myVacation();
+  },[])
+
+
   // 로그인 정보를 기반으로 사용자 정보 가져오기 및 초기화
   const myVacation = () => {
       setSelectedTeam(null);
     const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
     const e_name = sessionStorage.getItem('e_name') || localStorage.getItem('e_name');
+    const e_key = sessionStorage.getItem('e_key') || localStorage.getItem('e_key');
+
     if (m_id) {
-      setFormData((prev) => ({ ...prev, m_id, e_name }));
+      setFormData((prev) => ({ ...prev, m_id, e_name, e_key }));
     }
 
     const fetchVacations = async () => {
       try {
         const response = await axios.post(
           'http://localhost:8080/underdog/vacations/list',
-          { m_id: m_id, e_name: e_name },
+          { m_id: m_id, e_name: e_name, e_key: e_key },
           {
             headers: {
               'Content-Type': 'application/json',
@@ -83,7 +91,7 @@ const VacationRequest = () => {
     };
 
     if (m_id) {
-      fetchVacations({ m_id, e_name });
+      fetchVacations({ m_id, e_name, e_key });
     }
   };
 
@@ -102,11 +110,11 @@ const VacationRequest = () => {
         console.error("Error fetching vacations:", error);
         alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
       });
-  };
-
-  const allVacation = () => {
+    };
+    
+    const allVacation = () => {
       setSelectedTeam(null);
-    axios
+      axios
       .post("http://localhost:8080/underdog/vacations/listAll", {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
@@ -119,62 +127,66 @@ const VacationRequest = () => {
         console.error("Error fetching vacations:", error);
         alert("휴가 신청 목록을 불러오는 중 문제가 발생했습니다.");
       });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const payload = {
-      ...formData,
-      m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'),
-      e_name: sessionStorage.getItem('e_name') || localStorage.getItem('e_name')
     };
-    console.log("🚀 전송할 데이터:", payload);  // 디버깅 로그 추가
-    try {
-      let response;
-      if (selectedVacation) {
-        response = await axios.put(
-          `http://localhost:8080/underdog/vacations/${selectedVacation.vacationId}`,
-          payload,
-          {
+    
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+    
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const payload = {
+        ...formData,
+        m_id: sessionStorage.getItem('m_id') || localStorage.getItem('m_id'),
+        e_name: sessionStorage.getItem('e_name') || localStorage.getItem('e_name'),
+        e_key: sessionStorage.getItem('e_key') || localStorage.getItem('e_key')
+      };
+      console.log("🚀 전송할 데이터:", payload);  // 디버깅 로그 추가
+      try {
+        let response;
+        if (selectedVacation) {
+          response = await axios.put(
+            `http://localhost:8080/underdog/vacations/${selectedVacation.vacationId}`,
+            payload,
+            {
+              headers: { 'Content-Type': 'application/json' },
+              withCredentials: true,
+            }
+          );
+        } else {
+          console.log ("눈에띄는", payload);
+          response = await axios.post('http://localhost:8080/underdog/vacations', payload, {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
-          }
-        );
-      } else {
-        response = await axios.post('http://localhost:8080/underdog/vacations', payload, {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        });
-      }
-
-      if (response.status === 200) {
-        alert('휴가 신청이 완료되었습니다.');
-        setFormData({
-          startDate: '',
-          endDate: '',
-          reason: '',
+          });
+        }
+        
+        if (response.status === 200) {
+          alert('휴가 신청이 완료되었습니다.');
+          setFormData({
+            startDate: '',
+            endDate: '',
+            reason: '',
           m_id: formData.m_id,
           e_name: formData.e_name,
+          e_key: formData.e_key,
         });
-
+        
         if (selectedVacation) {
           setVacations((prev) =>
             prev.map((vacation) =>
               vacation.vacationId === selectedVacation.vacationId ? response.data : vacation
-            )
-          );
-        } else {
-          setVacations((prev) => [...prev, response.data]);
-          setNextVacationId((prevId) => prevId + 1);
-        }
-        setIsModalOpen(false);
-        setSelectedVacation(null);
-      }
+        )
+      );
+    } else {
+      setVacations((prev) => [...prev, response.data]);
+      setNextVacationId((prevId) => prevId + 1);
+    }
+    setIsModalOpen(false);
+    setSelectedVacation(null);
+    window.location.reload();
+  }
     } catch (error) {
       if (error.response?.status === 401) {
         alert("인증에 실패했습니다. 다시 로그인해주세요.");
@@ -184,10 +196,10 @@ const VacationRequest = () => {
       }
     }
   };
-
+  
   const handleDelete = async (vacationId) => {
     const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
-
+    
     if (!m_id) {
       alert("사용자 인증 정보가 없습니다. 다시 로그인하세요.");
       return;
@@ -203,138 +215,139 @@ const VacationRequest = () => {
           withCredentials: true,
         }
       );
-
+      
       if (response.status === 200) {
         alert('신청된 휴가가 삭제되었습니다.');
         setVacations((prev) => prev.filter((vacation) => vacation.vacationId !== vacationId));
         setIsModalOpen(false);
         setSelectedVacation(null);
         setModalMode("create");
+        window.location.reload();
       }
     } catch (error) {
       console.error('휴가 삭제 중 오류 발생:', error);
       alert('휴가 삭제 중 문제가 발생했습니다.');
     }
   };
-
+  
   useEffect(() => {
     axios
-      .get("http://localhost:8080/underdog/employee")
-      .then((response) => {
-        const formattedTeams = response.data.reduce((acc, employee) => {
-          const eName = employee.e_name;
-          const teamName = employee.e_team;
-          if (!acc[teamName]) {
-            acc[teamName] = {
-              name: `${teamName} 팀`,
-              children: [],
-            };
-          }
-            if (!acc[teamName].children.some(member => member.name === eName)) {
-              acc[teamName].children.push({
-                name: employee.e_name,
-                position: employee.e_level,
-                tel: employee.e_tel_num,
-              });
-            }
-          return acc;
-        }, {});
-        setTeams(formattedTeams);
-
-        console.log("팀:", response.data);
+    .get("http://localhost:8080/underdog/employee")
+    .then((response) => {
+      const formattedTeams = response.data.reduce((acc, employee) => {
+        const eName = employee.e_name;
+        const teamName = employee.e_team;
+        if (!acc[teamName]) {
+          acc[teamName] = {
+            name: `${teamName} 팀`,
+            children: [],
+          };
+        }
+        if (!acc[teamName].children.some(member => member.name === eName)) {
+          acc[teamName].children.push({
+            name: employee.e_name,
+            position: employee.e_level,
+            tel: employee.e_tel_num,
+          });
+        }
+        return acc;
+      }, {});
+      setTeams(formattedTeams);
+      
+      console.log("팀:", response.data);
       })
       .catch((error) => console.error("Error fetching team data:", error));
-  }, []);
-
-  const handleDateSelect = (info) => {
-    const startDate = new Date(info.startStr);
-    const endDate = new Date(info.endStr);
-    const modalEndDate = new Date(endDate);
-    modalEndDate.setDate(modalEndDate.getDate() - 1);
-    const formattedStartDate = startDate.toISOString().slice(0, 10);
-    const formattedModalEndDate = modalEndDate.toISOString().slice(0, 10);
-
-    setFormData((prev) => ({
-      ...prev,
-      startDate: formattedStartDate,
-      endDate: formattedModalEndDate,
-    }));
-    setSelectedVacation(null);
-    setModalMode("create");
-    setIsModalOpen(true);
-  };
-
-  const handleEventReceive = (info) => {
-    const newEvent = {
-      id: String(nextVacationId),
-      title: info.event.title,
-      start: info.event.startStr,
-      end: info.event.endStr,
-    };
-
-    setVacations((prev) => [...prev, newEvent]);
-    setNextVacationId((prevId) => prevId + 1);
-  };
-
-  const handleEventClick = (info) => {
-    const vacationId = info.event.id;
-    const vacation = vacations.find((v) => String(v.vacationId) === vacationId);
-    if (vacation) {
-      if (vacation.m_id !== (sessionStorage.getItem('m_id') || localStorage.getItem('m_id')) ||
-        vacation.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
-        alert("타인의 휴가 신청은 수정할 수 없습니다.");
-        return;
-      }
-      setSelectedVacation(vacation);
-      setModalMode("edit");
+    }, []);
+    
+    const handleDateSelect = (info) => {
+      const startDate = new Date(info.startStr);
+      const endDate = new Date(info.endStr);
+      const modalEndDate = new Date(endDate);
+      modalEndDate.setDate(modalEndDate.getDate() - 1);
+      const formattedStartDate = startDate.toISOString().slice(0, 10);
+      const formattedModalEndDate = modalEndDate.toISOString().slice(0, 10);
+      
+      setFormData((prev) => ({
+        ...prev,
+        startDate: formattedStartDate,
+        endDate: formattedModalEndDate,
+      }));
+      setSelectedVacation(null);
+      setModalMode("create");
       setIsModalOpen(true);
-      setFormData({
-        startDate: Array.isArray(vacation.startDate)
+    };
+    
+    const handleEventReceive = (info) => {
+      const newEvent = {
+        id: String(nextVacationId),
+        title: info.event.title,
+        start: info.event.startStr,
+        end: info.event.endStr,
+      };
+      
+      setVacations((prev) => [...prev, newEvent]);
+      setNextVacationId((prevId) => prevId + 1);
+    };
+    
+    const handleEventClick = (info) => {
+      const vacationId = info.event.id;
+      const vacation = vacations.find((v) => String(v.vacationId) === vacationId);
+      if (vacation) {
+        if (vacation.m_id !== (sessionStorage.getItem('m_id') || localStorage.getItem('m_id')) ||
+        vacation.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
+          alert("타인의 휴가 신청은 수정할 수 없습니다.");
+          return;
+        }
+        setSelectedVacation(vacation);
+        setModalMode("edit");
+        setIsModalOpen(true);
+        setFormData({
+          startDate: Array.isArray(vacation.startDate)
           ? convertDate(vacation.startDate)
           : vacation.startDate,
-        endDate: Array.isArray(vacation.endDate)
+          endDate: Array.isArray(vacation.endDate)
           ? convertDate(vacation.endDate)
           : vacation.endDate,
-        reason: vacation.reason,
-        m_id: vacation.m_id,
-        e_name: vacation.e_name,
-        approval: 0
-      });
-    }
-  };
-
-  const handleTeamClick = (teamName) => {
-    if (selectedTeam === teamName) {
-      setSelectedTeam(null);
-    } else {
-      setSelectedTeam(teamName);
-      selectTeamvacation(teamName);
-    }
-  };
-
-  const calendarEvents = vacations.map((vacation) => {
-    const vacationTitle = vacation.e_name
+          reason: vacation.reason,
+          m_id: vacation.m_id,
+          e_name: vacation.e_name,
+          approval: 0
+        });
+      }
+    };
+    
+    const handleTeamClick = (teamName) => {
+      if (selectedTeam === teamName) {
+        setSelectedTeam(null);
+      } else {
+        setSelectedTeam(teamName);
+        selectTeamvacation(teamName);
+      }
+    };
+    
+    const calendarEvents = vacations.map((vacation) => {
+      const vacationTitle = vacation.e_name
       ? `${vacation.e_name}의 휴가`
       : `${formData.e_name}의 휴가`;
-    const startDate = new Date(vacation.startDate);
-    const endDate = new Date(vacation.endDate);
-    if (isNaN(startDate) || isNaN(endDate)) {
-      console.error('유효하지 않은 날짜 값:', vacation.startDate, vacation.endDate);
-      return null;
-    }
-    const adjustedEndDate = new Date(endDate);
-    adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
-    const formattedStartDate = startDate.toISOString();
-    const formattedEndDate = adjustedEndDate.toISOString();
-    return {
-      id: String(Number(vacation.vacationId)),
-      title: vacationTitle,
+      const startDate = new Date(vacation.startDate);
+      const endDate = new Date(vacation.endDate);
+      if (isNaN(startDate) || isNaN(endDate)) {
+        console.error('유효하지 않은 날짜 값:', vacation.startDate, vacation.endDate);
+        return null;
+      }
+      const adjustedEndDate = new Date(endDate);
+      adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
+      const formattedStartDate = startDate.toISOString();
+      const formattedEndDate = adjustedEndDate.toISOString();
+      return {
+        id: String(Number(vacation.vacationId)),
+        title: vacationTitle,
       start: formattedStartDate,
       end: formattedEndDate,
       approval: vacation.approval,
     };
   }).filter((event) => event !== null);
-
+  
   const renderEventContent = (arg) => {
     const isApproved = Number(arg.event.extendedProps.approval);
     return (
@@ -343,7 +356,7 @@ const VacationRequest = () => {
       </div>
     );
   };
-
+  
   return (
     <div className={styles.emp}>
       <header className={styles.header}>

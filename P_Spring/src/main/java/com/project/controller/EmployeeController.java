@@ -57,6 +57,13 @@ public class EmployeeController {
         ArrayList<RegisterDto> list = employeeService.pageList(pageNoInPage);
         return list;
     }
+    
+    @GetMapping("/alllist")
+    @ResponseBody
+    ArrayList<RegisterDto> employeeAllList() {
+    	ArrayList<RegisterDto> list = employeeService.pageAllList();
+    	return list;
+    }
 
     @PostMapping("/delete")
     @Transactional

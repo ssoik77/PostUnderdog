@@ -42,8 +42,8 @@
 	</select>
    
     <insert id="insertVacation" useGeneratedKeys="true" keyProperty="vacationId">
-        INSERT INTO vacation (m_id, e_name, start_date, end_date, reason, created_at, updated_at)
-        VALUES (#{mId}, #{eName}, #{startDate}, #{endDate}, #{reason}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+        INSERT INTO vacation (m_id, e_name, start_date, end_date, reason, created_at, updated_at, e_key)
+        VALUES (#{mId}, #{eName}, #{startDate}, #{endDate}, #{reason}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{eKey});
     </insert>
     
     <delete id="deleteVacationById" parameterType="long">

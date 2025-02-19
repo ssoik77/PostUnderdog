@@ -14,8 +14,7 @@ public interface EmployeeMapper {
     EmployeeDto getEmployeeById(int id);
 	void add(EmployeeDto employeeDto);
 	ArrayList<RegisterDto> pageList(int no);
+	ArrayList<RegisterDto> pageAllList();
 	int employeeCount();
 	void deleteEmployee(List<String> eNums);
-	int pullKey(String eNum);
-	void approvalAuthority(int eKey);
 }
