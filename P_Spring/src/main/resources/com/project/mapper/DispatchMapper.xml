@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.DispatchMapper">
+    <select id="selectDispatchsByMemberId" resultType="com.project.dto.DispatchDto">
+     
+    </select>
+    
+    <select id="selectTeamDispatchs" parameterType="String" resultType="com.project.dto.DispatchDto">
+    
+	</select>
+	
+    <select id="selectAllDispatchs" resultType="com.project.dto.DispatchDto">
+   
+	</select>
+   
+    <insert id="insertDispatch" useGeneratedKeys="true" keyProperty="dispatchId">
+     
+    </insert>
+    
+    <delete id="deleteDispatchById" parameterType="long">
+      
+    </delete>
+
+    <update id="updateDispatch" parameterType="com.project.dto.DispatchDto">
+       
+    </update>
+    
+    <select id="getDispatchById" parameterType="long" resultType="com.project.dto.DispatchDto">
+   
+    </select>
+  
+</mapper>

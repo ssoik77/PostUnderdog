@@ -54,7 +54,7 @@ dispatch_detail CHAR(100),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 e_key int,
-dispatch_complete INT DEFAULT 0,
+dispatch_complete TINYINT NOT NULL DEFAULT 0,
 FOREIGN KEY (e_key) REFERENCES employee_info(e_key),
 PRIMARY KEY (dispatch_id)
 );
