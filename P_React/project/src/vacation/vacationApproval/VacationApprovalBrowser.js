@@ -102,8 +102,9 @@ const VacationApproval = () => {
           <h1>Post Underdog</h1>
         </div>
         <nav id={styles.nav}>
-        <Link to="/employeeadd?no=1">직원 추가</Link>
           <Link to="/vacationrequest">휴가 신청</Link>
+        <Link to="/employeeadd?no=1">직원 추가</Link>
+        <Link to="/dispatch">직원 파견</Link>
         </nav>
         <div id={styles.info}>
           <a href="/Mypage" onClick={openPopup} id={styles.popupLink}>

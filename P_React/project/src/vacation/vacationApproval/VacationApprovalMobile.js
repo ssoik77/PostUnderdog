@@ -108,8 +108,9 @@ const VacationApproval = () => {
           <img src="/logo.png" alt="Logo" id={styles.logoImage} />
         </div>
         <nav id={styles.nav}>
-        <Link to="/employeeadd?no=1">직원 추가</Link>
           <Link to="/vacationrequest">휴가 신청</Link>
+        <Link to="/employeeadd?no=1">직원 추가</Link>
+        <Link to="/dispatch">직원 파견</Link>
         </nav>
         <div id={styles.info}>
         <button onClick={() => navigate("/mypage")} className={styles.popupLink}>

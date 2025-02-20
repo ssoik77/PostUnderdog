@@ -1,0 +1,269 @@
+.emp {
+  font-family: Arial, sans-serif;
+  color: #333;
+  height: 100vh;
+  width: 100vw;
+  position: relative; /* 레이아웃 안정성 확보 */
+  background-color: #f9f9f9; /* 배경색 설정 (기본 흰색에 가까운 색) */
+  font-size: 0.8rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between; /* 로고, 중앙 버튼 그룹, 우측 버튼 배치 */
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8); /* 반투명 헤더 배경 */
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 5%;
+  min-height: 30px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.logo {
+  width: 10%;
+  height: 180%;
+}
+
+.logoImage {
+  height: 100%;
+  width: 100%;
+  max-width: 40px;
+  max-height: 70px;
+}
+
+.nav {
+  display: flex;
+  gap: 10px;
+}
+
+.nav a {
+  text-decoration: none; /* 밑줄 제거 */
+  color: #333; /* 텍스트 색상 */
+  font-size: 1em;
+}
+
+.nav a:focus,
+.nav a:active {
+  outline: none; /* 클릭 시 외곽선 제거 */
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.info button {
+  border-style: none;
+  background-color: #00000000;
+  color: #007bff; /* 파란색 텍스트 */
+  font-size: 1em;
+}
+
+/* 팀 선택 */
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 95%;
+  max-width: 1200px;
+}
+
+.teamBox {
+  width: 100%;
+  max-width: 300px;
+  height: 10%;
+  min-height: 50px;
+ margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-width: 1px;
+  border-style: solid;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5%;
+}
+
+.teamBox text {
+  font-weight: bolder;
+  font-size: 0.8em;
+  color: #333;
+}
+
+.teamSelectBox{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 80%;
+}
+.teamSelect{
+width: 30%;
+border-width: 2px;
+font-size: 0.8em;
+background-color: #ffffff;
+}
+.employeeList{
+  flex-direction: column;
+  font-size: 0.8em;
+  overflow: scroll;
+  display: flex;
+  position: relative;
+  bottom: 1%;
+width: 60%;
+height: 93%;
+padding-bottom: 1%;
+padding-left: 5%;
+}
+.employee{
+  width: 95%;
+  margin: 2px;
+  padding: 1px;
+}
+/* 컨테이너 스타일 */
+.vacationContainer {
+  width: 90%;
+  height: 71%;
+  font-size: 0.5em;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-width: 1px;
+  border-style: solid;
+  display: flex;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+
+/* 폼 스타일 */
+.vacationForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 폼 그룹 */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formGroup label {
+  font-size: 16px;
+  color: #555;
+}
+
+.formGroup input,
+.formGroup textarea {
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+/* 버튼 스타일 */
+.submitButton, .cancelButton, .deleteButton {
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 10px;
+}
+
+.submitButton:hover, .cancelButton:hover, .deleteButton:hover {
+  background-color: #a8ebff;
+}
+
+.scrollableList {
+  max-height: 300px; /* 목록의 최대 높이 설정 */
+  overflow-y: auto; /* 수직 스크롤 활성화 */
+  border: 1px solid #ddd; /* 경계선 추가 */
+  background-color: #f9f9f9; /* 배경색 */
+  border-radius: 5px; /* 모서리 둥글게 */
+}
+
+.scrollableList ul {
+  list-style-type: none; /* 목록 점 제거 */
+}
+
+.scrollableList li {
+  border-bottom: 1px solid #ddd; /* 목록 항목 구분선 */
+}
+
+.scrollableList li:last-child {
+  border-bottom: none; /* 마지막 항목에 구분선 제거 */
+}
+
+/* Modal 배경 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* 캘린더보다 높은 z-index */
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+  z-index: 1060; /* 더 높은 z-index로 모달이 캘린더 위에 오게 설정 */
+}
+
+.customEvent {
+  background-color:#cbcbcb;
+  color: rgb(0, 0, 0);
+  font-size: 0.6rem;
+  padding: 0.5px 2px;
+  border-radius: 2px;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.approvedEvent{
+  font-size: 0.6rem;
+  padding: 0.5px 2px;
+}
+
+.rejectionEvent{
+  background-color:hsl(0, 86%, 40%);
+  color: rgb(255, 255, 255);
+  font-size: 0.6rem;
+  padding: 0.5px 2px;
+  border-radius: 2px;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+:global(.fc-daygrid-day-frame) {
+  height: 100%;
+}
+
+

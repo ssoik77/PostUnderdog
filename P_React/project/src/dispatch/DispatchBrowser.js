@@ -5,7 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import styles from './VacationRequestBrowser.module.css'; // CSS Modules 파일
+import styles from './DispatchBrowser.module.css'; // CSS Modules 파일
 
 const convertDate = (dateArray) => {
   if (!Array.isArray(dateArray) || dateArray.length < 3) return "";
@@ -70,7 +70,7 @@ const VacationRequest = () => {
     const fetchVacations = async () => {
       try {
         const response = await axios.post(
-          'http://localhost:8080/underdog/vacations/list',
+          'http://localhost:8080/underdog/dispatch/list',
           { m_id: m_id, e_name: e_name, e_key: e_key },
           {
             headers: {
@@ -98,7 +98,7 @@ const VacationRequest = () => {
   const selectTeamvacation = (teamName) => {
     console.log(teamName);
     axios
-      .post("http://localhost:8080/underdog/vacations/select/list", teamName, {
+      .post("http://localhost:8080/underdog/dispatch/select/list", teamName, {
         headers: { "Content-Type": "text/plain; charset=UTF-8" },
         withCredentials: true,
       })
@@ -115,7 +115,7 @@ const VacationRequest = () => {
     const allVacation = () => {
       setSelectedTeam(null);
       axios
-      .post("http://localhost:8080/underdog/vacations/listAll", {
+      .post("http://localhost:8080/underdog/dispatch/listAll", {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
@@ -147,7 +147,7 @@ const VacationRequest = () => {
         let response;
         if (selectedVacation) {
           response = await axios.put(
-            `http://localhost:8080/underdog/vacations/${selectedVacation.vacationId}`,
+            `http://localhost:8080/underdog/dispatch/${selectedVacation.vacationId}`,
             payload,
             {
               headers: { 'Content-Type': 'application/json' },
@@ -156,7 +156,7 @@ const VacationRequest = () => {
           );
         } else {
           console.log ("눈에띄는", payload);
-          response = await axios.post('http://localhost:8080/underdog/vacations', payload, {
+          response = await axios.post('http://localhost:8080/underdog/dispatch', payload, {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
           });
@@ -206,7 +206,7 @@ const VacationRequest = () => {
     }
     try {
       const response = await axios.delete(
-        `http://localhost:8080/underdog/vacations/${vacationId}`,
+        `http://localhost:8080/underdog/dispatch/${vacationId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -369,7 +369,7 @@ const VacationRequest = () => {
             <>
               <Link to="/vacationapproval?no=1">휴가 승인</Link>
               <Link to="/employeeadd?no=1">직원 추가</Link>
-              <Link to="/dispatch">직원 파견</Link>
+              <Link to="/vacationrequest?no=1 ">휴가 신청</Link>
             </>
           )}
         </nav>

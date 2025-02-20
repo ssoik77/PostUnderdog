@@ -5,8 +5,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import './clarender.css';
-import styles from './VacationRequestMobile.module.css'; // CSS Modules 파일
+import '../vacation/vacationRequest/clarender.css';
+import styles from './DispatchMobile.module.css'; // CSS Modules 파일
 
 const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
 
@@ -66,7 +66,7 @@ if (m_id) {
 const fetchVacations = async () => {
   try {
     const response = await axios.post(
-      `${API_URL}/vacations/list`,
+      `${API_URL}/dispatch/list`,
       { m_id: m_id, e_name: e_name, e_key: e_key },
       {
         headers: {
@@ -94,7 +94,7 @@ if (m_id) {
 const selectTeamvacation = (teamName) => {
   console.log(teamName);
   axios
-    .post( `${API_URL}/vacations/select/list`, teamName, {
+    .post( `${API_URL}/dispatch/select/list`, teamName, {
       headers: { "Content-Type": "text/plain; charset=UTF-8" },
       withCredentials: true,
     })
@@ -111,7 +111,7 @@ const selectTeamvacation = (teamName) => {
 const allVacation = () => {
   setSelectedTeam(null);
 axios
-  .post( `${API_URL}/vacations/listAll`, {
+  .post( `${API_URL}/dispatch/listAll`, {
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
   })
@@ -143,7 +143,7 @@ axios
       let response;
       if (selectedVacation) {
         response = await axios.put(
-          `${API_URL}/vacations/${selectedVacation.vacationId}`,
+          `${API_URL}/dispatch/${selectedVacation.vacationId}`,
           payload,
           {
             headers: { 'Content-Type': 'application/json' },
@@ -151,7 +151,7 @@ axios
           }
         );
       } else {
-        response = await axios.post(`${API_URL}/vacations`, payload, {
+        response = await axios.post(`${API_URL}/dispatch`, payload, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
         });
@@ -203,7 +203,7 @@ axios
     }
     try {
       const response = await axios.delete(
-        `${API_URL}/vacations/${vacationId}`,
+        `${API_URL}/dispatch/${vacationId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -373,7 +373,7 @@ axios
             <>
               <Link to="/vacationapproval?no=1">휴가 승인</Link>
               <Link to="/employeeadd?no=1">직원 추가</Link>
-              <Link to="/dispatch">직원 파견</Link>
+              <Link to="/vacationrequest?no=1 ">휴가 신청</Link>
             </>
           )}
         </nav>

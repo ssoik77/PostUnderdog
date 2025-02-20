@@ -157,6 +157,7 @@ const EmployeeAddMobile = () => {
         <nav className={styles.nav}>
           <Link to="/vacationapproval?no=1">휴가 승인</Link>
           <Link to="/vacationrequest?no=1 ">휴가 신청</Link>
+          <Link to="/dispatch">직원 파견</Link>
         </nav>
 
         <div className={styles.info}>
