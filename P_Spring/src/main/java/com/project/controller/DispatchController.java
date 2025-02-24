@@ -19,39 +19,38 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.dto.DispatchDto;
 import com.project.dto.RegisterDto;
 import com.project.service.DispatchService;
-import com.project.service.VacationService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/dispatch")
-@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.135:3000"})
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.219.105:3000"})
 @RequiredArgsConstructor
 public class DispatchController {
 	
 	 private static final Logger logger = LoggerFactory.getLogger(DispatchController.class);
 	    private final DispatchService dispatchService;
 
-	    // 휴가 신청
+	    // 파견 신청
 	    @PostMapping
 	    public ResponseEntity<String> createDispatch(@RequestBody DispatchDto dispatchDto) {
-	        logger.info("휴가 신청 요청: {}", dispatchDto);
+	        logger.info("파견 신청 요청: {}", dispatchDto);
 
-	        if (dispatchDto.getM_id() == null || dispatchDto.getE_name() == null) {
+	        if (dispatchDto.getMId() == null || dispatchDto.getEName() == null) {
 	            logger.warn("사용자 정보가 필요합니다.");
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
 	        }
-	        	logger.info("eKey"+ dispatchDto.getE_key());
+	        	logger.info("eKey"+ dispatchDto.getEKey());
 
 	        	dispatchService.createDispatch(dispatchDto);
-	        logger.info("휴가 신청 완료: 사용자 ID: {}, 이름: {}", dispatchDto.getM_id(), dispatchDto.getE_name());
-	        return ResponseEntity.ok("휴가 신청이 완료되었습니다.");
+	        logger.info("파견 신청 완료: 사용자 ID: {}, 이름: {}", dispatchDto.getMId(), dispatchDto.getEName());
+	        return ResponseEntity.ok("파견 신청이 완료되었습니다.");
 	    }
 
-	    // 휴가 신청 목록
+	    // 파견 신청 목록
 	    @PostMapping("/list")
 	    public ResponseEntity<List<DispatchDto>> getMyDispatchs(@RequestBody RegisterDto registerDto) {
-	        logger.info("휴가 목록 조회 요청: {}", registerDto);
+	        logger.info("파견 목록 조회 요청: {}", registerDto);
 	        String userId = registerDto.getM_id();
 
 	        if (userId == null || userId.trim().isEmpty()) {
@@ -60,35 +59,36 @@ public class DispatchController {
 	        }
 
 	        List<DispatchDto> dispatchs = dispatchService.getDispatchsByMemberId(userId);
-	        logger.info("휴가 목록 조회 성공: 사용자 ID: {}, 조회된 휴가 수: {}", userId, dispatchs.size());
+	        logger.info("파견 목록 조회 성공: 사용자 ID: {}, 조회된 파견 수: {}", userId, dispatchs.size());
 	        return ResponseEntity.ok(dispatchs);
 	    }
 
-	    // 휴가 팀 목록
+	    // 파견 팀 목록
 	    @PostMapping("/select/list")
 	    public ResponseEntity<List<DispatchDto>> getSelectDispatchs(@RequestBody String teamName) {
 	    	logger.info(teamName);	
 	    	List<DispatchDto> dispatchs = dispatchService.getSelectDispatchs(teamName);
-	    	logger.info("선택 휴가 목록 조회 성공: 조회된 휴가 수: {}", dispatchs.size());	
+	    	logger.info("선택 파견 목록 조회 성공: 조회된 파견 수: {}", dispatchs.size());	
 	    	return ResponseEntity.ok(dispatchs);
 	    }
 	    
-	    // 휴가 전체 목록
+	    // 파견 전체 목록
 	    @PostMapping("/listAll")
 	    public ResponseEntity<List<DispatchDto>> getAllDispatchs() {
 	        List<DispatchDto> dispatchs = dispatchService.getAllDispatchs();
-	        logger.info("전체 휴가 목록 조회 성공: 조회된 휴가 수: {}", dispatchs.size());
+	        logger.info("전체 파견 목록 조회 성공: 조회된 파견 수: {}", dispatchs.size());
 	        return ResponseEntity.ok(dispatchs);
 	    }
 
-	    // 휴가 삭제
+	    // 파견 삭제
 	    @DeleteMapping("/{dispatchId}")
 	    public ResponseEntity<String> deleteDispatch(
+	    		
 	            @PathVariable Long dispatchId, 
 	            @RequestParam("m_id") String userId) {
 
 	        logger.info("삭제 요청 - dispatchId: {}", dispatchId);
-	        logger.info("요청된 사용자 ID (m_id): {}", userId);
+	        logger.info("요청된 사용자 ID (mId): {}", userId);
 
 	        if (userId == null || userId.trim().isEmpty()) {
 	            logger.warn("사용자 정보가 필요합니다.");
@@ -97,32 +97,31 @@ public class DispatchController {
 
 	        try {
 	        	dispatchService.deleteDispatch(dispatchId, userId);
-	            logger.info("휴가 신청 삭제 성공: {}", dispatchId);
-	            return ResponseEntity.ok("휴가 신청이 삭제되었습니다.");
+	            logger.info("파견 신청 삭제 성공: {}", dispatchId);
+	            return ResponseEntity.ok("파견 신청이 삭제되었습니다.");
 	        } catch (IllegalArgumentException e) {
-	            logger.error("휴가 삭제 실패: {}", e.getMessage());
+	            logger.error("파견 삭제 실패: {}", e.getMessage());
 	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
 	        }
 	    }
 
-	    // 휴가 수정
+	    // 파견 수정
 	    @PutMapping("/{dispatchId}")
 	    public ResponseEntity<String> updateDispatch(
 	            @PathVariable Long dispatchId,
 	            @RequestBody DispatchDto dispatchDto) {
 
-	        logger.info("휴가 수정 요청: 휴가 ID: {}, 수정 데이터: {}", dispatchId, dispatchDto);
-	        String userId = dispatchDto.getM_id();
+	        logger.info("파견 수정 요청: 파견 ID: {}, 수정 데이터: {}", dispatchId, dispatchDto);
+	        String userId = dispatchDto.getMId();
 
 	        if (userId == null || userId.trim().isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보가 필요합니다.");
 	        }
-	        
-	        dispatchDto.setDispatch_complete(0);
+
 	        try {
 	        	dispatchService.updateDispatch(dispatchId, dispatchDto, userId);
-	            logger.info("휴가 수정 성공: 휴가 ID: {}, 사용자 ID: {}", dispatchId, userId);
-	            return ResponseEntity.ok("휴가 신청이 수정되었습니다.");
+	            logger.info("파견 수정 성공: 파견 ID: {}, 사용자 ID: {}", dispatchId, userId);
+	            return ResponseEntity.ok("파견 신청이 수정되었습니다.");
 	        } catch (IllegalArgumentException e) {
 	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
 	        }

@@ -7,7 +7,7 @@ import Mypage from "../mypage/Mypage"
 import VacationRequest from "../vacation/vacationRequest/VacationRequest"
 import VacationApproval from "../vacation/vacationApproval/VacationApproval"
 import EmployeeAdd from '../vacation/employeeAdd/EmployeeAdd'
-import Dispatch from '../dispatch/Dispatch'
+import Dispatch from '../dispatch/dispatchRequest/Dispatch'
 
 
 function AppRouter() {

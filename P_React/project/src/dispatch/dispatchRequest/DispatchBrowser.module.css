@@ -329,7 +329,7 @@ textarea {
   z-index: 1060; /* 더 높은 z-index로 모달이 캘린더 위에 오게 설정 */
 }
 
-.customEvent {
+.approvedEvent {
   background-color: #cbcbcb;
   border-style: none;
   color: rgb(0, 0, 0);
@@ -337,7 +337,7 @@ textarea {
   padding: 2px 2px;
 }
 
-.rejectionEvent{
+.customEvent{
   background-color: hsl(0, 86%, 40%);
   border-style: none;
   color: rgb(255, 255, 255);

@@ -29,7 +29,7 @@ public interface DispatchMapper {
     
     // 휴가 승인 업데이트 (approval 칼럼 업데이트)
     int updateDispatchApproval(@Param("dispatchId") Long dispatchId, 
-                               @Param("approval") int approval);
+                               @Param("dispatchComplete") int dispatchComplete);
     
     List<DispatchDto> selectTeamDispatchs(String teamName);
     

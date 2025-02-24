@@ -21,7 +21,9 @@ const DispatchRequest = () => {
   const [formData, setFormData] = useState({
     startDate: '',
     endDate: '',
-    reason: '',
+    dispatchWhere: '',
+    dispatchPayment: '',
+    dispatchDetail: '',
     m_id: '',
     e_name: '',
     e_key: ''
@@ -166,7 +168,9 @@ const DispatchRequest = () => {
           setFormData({
             startDate: '',
             endDate: '',
-            reason: '',
+            dispatchWhere: '',
+            dispatchPayment: '',
+            dispatchDetail: '',
           m_id: formData.m_id,
           e_name: formData.e_name,
           e_key: formData.e_key,
@@ -216,7 +220,7 @@ const DispatchRequest = () => {
       );
       
       if (response.status === 200) {
-        alert('신청된 파견가 삭제되었습니다.');
+        alert('신청된 파견이 삭제되었습니다.');
         setDispatchs((prev) => prev.filter((dispatch) => dispatch.dispatchId !== dispatchId));
         setIsModalOpen(false);
         setSelectedDispatch(null);
@@ -261,15 +265,15 @@ const DispatchRequest = () => {
     const handleDateSelect = (info) => {
       const startDate = new Date(info.startStr);
       const endDate = new Date(info.endStr);
-      const modalEndDate = new Date(endDate);
-      modalEndDate.setDate(modalEndDate.getDate() - 1);
-      const formattedStartDate = startDate.toISOString().slice(0, 10);
-      const formattedModalEndDate = modalEndDate.toISOString().slice(0, 10);
+      const modalendDate = new Date(endDate);
+      modalendDate.setDate(modalendDate.getDate() - 1);
+      const formattedstartDate = startDate.toISOString().slice(0, 10);
+      const formattedModalendDate = modalendDate.toISOString().slice(0, 10);
       
       setFormData((prev) => ({
         ...prev,
-        startDate: formattedStartDate,
-        endDate: formattedModalEndDate,
+        startDate: formattedstartDate,
+        endDate: formattedModalendDate,
       }));
       setSelectedDispatch(null);
       setModalMode("create");
@@ -307,7 +311,9 @@ const DispatchRequest = () => {
           endDate: Array.isArray(dispatch.endDate)
           ? convertDate(dispatch.endDate)
           : dispatch.endDate,
-          reason: dispatch.reason,
+          dispatchWhere: dispatch.dispatchWhere,
+          dispatchPayment: dispatch.dispatchPayment,
+          dispatchDetail: dispatch.dispatchDetail,
           m_id: dispatch.m_id,
           e_name: dispatch.e_name,
           approval: 0
@@ -334,24 +340,24 @@ const DispatchRequest = () => {
         console.error('유효하지 않은 날짜 값:', dispatch.startDate, dispatch.endDate);
         return null;
       }
-      const adjustedEndDate = new Date(endDate);
-      adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
-      const formattedStartDate = startDate.toISOString();
-      const formattedEndDate = adjustedEndDate.toISOString();
+      const adjustedendDate = new Date(endDate);
+      adjustedendDate.setDate(adjustedendDate.getDate() + 1);
+      const formattedstartDate = startDate.toISOString();
+      const formattedendDate = adjustedendDate.toISOString();
       return {
         id: String(Number(dispatch.dispatchId)),
         title: dispatchTitle,
-      start: formattedStartDate,
-      end: formattedEndDate,
-      approval: dispatch.approval,
+      start: formattedstartDate,
+      end: formattedendDate,
+      dispatchcomplete: dispatch.dispatchComplete,
     };
   }).filter((event) => event !== null);
   
   const renderEventContent = (arg) => {
-    const isApproved = Number(arg.event.extendedProps.approval);
+    const isApproved = Number(arg.event.extendedProps.dispatchcomplete) === 1;
     return (
-      <div className={isApproved === 0 ? styles.customEvent : (isApproved === 1 ? styles.approvedEvent : styles.rejectionEvent)}>
-        {arg.event.title} [{isApproved === 0 ? '승인 대기중' : (isApproved === 1 ? '승인 완료' : '반려 됨')}]
+      <div className={isApproved ? styles.approvedEvent : styles.customEvent}>
+        {arg.event.title} [{isApproved? ' 파견 종료':'파견 중'}]
       </div>
     );
   };
@@ -465,13 +471,33 @@ const DispatchRequest = () => {
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="reason">사유</label>
+                    <label htmlFor="dispatchWhere">위치</label>
                     <textarea
-                      id="reason"
-                      name="reason"
-                      value={formData.reason}
+                      id="dispatchWhere"
+                      name="dispatchWhere"
+                      value={formData.dispatchWhere}
                       onChange={handleInputChange}
-                      placeholder="파견 사유를 입력하세요"
+                      placeholder="위치를 입력하세요"
+                      required
+                    ></textarea>
+
+                    <label htmlFor="dispatchPayment">수익</label>
+                    <textarea
+                      id="dispatchPayment"
+                      name="dispatchPayment"
+                      value={formData.dispatchPayment}
+                      onChange={handleInputChange}
+                      placeholder="수익을 입력하세요"
+                      required
+                    ></textarea>
+
+                    <label htmlFor="dispatchDetail">사유</label>
+                    <textarea
+                      id="dispatchDetail"
+                      name="dispatchDetail"
+                      value={formData.dispatchDetail}
+                      onChange={handleInputChange}
+                      placeholder="사유를 입력하세요"
                       required
                     ></textarea>
                   </div>

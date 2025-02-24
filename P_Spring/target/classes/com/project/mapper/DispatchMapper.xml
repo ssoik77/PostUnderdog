@@ -3,31 +3,82 @@
 
 <mapper namespace="com.project.mapper.DispatchMapper">
     <select id="selectDispatchsByMemberId" resultType="com.project.dto.DispatchDto">
-     
+             SELECT dispatch_id AS dispatchId, 
+               m_id AS mId, 
+               e_name AS eName, 
+               start_date AS startDate, 
+               end_date AS endDate, 
+               dispatch_where AS dispatchWhere,
+               dispatch_payment AS dispatchPayment,
+               dispatch_detail AS dispatchDetail,
+               dispatch_complete AS dispatchComplete            
+        FROM dispatch
+        WHERE m_id = #{mId}
+        ORDER BY start_date DESC;
     </select>
     
     <select id="selectTeamDispatchs" parameterType="String" resultType="com.project.dto.DispatchDto">
-    
+        SELECT b.dispatch_id AS dispatchId, 
+           b.m_id AS mId, 
+           b.e_name AS eName, 
+           b.start_date AS startDate, 
+           b.end_date AS endDate, 
+           b.dispatch_where AS dispatchWhere,
+           b.dispatch_payment AS dispatchPayment,
+           b.dispatch_detail AS dispatchDetail,
+           b.dispatch_complete AS dispatchComplete
+    	FROM employee_info a
+    	JOIN dispatch b ON a.e_key = b.e_key
+    	WHERE e_team = #{teamName}
+    	ORDER BY start_date DESC;
 	</select>
 	
     <select id="selectAllDispatchs" resultType="com.project.dto.DispatchDto">
-   
-	</select>
+       SELECT dispatch_id AS dispatchId, 
+           m_id AS mId, 
+           e_name AS eName, 
+           start_date AS startDate, 
+           end_date AS endDate, 
+           dispatch_where AS dispatchWhere,
+           dispatch_payment AS dispatchPayment,
+           dispatch_detail AS dispatchDetail,
+           dispatch_complete AS dispatchComplete
+    	FROM dispatch
+    	ORDER BY start_date DESC;
+	</select> 
    
     <insert id="insertDispatch" useGeneratedKeys="true" keyProperty="dispatchId">
-     
+        INSERT INTO dispatch (m_id, e_name, start_date, end_date, dispatch_where, dispatch_payment, dispatch_detail, created_at, updated_at, e_key)
+        VALUES (#{mId}, #{eName}, #{startDate}, #{endDate}, #{dispatchWhere}, #{dispatchPayment}, #{dispatchDetail}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{eKey});
     </insert>
     
     <delete id="deleteDispatchById" parameterType="long">
-      
+        DELETE FROM dispatch
+        WHERE dispatch_id = #{dispatchId};
     </delete>
 
     <update id="updateDispatch" parameterType="com.project.dto.DispatchDto">
-       
+        UPDATE dispatch
+        SET start_date = #{startDate},
+            end_date = #{endDate},
+			dispatch_where = #{dispatchWhere},
+			dispatch_payment = #{dispatchPayment},
+			dispatch_detail = #{dispatchDetail},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE dispatch_id = #{dispatchId};
     </update>
     
     <select id="getDispatchById" parameterType="long" resultType="com.project.dto.DispatchDto">
-   
+        SELECT dispatch_id AS dispatchId, 
+               m_id AS mId, 
+               e_name AS eName, 
+               start_date AS startDate, 
+               end_date AS endDate, 
+               dispatch_where AS dispatchWhere,
+               dispatch_payment AS dispatchPayment,
+               dispatch_detail AS dispatchDetail,
+               dispatch_complete AS dispatchComplete   
+        FROM dispatch
+        WHERE dispatch_id = #{dispatchId};
     </select>
-  
 </mapper>

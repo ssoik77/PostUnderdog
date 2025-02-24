@@ -17,7 +17,7 @@ public class DispatchService {
 
     public DispatchDto createDispatch(DispatchDto dispatchDto) {
         dispatchMapper.insertDispatch(dispatchDto);
-        return dispatchMapper.getDispatchById(dispatchDto.getDispatch_id());
+        return dispatchMapper.getDispatchById(dispatchDto.getDispatchId());
     }
 
     public List<DispatchDto> getDispatchsByMemberId(String mId) {
@@ -36,7 +36,7 @@ public class DispatchService {
 
     public void deleteDispatch(Long id, String userId) {
         DispatchDto dispatch = dispatchMapper.getDispatchById(id);
-        if (dispatch != null && dispatch.getM_id().equals(userId)) {
+        if (dispatch != null && dispatch.getMId().equals(userId)) {
             dispatchMapper.deleteDispatchById(id);
         } else {
             throw new IllegalArgumentException("삭제 권한이 없습니다.");
@@ -45,8 +45,8 @@ public class DispatchService {
 
     public void updateDispatch(Long id, DispatchDto dispatchDto, String userId) {
         DispatchDto existingDispatch = dispatchMapper.getDispatchById(id);
-        if (existingDispatch != null && existingDispatch.getM_id().equals(userId)) {
-            dispatchDto.setDispatch_id(id);
+        if (existingDispatch != null && existingDispatch.getMId().equals(userId)) {
+            dispatchDto.setDispatchId(id);
             dispatchMapper.updateDispatch(dispatchDto);
         } else {
             throw new IllegalArgumentException("수정 권한이 없습니다.");

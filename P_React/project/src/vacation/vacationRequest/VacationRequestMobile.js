@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import './clarender.css';
 import styles from './VacationRequestMobile.module.css'; // CSS Modules 파일
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.219.105:8080/underdog";
 
 const convertDate = (dateArray) => {
   if (!Array.isArray(dateArray) || dateArray.length < 3) return "";

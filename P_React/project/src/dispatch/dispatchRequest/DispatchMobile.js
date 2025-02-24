@@ -5,10 +5,10 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import '../vacation/vacationRequest/clarender.css';
+import './clarender.css';
 import styles from './DispatchMobile.module.css'; // CSS Modules 파일
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.219.105:8080/underdog";
 
 const convertDate = (dateArray) => {
   if (!Array.isArray(dateArray) || dateArray.length < 3) return "";
@@ -24,10 +24,12 @@ const DispatchRequest = () => {
   const [formData, setFormData] = useState({
     startDate: '',
     endDate: '',
-    reason: '',
+    dispatchWhere: '',
+    dispatchPayment: '',
+    dispatchDetail: '',
     m_id: '',
     e_name: '',
-    e_key:''
+    e_key: ''
   });
   
   useEffect(() => {
@@ -164,7 +166,9 @@ axios
         setFormData({
           startDate: '',
           endDate: '',
-          reason: '',
+          dispatchWhere: '',
+          dispatchPayment: '',
+          dispatchDetail: '',
           m_id: formData.m_id,
           e_name: formData.e_name,
           e_key: formData.e_key
@@ -214,7 +218,7 @@ axios
       );
 
       if (response.status === 200) {
-        alert('신청된 파견가 삭제되었습니다.');
+        alert('신청된 파견이 삭제되었습니다.');
         setDispatchs((prev) => prev.filter((dispatch) => dispatch.dispatchId !== dispatchId));
         setIsModalOpen(false);
         setSelectedDispatch(null);
@@ -306,7 +310,7 @@ axios
           reason: dispatch.reason,
           m_id: dispatch.m_id,
           e_name: dispatch.e_name,
-        approval: 0
+          dispatch_complete: dispatch.dispatchComplete = 0,
       });
     }
   };

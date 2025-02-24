@@ -1,0 +1,13 @@
+  @media (max-width: 768px) {
+    .fc {
+        width: 100% !important;
+        height: 100% !important;
+        font-size: 0.6rem;
+    }
+
+    /* 캘린더 제목 스타일 */
+    .fc .fc-toolbar-title {
+          font-size: 0.8rem;
+      }
+
+  }

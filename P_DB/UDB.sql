@@ -54,7 +54,7 @@ dispatch_detail CHAR(100),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 e_key int,
-dispatch_complete TINYINT NOT NULL DEFAULT 0,
+dispatch_complete INT DEFAULT 0,
 FOREIGN KEY (e_key) REFERENCES employee_info(e_key),
 PRIMARY KEY (dispatch_id)
 );
@@ -73,6 +73,7 @@ TRUNCATE TABLE member_info;
 
 
 -- 이 아래 테스트 코드
+
  UPDATE member_info
     SET authority = 1
     WHERE e_key IN (SELECT e_key FROM employee_info WHERE e_num = 00000011);
@@ -132,3 +133,8 @@ VALUES
 (9, 'user008', '이희', '2025-04-19', '2025-04-25', '휴가', '2025-02-15 11:00:00', '2025-02-15 11:00:00', 10, 2),
 (10, 'user009', '박수', '2025-05-19', '2025-05-25', '휴가', '2025-02-16 11:00:00', '2025-02-16 11:00:00', 11, 0),
 (11, 'user010', '최훈', '2025-06-19', '2025-06-25', '휴가', '2025-02-17 11:00:00', '2025-02-17 11:00:00', 12, 1);
+
+INSERT INTO dispatch (dispatch_id, m_id, e_name, start_date, end_date, dispatch_where, dispatch_payment, dispatch_detail, created_at, updated_at, e_key, dispatch_complete) 
+VALUES
+(1, 'admin', '사장', '2025-02-09', '2025-02-15', '집', '0원', '구냥', '2025-02-9 11:00:00', '2025-02-9 11:00:00', 1, 0),
+(2, 'admin', '사장', '2025-02-19', '2025-02-25', '집', '0원', '구냥', '2025-02-9 11:00:00', '2025-02-9 11:00:00', 1, 1);
