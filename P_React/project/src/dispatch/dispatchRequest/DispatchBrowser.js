@@ -46,8 +46,7 @@ const DispatchRequest = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [modalMode, setModalMode] = useState("create"); // "create" or "edit"
   const externalEventsRef = useRef(null);
-  const [dispatchComplete, setDispatchComplete] = useState(formData.dispatchComplete == 1 ? true : false);
-  const [dispatchInProgress, setDispatchInProgress] = useState(!dispatchComplete);
+  const [dispatchComplete, setDispatchComplete] = useState(null);
 
   const openPopup = (e) => {
     e.preventDefault();
@@ -139,6 +138,9 @@ const DispatchRequest = () => {
       const { name, value } = e.target;
       setFormData((prev) => ({ ...prev, [name]: value }));
     };
+
+  
+
     
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -510,22 +512,23 @@ const DispatchRequest = () => {
                     <div style={{display:'flex', width:'100%', justifyContent:'center'}}>
                     <label className={styles.checkBoxLabel} style={{fontSize:'0.9em'}}>
                       <input className={styles.completeCheckBox} style={{width:'10%', height:'70%'}} type='checkbox'
-                      checked={dispatchInProgress}
+                      checked={!(formData.dispatchComplete == 1)}
                       onChange={()=>{
+                        handleInputChange({target:{name:'dispatchComplete', value:0}});
                       }}/>
                       파견 진행중
                       </label>
                     <label className={styles.checkBoxLabel} style={{fontSize:'0.9em'}}>
                       <input className={styles.completeCheckBox} style={{width:'10%', height:'70%'}} 
-                        checked={dispatchComplete}
-                      onChange={()=>{
+                        checked={formData.dispatchComplete == 1}
+                        onChange={()=>{
+                      handleInputChange({target:{name:'dispatchComplete', value:1}});
                       }}type='checkbox'/>
                     파견 종료
                     </label>
                     </div>
                   </div>
                   <div>
-                    {dispatchComplete} {dispatchInProgress} {formData.dispatchComplete}
                     <button type="submit" className={styles.submitButton}>
                       {modalMode === "edit" ? '파견 수정' : '파견 신청'}
                     </button>
