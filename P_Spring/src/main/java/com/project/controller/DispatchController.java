@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/dispatch")
-@CrossOrigin(origins = {"http://localhost:3000","http://192.168.219.105:3000"})
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.135:3000"})
 @RequiredArgsConstructor
 public class DispatchController {
 	

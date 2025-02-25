@@ -3,7 +3,7 @@ import styles from './RegisterMobile.module.css';
 import axios from 'axios';
 import { Navigate, useNavigate } from "react-router";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.219.105:8080/underdog";
+const API_URL = process.env.REACT_APP_API_URL || "http://192.168.0.135:8080/underdog";
 
 const Register = () => {
     const navigate = useNavigate();

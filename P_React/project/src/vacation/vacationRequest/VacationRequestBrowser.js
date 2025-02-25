@@ -232,7 +232,7 @@ const VacationRequest = () => {
   
   useEffect(() => {
     axios
-    .get("http://localhost:8080/underdog/employee")
+    .get("http://localhost:8080/underdog/employee?page=vacation")
     .then((response) => {
       const formattedTeams = response.data.reduce((acc, employee) => {
         const eName = employee.e_name;

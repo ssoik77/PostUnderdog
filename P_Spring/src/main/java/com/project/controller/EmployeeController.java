@@ -21,7 +21,7 @@ import com.project.service.EmployeeService;
 import lombok.extern.log4j.Log4j;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000","http://192.168.219.105:3000"})
+@CrossOrigin(origins = {"http://localhost:3000","http://192.168.0.135:3000"})
 @RequestMapping("/employee")
 @Log4j
 public class EmployeeController {
@@ -34,8 +34,8 @@ public class EmployeeController {
 	}
 
 	@GetMapping
-	public List<EmployeeDto> getAllEmployees() {
-	    return employeeService.getAllEmployees();
+	public List<EmployeeDto> getAllEmployees(@RequestParam("page") String page) {
+	    return employeeService.getAllEmployees(page);
 	}
 
     @PostMapping("/add")

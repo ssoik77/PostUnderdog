@@ -2,7 +2,9 @@ package com.project.service;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,11 @@ public class EmployeeService {
 	@Autowired
     private EmployeeMapper employeeMapper;
 
-    public List<EmployeeDto> getAllEmployees() {
-        return employeeMapper.getAllEmployees();
+    public List<EmployeeDto> getAllEmployees(String page) {
+    	Map<String, Object> params = new HashMap<String, Object>();
+    	params.put("sendPage", page);
+    	
+        return employeeMapper.getAllEmployees(params);
     }
     
     public EmployeeDto getEmployeeById(int id) {

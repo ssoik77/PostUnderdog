@@ -24,6 +24,7 @@ const DispatchRequest = () => {
     dispatchWhere: '',
     dispatchPayment: '',
     dispatchDetail: '',
+    dispatchComplete: '',
     m_id: '',
     e_name: '',
     e_key: ''
@@ -36,7 +37,7 @@ const DispatchRequest = () => {
     }
   }, [navigate])
 
-  const [dispatchs, setDispatchs] = useState([]);
+  const [dispatches, setDispatches] = useState([]);
   const [nextDispatchId, setNextDispatchId] = useState(1);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,6 +46,8 @@ const DispatchRequest = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [modalMode, setModalMode] = useState("create"); // "create" or "edit"
   const externalEventsRef = useRef(null);
+  const [dispatchComplete, setDispatchComplete] = useState(formData.dispatchComplete == 1 ? true : false);
+  const [dispatchInProgress, setDispatchInProgress] = useState(!dispatchComplete);
 
   const openPopup = (e) => {
     e.preventDefault();
@@ -60,15 +63,15 @@ const DispatchRequest = () => {
 
   // 로그인 정보를 기반으로 사용자 정보 가져오기 및 초기화
   const myDispatch = () => {
-      setSelectedTeam(null);
+    setSelectedTeam(null);
     const m_id = sessionStorage.getItem('m_id') || localStorage.getItem('m_id');
     const e_name = sessionStorage.getItem('e_name') || localStorage.getItem('e_name');
     const e_key = sessionStorage.getItem('e_key') || localStorage.getItem('e_key');
-
+    
     if (m_id) {
       setFormData((prev) => ({ ...prev, m_id, e_name, e_key }));
     }
-
+    
     const fetchDispatchs = async () => {
       try {
         const response = await axios.post(
@@ -80,7 +83,8 @@ const DispatchRequest = () => {
             },
           }
         );
-        setDispatchs(response.data);
+        setDispatches(response.data);
+        console.log(response.data);
 
         if (response.data.length > 0) {
           const maxId = Math.max(...response.data.map((dispatch) => dispatch.dispatchId));
@@ -91,22 +95,22 @@ const DispatchRequest = () => {
         setError('파견 신청 목록을 불러오는 중 문제가 발생했습니다.');
       }
     };
-
+    
     if (m_id) {
       fetchDispatchs({ m_id, e_name, e_key });
     }
   };
-
+  
   const selectTeamdispatch = (teamName) => {
     console.log(teamName);
     axios
-      .post("http://localhost:8080/underdog/dispatch/select/list", teamName, {
+    .post("http://localhost:8080/underdog/dispatch/select/list", teamName, {
         headers: { "Content-Type": "text/plain; charset=UTF-8" },
         withCredentials: true,
       })
       .then((response) => {
         console.log("전체 파견 데이터:", response.data);
-        setDispatchs(response.data);
+        setDispatches(response.data);
       })
       .catch((error) => {
         console.error("Error fetching dispatchs:", error);
@@ -123,7 +127,7 @@ const DispatchRequest = () => {
       })
       .then((response) => {
         console.log("전체 파견 데이터:", response.data);
-        setDispatchs(response.data);
+        setDispatches(response.data);
       })
       .catch((error) => {
         console.error("Error fetching dispatchs:", error);
@@ -171,19 +175,20 @@ const DispatchRequest = () => {
             dispatchWhere: '',
             dispatchPayment: '',
             dispatchDetail: '',
+            dispatchComplete: '',
           m_id: formData.m_id,
           e_name: formData.e_name,
           e_key: formData.e_key,
         });
         
         if (selectedDispatch) {
-          setDispatchs((prev) =>
+          setDispatches((prev) =>
             prev.map((dispatch) =>
               dispatch.dispatchId === selectedDispatch.dispatchId ? response.data : dispatch
         )
       );
     } else {
-      setDispatchs((prev) => [...prev, response.data]);
+      setDispatches((prev) => [...prev, response.data]);
       setNextDispatchId((prevId) => prevId + 1);
     }
     setIsModalOpen(false);
@@ -221,7 +226,7 @@ const DispatchRequest = () => {
       
       if (response.status === 200) {
         alert('신청된 파견이 삭제되었습니다.');
-        setDispatchs((prev) => prev.filter((dispatch) => dispatch.dispatchId !== dispatchId));
+        setDispatches((prev) => prev.filter((dispatch) => dispatch.dispatchId !== dispatchId));
         setIsModalOpen(false);
         setSelectedDispatch(null);
         setModalMode("create");
@@ -235,7 +240,7 @@ const DispatchRequest = () => {
   
   useEffect(() => {
     axios
-    .get("http://localhost:8080/underdog/employee")
+    .get("http://localhost:8080/underdog/employee?page=dispatch")
     .then((response) => {
       const formattedTeams = response.data.reduce((acc, employee) => {
         const eName = employee.e_name;
@@ -288,13 +293,13 @@ const DispatchRequest = () => {
         end: info.event.endStr,
       };
       
-      setDispatchs((prev) => [...prev, newEvent]);
+      setDispatches((prev) => [...prev, newEvent]);
       setNextDispatchId((prevId) => prevId + 1);
     };
     
     const handleEventClick = (info) => {
       const dispatchId = info.event.id;
-      const dispatch = dispatchs.find((v) => String(v.dispatchId) === dispatchId);
+      const dispatch = dispatches.find((v) => String(v.dispatchId) === dispatchId);
       if (dispatch) {
         if (dispatch.m_id !== (sessionStorage.getItem('m_id') || localStorage.getItem('m_id')) ||
         dispatch.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
@@ -314,6 +319,7 @@ const DispatchRequest = () => {
           dispatchWhere: dispatch.dispatchWhere,
           dispatchPayment: dispatch.dispatchPayment,
           dispatchDetail: dispatch.dispatchDetail,
+          dispatchComplete: dispatch.dispatchComplete,
           m_id: dispatch.m_id,
           e_name: dispatch.e_name,
           approval: 0
@@ -330,7 +336,7 @@ const DispatchRequest = () => {
       }
     };
     
-    const calendarEvents = dispatchs.map((dispatch) => {
+    const calendarEvents = dispatches.map((dispatch) => {
       const dispatchTitle = dispatch.e_name
       ? `${dispatch.e_name}의 파견`
       : `${formData.e_name}의 파견`;
@@ -361,6 +367,7 @@ const DispatchRequest = () => {
       </div>
     );
   };
+
   
   return (
     <div className={styles.emp}>
@@ -483,7 +490,7 @@ const DispatchRequest = () => {
 
                     <label htmlFor="dispatchPayment">수익</label>
                     <textarea
-                      id="dispatchPayment"
+                      id={styles.dispatchPayment}
                       name="dispatchPayment"
                       value={formData.dispatchPayment}
                       onChange={handleInputChange}
@@ -500,8 +507,25 @@ const DispatchRequest = () => {
                       placeholder="사유를 입력하세요"
                       required
                     ></textarea>
+                    <div style={{display:'flex', width:'100%', justifyContent:'center'}}>
+                    <label className={styles.checkBoxLabel} style={{fontSize:'0.9em'}}>
+                      <input className={styles.completeCheckBox} style={{width:'10%', height:'70%'}} type='checkbox'
+                      checked={dispatchInProgress}
+                      onChange={()=>{
+                      }}/>
+                      파견 진행중
+                      </label>
+                    <label className={styles.checkBoxLabel} style={{fontSize:'0.9em'}}>
+                      <input className={styles.completeCheckBox} style={{width:'10%', height:'70%'}} 
+                        checked={dispatchComplete}
+                      onChange={()=>{
+                      }}type='checkbox'/>
+                    파견 종료
+                    </label>
+                    </div>
                   </div>
                   <div>
+                    {dispatchComplete} {dispatchInProgress} {formData.dispatchComplete}
                     <button type="submit" className={styles.submitButton}>
                       {modalMode === "edit" ? '파견 수정' : '파견 신청'}
                     </button>

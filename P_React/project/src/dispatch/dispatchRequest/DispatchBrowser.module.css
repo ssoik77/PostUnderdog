@@ -329,6 +329,31 @@ textarea {
   z-index: 1060; /* 더 높은 z-index로 모달이 캘린더 위에 오게 설정 */
 }
 
+#dispatchPayment{
+  padding: 0%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  resize: none;
+  height: 10%;
+  font-size: 1.2rem;
+}
+
+.checkBoxLabel{
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 7%;
+  padding: 0;
+}
+.completeCheckBox{
+  margin: 0;
+  padding: 0;
+}
+
 .approvedEvent {
   background-color: #cbcbcb;
   border-style: none;

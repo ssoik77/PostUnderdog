@@ -64,7 +64,8 @@
 			dispatch_where = #{dispatchWhere},
 			dispatch_payment = #{dispatchPayment},
 			dispatch_detail = #{dispatchDetail},
-            updated_at = CURRENT_TIMESTAMP
+            updated_at = CURRENT_TIMESTAMP,
+            dispatch_complete = #{dispatchComplete}
         WHERE dispatch_id = #{dispatchId};
     </update>
     

@@ -2,6 +2,7 @@ package com.project.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +11,7 @@ import com.project.dto.RegisterDto;
 
 @Mapper
 public interface EmployeeMapper {
-    List<EmployeeDto> getAllEmployees();
+    List<EmployeeDto> getAllEmployees(Map<String, Object> params);
     EmployeeDto getEmployeeById(int id);
 	void add(EmployeeDto employeeDto);
 	ArrayList<RegisterDto> pageList(int no);

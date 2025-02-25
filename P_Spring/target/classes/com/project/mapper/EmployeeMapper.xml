@@ -4,10 +4,10 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.mapper.EmployeeMapper">
-    <select id="getAllEmployees" resultType="com.project.dto.EmployeeDto">
-        SELECT e.e_num, e.e_name, e.e_birth, e.e_level, e.e_tel_num, e.e_key, e.e_team, v.vacation_id
+    <select id="getAllEmployees"  parameterType="map"  resultType="com.project.dto.EmployeeDto">
+        SELECT e.e_num, e.e_name, e.e_birth, e.e_level, e.e_tel_num, e.e_key, e.e_team, v.${sendPage}_id
         FROM employee_info e
-        JOIN vacation v ON e.e_key = v.e_key;
+        JOIN ${sendPage} v ON e.e_key = v.e_key;
     </select>
     
     <insert id="add" parameterType="com.project.dto.EmployeeDto">
