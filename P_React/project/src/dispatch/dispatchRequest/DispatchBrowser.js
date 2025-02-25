@@ -46,7 +46,6 @@ const DispatchRequest = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [modalMode, setModalMode] = useState("create"); // "create" or "edit"
   const externalEventsRef = useRef(null);
-  const [dispatchComplete, setDispatchComplete] = useState(null);
 
   const openPopup = (e) => {
     e.preventDefault();
@@ -512,17 +511,17 @@ const DispatchRequest = () => {
                     <div style={{display:'flex', width:'100%', justifyContent:'center'}}>
                     <label className={styles.checkBoxLabel} style={{fontSize:'0.9em'}}>
                       <input className={styles.completeCheckBox} style={{width:'10%', height:'70%'}} type='checkbox'
-                      checked={!(formData.dispatchComplete == 1)}
+                      checked={!formData.dispatchComplete}
                       onChange={()=>{
-                        handleInputChange({target:{name:'dispatchComplete', value:0}});
+                        handleInputChange({target:{name:'dispatchComplete', value:false}});
                       }}/>
                       파견 진행중
                       </label>
                     <label className={styles.checkBoxLabel} style={{fontSize:'0.9em'}}>
                       <input className={styles.completeCheckBox} style={{width:'10%', height:'70%'}} 
-                        checked={formData.dispatchComplete == 1}
+                        checked={formData.dispatchComplete}
                         onChange={()=>{
-                      handleInputChange({target:{name:'dispatchComplete', value:1}});
+                      handleInputChange({target:{name:'dispatchComplete', value:true}});
                       }}type='checkbox'/>
                     파견 종료
                     </label>

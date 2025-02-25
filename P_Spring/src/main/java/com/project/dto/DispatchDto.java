@@ -27,6 +27,6 @@ public class DispatchDto {
     private String dispatchWhere;
     private String dispatchPayment; 
     private String dispatchDetail;
-    private String dispatchComplete;
+    private boolean dispatchComplete;
 
 }

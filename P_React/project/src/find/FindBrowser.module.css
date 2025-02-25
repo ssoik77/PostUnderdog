@@ -79,3 +79,7 @@
 .popupButton{
   width: 60px;
 }
+.errorMessage{
+  position: relative;
+  top: 30px;
+}

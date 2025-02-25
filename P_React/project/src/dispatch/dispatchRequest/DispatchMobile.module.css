@@ -127,7 +127,7 @@ padding-left: 5%;
   padding: 1px;
 }
 /* 컨테이너 스타일 */
-.vacationContainer {
+.dispatchContainer {
   width: 90%;
   height: 71%;
   font-size: 0.5em;
@@ -143,7 +143,7 @@ padding-left: 5%;
 
 
 /* 폼 스타일 */
-.vacationForm {
+.dispatchForm {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -225,7 +225,19 @@ textarea {
   align-items: center;
   z-index: 1050; /* 캘린더보다 높은 z-index */
 }
-
+.checkBoxLabel{
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 7%;
+  padding: 0;
+}
+.completeCheckBox{
+  margin: 0;
+  padding: 0;
+}
 .modalContent {
   background: white;
   padding: 20px;
@@ -235,32 +247,33 @@ textarea {
   z-index: 1060; /* 더 높은 z-index로 모달이 캘린더 위에 오게 설정 */
 }
 
-.customEvent {
-  background-color:#cbcbcb;
-  color: rgb(0, 0, 0);
-  font-size: 0.6rem;
-  padding: 0.5px 2px;
-  border-radius: 2px;
-  flex-direction: column;
+#dispatchPayment{
+  padding: 0%;
+  text-align: center;
+  display: flex;
   align-items: center;
-  overflow: hidden;
+  justify-content: center;
+  resize: none;
+  height: 10%;
+  font-size: 1.2rem;
 }
 
-.approvedEvent{
-  font-size: 0.6rem;
-  padding: 0.5px 2px;
-}
-
-.rejectionEvent{
-  background-color:hsl(0, 86%, 40%);
+.customEvent{
+  background-color: hsl(0, 86%, 40%);
+  border-style: none;
   color: rgb(255, 255, 255);
-  font-size: 0.6rem;
-  padding: 0.5px 2px;
-  border-radius: 2px;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
+  font-size: 0.7rem;
+  padding: 2px 2px;
 }
+.approvedEvent {
+  background-color: #cbcbcb;
+  border-style: none;
+  color: rgb(0, 0, 0);
+  font-size: 0.7rem;
+  padding: 2px 2px;
+}
+
+
 
 :global(.fc-daygrid-day-frame) {
   height: 100%;

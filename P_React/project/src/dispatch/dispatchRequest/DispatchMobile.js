@@ -27,6 +27,7 @@ const DispatchRequest = () => {
     dispatchWhere: '',
     dispatchPayment: '',
     dispatchDetail: '',
+    dispatchComplete: '',
     m_id: '',
     e_name: '',
     e_key: ''
@@ -39,7 +40,7 @@ const DispatchRequest = () => {
     }
   }, [navigate])
 
-  const [dispatchs, setDispatchs] = useState([]);
+  const [dispatches, setDispatches] = useState([]);
   const [nextDispatchId, setNextDispatchId] = useState(1);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,7 +77,7 @@ if (m_id) {
         },
       }
     );
-        setDispatchs(response.data);
+        setDispatches(response.data);
 
     if (response.data.length > 0) {
           const maxId = Math.max(...response.data.map((dispatch) => dispatch.dispatchId));
@@ -102,7 +103,7 @@ if (m_id) {
     })
     .then((response) => {
       console.log("전체 파견 데이터:", response.data);
-        setDispatchs(response.data);
+        setDispatches(response.data);
     })
     .catch((error) => {
         console.error("Error fetching dispatchs:", error);
@@ -119,7 +120,7 @@ axios
   })
   .then((response) => {
     console.log("전체 파견 데이터:", response.data);
-        setDispatchs(response.data);
+        setDispatches(response.data);
   })
   .catch((error) => {
         console.error("Error fetching dispatchs:", error);
@@ -169,19 +170,20 @@ axios
           dispatchWhere: '',
           dispatchPayment: '',
           dispatchDetail: '',
+          dispatchComplete: '',
           m_id: formData.m_id,
           e_name: formData.e_name,
           e_key: formData.e_key
         });
 
         if (selectedDispatch) {
-          setDispatchs((prev) =>
+          setDispatches((prev) =>
             prev.map((dispatch) =>
               dispatch.dispatchId === selectedDispatch.dispatchId ? response.data : dispatch
             )
           );
         } else {
-      setDispatchs((prev) => [...prev, response.data]);
+      setDispatches((prev) => [...prev, response.data]);
       setNextDispatchId((prevId) => prevId + 1);
         }
         setIsModalOpen(false);
@@ -219,7 +221,7 @@ axios
 
       if (response.status === 200) {
         alert('신청된 파견이 삭제되었습니다.');
-        setDispatchs((prev) => prev.filter((dispatch) => dispatch.dispatchId !== dispatchId));
+        setDispatches((prev) => prev.filter((dispatch) => dispatch.dispatchId !== dispatchId));
         setIsModalOpen(false);
         setSelectedDispatch(null);
         setModalMode("create");
@@ -284,13 +286,13 @@ axios
       end: info.event.endStr,
     };
 
-      setDispatchs((prev) => [...prev, newEvent]);
+      setDispatches((prev) => [...prev, newEvent]);
       setNextDispatchId((prevId) => prevId + 1);
   };
 
   const handleEventClick = (info) => {
       const dispatchId = info.event.id;
-      const dispatch = dispatchs.find((v) => String(v.dispatchId) === dispatchId);
+      const dispatch = dispatches.find((v) => String(v.dispatchId) === dispatchId);
       if (dispatch) {
         if (dispatch.m_id !== (sessionStorage.getItem('m_id') || localStorage.getItem('m_id')) ||
         dispatch.e_name !== (sessionStorage.getItem('e_name') || localStorage.getItem('e_name'))) {
@@ -301,22 +303,25 @@ axios
       setModalMode("edit");
       setIsModalOpen(true);
       setFormData({
-          startDate: Array.isArray(dispatch.startDate)
+        startDate: Array.isArray(dispatch.startDate)
           ? convertDate(dispatch.startDate)
           : dispatch.startDate,
           endDate: Array.isArray(dispatch.endDate)
           ? convertDate(dispatch.endDate)
           : dispatch.endDate,
-          reason: dispatch.reason,
+          dispatchWhere: dispatch.dispatchWhere,
+          dispatchPayment: dispatch.dispatchPayment,
+          dispatchDetail: dispatch.dispatchDetail,
+          dispatchComplete: dispatch.dispatchComplete,
           m_id: dispatch.m_id,
           e_name: dispatch.e_name,
-          dispatch_complete: dispatch.dispatchComplete = 0,
+          approval: 0
       });
     }
   };
 
 
-    const calendarEvents = dispatchs.map((dispatch) => {
+    const calendarEvents = dispatches.map((dispatch) => {
       const dispatchTitle = dispatch.e_name
       ? `${dispatch.e_name}의 파견`
       : `${formData.e_name}의 파견`;
@@ -335,15 +340,15 @@ axios
         title: dispatchTitle,
       start: formattedStartDate,
       end: formattedEndDate,
-      approval: dispatch.approval,
+      dispatchcomplete: dispatch.dispatchComplete
     };
   }).filter((event) => event !== null);
 
   const renderEventContent = (arg) => {
-    const isApproved = Number(arg.event.extendedProps.approval);
+    const isApproved = Number(arg.event.extendedProps.dispatchcomplete) === 1;
     return (
-      <div className={isApproved === 0 ? styles.customEvent : (isApproved === 1 ? styles.approvedEvent : styles.rejectionEvent)}>
-      {arg.event.title} [{isApproved === 0 ? '승인 대기중' : (isApproved === 1 ? '승인 완료' : '반려 됨')}]
+      <div className={isApproved ? styles.approvedEvent : styles.customEvent}>
+      {arg.event.title} [{isApproved? ' 파견 종료':'파견 중'}]
     </div>
     );
   };
@@ -479,15 +484,53 @@ axios
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="reason">사유</label>
+                    <label htmlFor="dispatchWhere">위치</label>
                     <textarea
-                      id="reason"
-                      name="reason"
-                      value={formData.reason}
+                      id="dispatchWhere"
+                      name="dispatchWhere"
+                      value={formData.dispatchWhere}
                       onChange={handleInputChange}
-                      placeholder="파견 사유를 입력하세요"
+                      placeholder="위치를 입력하세요"
                       required
                     ></textarea>
+
+                    <label htmlFor="dispatchPayment">수익</label>
+                    <textarea
+                      id={styles.dispatchPayment}
+                      name="dispatchPayment"
+                      value={formData.dispatchPayment}
+                      onChange={handleInputChange}
+                      placeholder="수익을 입력하세요"
+                      required
+                    ></textarea>
+
+                    <label htmlFor="dispatchDetail">사유</label>
+                    <textarea
+                      id="dispatchDetail"
+                      name="dispatchDetail"
+                      value={formData.dispatchDetail}
+                      onChange={handleInputChange}
+                      placeholder="사유를 입력하세요"
+                      required
+                    ></textarea>
+                     <div style={{display:'flex', width:'100%', justifyContent:'center'}}>
+                    <label className={styles.checkBoxLabel} style={{fontSize:'1rem'}}>
+                      <input className={styles.completeCheckBox} style={{width:'10%', height:'70%'}} type='checkbox'
+                      checked={!formData.dispatchComplete}
+                      onChange={()=>{
+                        handleInputChange({target:{name:'dispatchComplete', value:false}});
+                      }}/>
+                      파견 진행중
+                      </label>
+                    <label className={styles.checkBoxLabel} style={{fontSize:'1rem'}}>
+                      <input className={styles.completeCheckBox} style={{width:'10%', height:'70%'}} 
+                        checked={formData.dispatchComplete}
+                        onChange={()=>{
+                      handleInputChange({target:{name:'dispatchComplete', value:true}});
+                      }}type='checkbox'/>
+                    파견 종료
+                    </label>
+                    </div>
                   </div>
                   <div>
                     <button type="submit" className={styles.submitButton}>
