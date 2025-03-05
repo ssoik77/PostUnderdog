@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './EmployeeListMobile.module.css'; 
 
-const EmployeeList = ({ employees }) => {
+const EmployeeList = ({ employees, changeAuthority }) => {
 
     return (
         <table id={styles.employeeList}>
@@ -36,8 +36,9 @@ const EmployeeList = ({ employees }) => {
                         <td className={styles.column}>{employee.e_tel_num}</td>
                             <td className={styles.column}>회원 가입 완료</td>
                         <td className={styles.column}>
-                        <button id={styles.aButton} style=
-                        {(employee.authority ? {backgroundColor:'green', pointerEvents: 'none' }:{backgroundColor:'red'})}>
+                        <button id={styles.aButton} 
+                        onClick={() => changeAuthority(employee.e_key, employee.authority)}
+                        style= {(employee.authority ? {backgroundColor:'green'}:{backgroundColor:'red'})}>
                             {employee.authority ? '있음' : '없음'}     
                             </button>
                             </td>

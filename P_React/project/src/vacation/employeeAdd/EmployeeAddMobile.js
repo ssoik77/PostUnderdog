@@ -146,6 +146,22 @@ const EmployeeAddMobile = () => {
     }
   }
 
+  const changeAuthority = (e_key, authority) => {
+    console.log(e_key, authority);
+    axios.post(`${API_URL}}/employee/authority`, { e_key, authority }, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(() => {
+            pullEmployee(pageNo)
+            navigate(`/employeeadd?no=${pageNo}`);
+        })//자동으로 url이 변경되어 수동으로 설정
+        .catch((error) => {
+            console.error("There was an error adding the employee:", error);
+        })
+}
+
   return (
     <div className={styles.employeeAddPage}>
 
@@ -198,7 +214,7 @@ const EmployeeAddMobile = () => {
         </div>
 
         <div className={styles.mainBox}>
-          <EmployeeList employees={employeeList} />
+        <EmployeeList employees={employeeList} changeAuthority={changeAuthority}/>
           <button onClick={deleteModal} id={styles.deleteButton}>직원 삭제</button>
           <div className={styles.pageBox}>
             <a className={styles.prevnextButton} href="/employeeadd?no=1">{"<<"}</a>
