@@ -59,5 +59,11 @@ public class EmployeeService {
 		employeeMapper.deleteEmployee(eNums);
 	}
 	
+	public void changeAuthority (RegisterDto registerDto) {
+		int authority = (registerDto.getAuthority() == 0 ? 1 : 0);
+		registerDto.setAuthority(authority);
+		employeeMapper.changeAuthority(registerDto);
+	}
+	
 	
 }

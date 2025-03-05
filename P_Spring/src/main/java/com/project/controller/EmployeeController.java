@@ -72,4 +72,11 @@ public class EmployeeController {
     	employeeService.deleteEmployee(eNums);
     }
     
+    @PostMapping("/authority")
+    @Transactional
+    void changeAuthority(@RequestBody RegisterDto registerDto) {
+    	log.info(registerDto.getE_key() + registerDto.getAuthority());
+    	employeeService.changeAuthority(registerDto);
+    }
+    
 }

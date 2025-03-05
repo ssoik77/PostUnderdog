@@ -53,4 +53,8 @@
     </foreach>
 	</delete>
 	
+	<update id="changeAuthority" parameterType="com.project.dto.RegisterDto">
+	UPDATE member_info SET authority = #{authority} WHERE e_key = #{e_key}
+	</update>
+	
 </mapper>

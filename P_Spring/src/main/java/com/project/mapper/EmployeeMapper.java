@@ -18,4 +18,5 @@ public interface EmployeeMapper {
 	ArrayList<RegisterDto> pageAllList();
 	int employeeCount();
 	void deleteEmployee(List<String> eNums);
+	void changeAuthority(RegisterDto registerDto);
 }

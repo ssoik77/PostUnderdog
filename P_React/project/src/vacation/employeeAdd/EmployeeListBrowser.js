@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './EmployeeListBrowser.module.css'; 
 
-const EmployeeList = ({ employees }) => {
+const EmployeeList = ({ employees, changeAuthority }) => {
     return (
         <table id={styles.employeeList}>
             <thead>
@@ -36,7 +36,8 @@ const EmployeeList = ({ employees }) => {
                         <td className={styles.column}>회원 가입 완료</td>
                         <td className={styles.column}>
                         <button 
-                        style= {employee.authority ? {backgroundColor:'green', pointerEvents: 'none'}:{backgroundColor:'red'}}
+                        onClick={() => changeAuthority(employee.e_key, employee.authority)}
+                        style= {employee.authority ? {backgroundColor:'green'}:{backgroundColor:'red'}}
                         >
                             {employee.authority ? '있음' : '없음'}     
                             </button>
