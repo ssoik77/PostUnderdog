@@ -37,7 +37,7 @@ public class RegiService {
             register_dto.setE_key(regi_mapper.pullKey(register_dto));
             // 3. 회원 정보 삽입 (e_key 사용)
             regi_mapper.setRegisterMember(register_dto);
-            registerResult = "succes";
+            registerResult = "success";
         }
 
         return registerResult;

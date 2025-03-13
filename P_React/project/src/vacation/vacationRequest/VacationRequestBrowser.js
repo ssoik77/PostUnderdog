@@ -277,18 +277,6 @@ const VacationRequest = () => {
       setIsModalOpen(true);
     };
     
-    const handleEventReceive = (info) => {
-      const newEvent = {
-        id: String(nextVacationId),
-        title: info.event.title,
-        start: info.event.startStr,
-        end: info.event.endStr,
-      };
-      
-      setVacations((prev) => [...prev, newEvent]);
-      setNextVacationId((prevId) => prevId + 1);
-    };
-    
     const handleEventClick = (info) => {
       const vacationId = info.event.id;
       const vacation = vacations.find((v) => String(v.vacationId) === vacationId);
@@ -362,7 +350,7 @@ const VacationRequest = () => {
       <header className={styles.header}>
         <div className={styles.logo}>
           <img src="/logo.png" alt="Logo" className={styles.logoImage} />
-          <h1>Post Underdog</h1>
+          <h1>E·V·M</h1>
         </div>
         <nav className={styles.nav}>
           {authority === "true" && (
@@ -432,7 +420,6 @@ const VacationRequest = () => {
             droppable={false}
             selectable={true}
             select={handleDateSelect}
-            eventReceive={handleEventReceive}
             eventClick={handleEventClick}
             eventContent={renderEventContent}
             height="auto"

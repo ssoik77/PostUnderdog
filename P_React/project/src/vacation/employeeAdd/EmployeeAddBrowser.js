@@ -173,7 +173,7 @@ const EmployeeAddBrowser = () => {
             <header id={styles.header}>
                 <div id={styles.logo}>
                     <img src="/logo.png" alt="Logo" id={styles.logoImage} />
-                    <h1>Post Underdog</h1>
+                    <h1>E·V·M</h1>
                 </div>
 
                 <nav id={styles.nav}>

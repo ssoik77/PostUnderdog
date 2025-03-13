@@ -137,7 +137,7 @@ const Register = () => {
                 try {
                     const response = await axios.post('http://localhost:8080/underdog/register/set', RegisterDto, { headers: { 'Content-Type': 'application/json', 'Accept': 'text/plain'} });
                     console.log(response.data);
-                    if(response.data === "succes"){
+                    if(response.data === "success"){
                         alert("회원가입이 완료되었습니다.");
                         window.close();
                     }else if(response.data === "fail1"){
